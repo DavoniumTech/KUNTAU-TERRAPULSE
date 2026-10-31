@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title KUNTAU TERRAPULSE v0.5.0
+title KUNTAU TERRAPULSE v0.7.0
 echo.
 echo Starting KUNTAU TERRAPULSE...
 where python >nul 2>nul

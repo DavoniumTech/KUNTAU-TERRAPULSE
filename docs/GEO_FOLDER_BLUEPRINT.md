@@ -1,24 +1,10 @@
-# KTP Geo-folder blueprint
+# KTP data folder blueprint
 
-This is the folder arrangement for keeping the application, source records, quality evidence and visual outputs separate.
-
-```text
-KUNTAU-TERRAPULSE/
-├── app/                         # Tested KTP front-end/PWA source
-├── docs/                        # README, science methods, QA and user guide
-├── data/
-│   ├── catalogue/                # ASF CSV, JSON and GeoJSON metadata
-│   ├── qa/                       # QA summary CSVs and small QA reports
-│   ├── visualizations/           # Selected before/after/change preview PNGs
-│   ├── processed/                # Local GeoTIFF outputs (Git-ignored)
-│   └── raw/                      # Original data (Git-ignored)
-└── scripts/                      # Local processing/validation scripts
-```
-
-## Publication rules
-
-- Keep original HDF5 products, raw GeoTIFFs and intermediate rasters outside Git unless the team has explicitly reviewed a small derivative for publication.
-- Publish only selected lightweight preview PNGs and small metadata/QA files after checking provenance, contents and licensing.
-- Never publish Earthdata credentials, `.netrc`, `.dodsrc`, access tokens or personal login logs.
-- Use the exact NISAR product identifiers in the metadata manifest.
-- Do not label the current comparison as a flood map, crop-health map or validated environmental-change product. The acquisition modes differ (SHSH and DHDH), and QA/comparability work remains open.
+- `data/catalogue/`: corrected ASF granule CSV, GeoJSON, granule details JSON, analysis metadata and summary.
+- `data/qa/`: combined QA summary/check CSVs and the product-specific small QA reports/ISO metadata records.
+- `data/visualizations/`: labelled 8 October, 20 October and exploratory change PNGs.
+- `app/data/kura/overlays/`: compact georeferenced RGBA PNGs used by the local app map; display only.
+- `app/data/kura/visualizations/`: labelled figures for user-readable previews.
+- `app/data/kura/catalogue/`: app-served copies of catalogue/analysis metadata.
+- `app/data/kura/qa/`: app-served QA reports, XML and summary CSVs.
+- Original HDF5 products and original Float32 GeoTIFFs remain outside GitHub.

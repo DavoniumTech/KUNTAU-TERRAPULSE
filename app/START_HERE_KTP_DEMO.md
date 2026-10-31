@@ -1,4 +1,4 @@
-# KUNTAU TERRAPULSE — KTP local demonstration (v0.5.0)
+# KUNTAU TERRAPULSE — KTP local demonstration (v0.7.0)
 
 ## One CMD command to launch and open the browser
 
@@ -34,7 +34,7 @@ The 8 Oct product is SHSH (HH only) and 20 Oct is DHDH (HH/HV). The common HH la
 “This is KUNTAU TERRAPULSE, our KTP Earth-observation workspace. We load two NISAR L-band GCOV observations from 8 and 20 October 2026 for a small test area in Kura, Kano. The app checks the raster grids, compares the shared HH measurement layer, and displays the spatial pattern of radar-measurement differences. This is an exploratory result, not proof of flooding or a prediction. Our next step is to verify the study footprint against a river and floodplain boundary and compare the radar evidence with rainfall, water and field observations.”
 
 
-## KTP 3D Space Studio (v0.5.0)
+## KTP 3D Space Studio (v0.7.0)
 
 - Full-window Three.js scene: illustrated Earth, orbital paths, NISAR-inspired satellite model, small moons/planets, a sun-like star, 2,600 desktop background stars and drifting particles.
 - Responsive rendering is capped to a lighter pixel ratio and 30 FPS on smaller screens to reduce device heat and battery use. Reduced-motion and WebGL fallback modes are supported.
@@ -50,3 +50,13 @@ Extract the ZIP to `Desktop\KUNTAU_TERRAPULSE_V050`, then run:
 ```bat
 cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V050\KUNTAU_TERRAPULSE_PWA" && OPEN_TERRAPULSE_LOCAL.bat
 ```
+
+
+## v0.7.0 NISAR evidence workflow
+
+The app now bundles georeferenced raster previews and the corrected ASF catalogue/QA records. You can open the Compare and Explore pages without choosing source TIFFs first. Choosing the original Float32 TIFFs remains optional and is only needed for an on-device recalculation. The difference remains exploratory because the observations have different modes and both supplied QA summaries contain an identification-group check failure.
+
+
+## v0.7.0 Learning Studio and map options
+
+Use the Learn & field guide page for Farmer & Community, Students & Children and Science Team explanations. The guided tour is a lightweight presentation that can be screen-recorded locally. The offline coordinate grid is the default map background; the optional Esri satellite imagery requires an internet connection and shows provider attribution.

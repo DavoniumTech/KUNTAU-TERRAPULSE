@@ -33,7 +33,7 @@ Read the status list. It should include source files such as `index.html`, `app.
 Create the first commit:
 
 ```cmd
-git commit -m "KUNTAU TERRAPULSE v0.5.0: KTP 3D Space Studio"
+git commit -m "KUNTAU TERRAPULSE v0.7.0: real NISAR evidence integration"
 git branch -M main
 ```
 
@@ -58,3 +58,8 @@ git push
 ```
 
 GitHub is for source-code version history and collaboration. It is not where we store the large local NISAR files. We can configure GitHub Pages or Cloudflare Pages after the app passes its local data tests and the deployment path is chosen.
+
+
+## v0.7.0 update
+
+Publish the tested update from `integration/nisar-data-map`. Keep original GeoTIFFs, HDF5 products, credentials, `.netrc` and `.dodsrc` out of Git. Review `docs/KTP_V070_RELEASE_NOTES.md` before merging to `main`.

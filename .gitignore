@@ -1,56 +1,34 @@
-# Secrets and local authentication — NEVER COMMIT
+# Secrets and credentials
 .env
 .env.*
 !.env.example
 .netrc
+_netrc
 .dodsrc
-.earthaccess/
+secrets.*
 *credentials*
-*token*
 *.pem
 *.key
 
-# Python and editor files
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-.vscode/
-.idea/
-
-# Local/raw scientific data — keep on the data owner's computer
-/data/raw/**
-/data/processed/**
-/data/processed/*
+# Original or large scientific source data — keep outside GitHub
 *.h5
 *.hdf5
-*.nc
-*.aux.xml
 *.tif
 *.tiff
+*.aux.xml
 *.vrt
+*.nc
+*.grd
+*.qgz
+*.qgs
+KTP_DELIVERABLES_BUNDLE.zip
 
-# Local caches and temporary outputs
-.cache/
-.cache_earthdata/
-*.log
-*.tmp
+# Local machine/build artefacts
+__pycache__/
+*.py[cod]
 .DS_Store
 Thumbs.db
-
-# Local bundles; do not upload whole working archives by default
-*KTP_DELIVERABLES_BUNDLE*.zip
-*KTP_LOCAL_PROCESSING_PACK*.zip
-.env
-.env.*
-!.env.example
-.netrc
-.dodsrc
-*.h5
-*.tif
-*.tiff
-*.aux.xml
-*.pem
-*.key
-*credentials*
-KTP_DELIVERABLES_BUNDLE.zip
+desktop.ini
+*.log
+*.tmp
+node_modules/
