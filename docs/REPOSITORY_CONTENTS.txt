@@ -1,0 +1,55 @@
+KTP GitHub repository assembly
+App source: copied from v0.5.0 KTP application ZIP
+Reviewed assets: copied from KTP_REVIEWED_ASSETS_AND_QA.zip
+Raw HDF5/GeoTIFF sources: NOT copied
+Earthdata credentials: NOT copied
+
+.gitignore
+ADD_CONTENT_HERE.txt
+app/.gitignore
+app/app.js
+app/assets/hero-terrain.svg
+app/assets/icons/brand-mark.svg
+app/assets/icons/icon-192.png
+app/assets/icons/icon-32.png
+app/assets/icons/icon-512.png
+app/assets/icons/icon.svg
+app/CONNECT_KURA_DATA_AND_START.bat
+app/cosmos.js
+app/data/PUT_YOUR_RASTER_OUTPUTS_HERE.txt
+app/DEMO_SCRIPT_TOMORROW.md
+app/GITHUB_PUBLISH_GUIDE.md
+app/IMAGE_CREDITS.md
+app/index.html
+app/KUNTAU_TERRAPULSE_METADATA_CATALOG.csv
+app/KUNTAU_TERRAPULSE_METADATA_CATALOG.json
+app/manifest.webmanifest
+app/OPEN_TERRAPULSE_LOCAL.bat
+app/PROJECT_BRIEF_FOR_JUDGES.md
+app/README_BEGINNER.md
+app/RELEASE_NOTES.md
+app/run_server.py
+app/START_HERE_KTP_DEMO.md
+app/START_TERRAPULSE.bat
+app/styles.css
+app/sw.js
+app/TEST_CHECKLIST.md
+data/catalogue/KTP_ANALYSIS_METADATA.json
+data/catalogue/KTP_ANALYSIS_SUMMARY.csv
+data/catalogue/KTP_NISAR_GRANULE_DETAILS_CORRECTED.json
+data/catalogue/KTP_NISAR_GRANULES_CORRECTED.csv
+data/catalogue/KTP_NISAR_GRANULES_CORRECTED.geojson
+data/qa/KTP_QA_CHECKS_CONSOLIDATED.csv
+data/qa/KTP_QA_OVERVIEW.csv
+data/visualizations/KTP_AFTER_LABELLED.png
+data/visualizations/KTP_BEFORE_LABELLED.png
+data/visualizations/KTP_CHANGE_LABELLED_EXPLORATORY.png
+docs/FARMER_EXPLANATION_SOURCE.txt
+docs/GEO_FOLDER_BLUEPRINT.md
+docs/KTP_DELIVERABLES_REVIEW.md
+docs/PLAIN_LANGUAGE_UX.md
+docs/PROJECT_STATUS.md
+docs/REPOSITORY_CONTENTS.txt
+README.md
+scripts/BUILD_KTP_DELIVERABLES.py
+scripts/CREATE_KTP_REPO_FOLDERS.bat

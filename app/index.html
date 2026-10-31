@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071b24" id="themeColorMeta">
+  <meta name="description" content="KUNTAU TERRAPULSE (KTP) — an installable Earth-observation studio for exploring NISAR radar changes around river corridors and floodplains.">
+  <meta name="referrer" content="no-referrer">
+  <title>KUNTAU TERRAPULSE · KTP Space Studio</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/icon.svg?v=050" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png?v=050">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png?v=050">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/geotiff@2.1.3/dist-browser/geotiff.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.12.1/proj4.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="cosmos.js"></script>
+</head>
+<body>
+  <canvas id="cosmosCanvas" aria-hidden="true"></canvas>
+  <div id="spaceCanvas" aria-hidden="true"></div>
+  <div class="app-shell">
+    <aside class="side-rail" aria-label="Primary navigation">
+      <a class="brand-lockup" href="#home" data-route="home" aria-label="KUNTAU TERRAPULSE home">
+        <img src="assets/icons/brand-mark.svg" alt="" class="brand-mark">
+        <span class="brand-words"><strong>KUNTAU</strong><small>TERRAPULSE</small></span>
+      </a>
+      <div class="rail-label">WORKSPACE</div>
+      <nav class="primary-nav">
+        <button class="nav-item active" data-route="home"><span class="nav-icon">⌂</span><span>Overview</span></button>
+        <button class="nav-item" data-route="explore"><span class="nav-icon">◎</span><span>Explore map</span></button>
+        <button class="nav-item" data-route="compare"><span class="nav-icon">◫</span><span>Compare</span><span class="nav-dot" id="compareNavDot"></span></button>
+        <button class="nav-item" data-route="insights"><span class="nav-icon">⌁</span><span>Insights</span></button>
+        <button class="nav-item" data-route="data"><span class="nav-icon">▤</span><span>Data & methods</span></button>
+        <button class="nav-item" data-route="settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
+      </nav>
+      <div class="rail-spacer"></div>
+      <div class="rail-project-card">
+        <div class="project-orbit"><span></span></div>
+        <div><strong>Kura study area</strong><small>Kano State · Nigeria</small></div>
+        <span class="status-pip"></span>
+      </div>
+      <div class="rail-footer"><span class="privacy-dot"></span> Local-first workspace</div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="mobile-brand"><img src="assets/icons/brand-mark.svg" alt=""><strong>KUNTAU <span>TERRAPULSE</span></strong></div>
+        <div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="pageCrumb">Overview</strong></div>
+        <div class="top-actions">
+          <span class="local-badge"><i></i> Data stays on this device</span>
+          <button class="icon-button theme-button" id="themeToggle" title="Switch theme" aria-label="Switch theme">☼</button>
+          <button class="icon-button" id="settingsButton" title="Settings" aria-label="Open settings">⚙</button>
+          <button class="icon-button" id="helpButton" title="About this workspace" aria-label="About this workspace">?</button>
+          <button class="install-button" id="installButton" hidden><span>＋</span> Install app</button>
+        </div>
+      </header>
+
+      <section class="page active" id="page-home" aria-labelledby="homeTitle">
+        <div class="welcome-row">
+          <div><div class="eyebrow"><span class="eyebrow-line"></span> EARTH OBSERVATION WORKSPACE</div><h1 id="homeTitle">See beyond the<br><em>surface.</em></h1><p class="lead">A focused Earth-observation studio for comparing real NISAR radar measurements and investigating changes around river corridors.</p>
+            <div class="hero-actions"><button class="button button-primary" data-route="compare">Open comparison <span>↗</span></button><button class="button button-quiet" data-route="explore">Explore study area</button></div>
+          </div>
+          <div class="hero-art" role="img" aria-label="Decorative three-dimensional Earth and satellite scene"><div id="heroThreeScene" aria-hidden="true"></div><img src="assets/hero-terrain.svg" alt="" class="hero-art-fallback"></div>
+        </div>
+
+        <div class="visual-story-grid" aria-label="How the project connects satellite science and river monitoring">
+          <article class="visual-story-card"><img src="https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005615/nisar_orbit.02415.jpg" alt="NASA visualization of the NISAR satellite orbiting Earth" loading="lazy" referrerpolicy="no-referrer"><div class="visual-story-shade"></div><div class="visual-story-copy"><span>01 · FROM ORBIT</span><h3>Observe the living Earth</h3><p>NISAR radar measures changing surfaces through day and night.</p></div></article>
+          <article class="visual-story-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/A_farm_land_in_western_Jos_Nigeria.jpg/1280px-A_farm_land_in_western_Jos_Nigeria.jpg" alt="Illustrative Nigerian agricultural landscape near river-fed land, not satellite evidence" loading="lazy" referrerpolicy="no-referrer"><div class="visual-story-shade"></div><div class="visual-story-copy"><span>02 · ALONG THE RIVER</span><h3>Observe river corridors</h3><p>Compare radar responses around channels and floodplains, then verify on the ground.</p></div></article>
+          <article class="visual-story-card"><img src="https://images.pexels.com/photos/34411687/pexels-photo-34411687.jpeg?cs=srgb&dl=pexels-mk_photoz-2149411980-34411687.jpg&fm=jpg" alt="Illustrative Nigerian community member working in a field, not satellite evidence" loading="lazy" referrerpolicy="no-referrer"><div class="visual-story-shade"></div><div class="visual-story-copy"><span>03 · FOR COMMUNITIES</span><h3>Support local investigation</h3><p>Give communities and response teams clearer places to check after changing conditions.</p></div></article>
+        </div>
+
+        <div class="section-heading"><div><div class="eyebrow">YOUR CURRENT WORKSPACE</div><h2>Study at a glance</h2></div><span class="quiet-tag">KURA · KANO, NIGERIA</span></div>
+        <div class="metric-grid">
+          <article class="metric-card"><div class="metric-top"><span>OBSERVATIONS LOADED</span><span class="metric-icon">◉</span></div><div class="metric-value" id="observationCount">0 <small>/ 2</small></div><div class="metric-note">Load your original NISAR GeoTIFFs to begin</div><div class="metric-track"><span id="observationProgress"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>STUDY FOOTPRINT</span><span class="metric-icon">⌖</span></div><div class="metric-value metric-text">Kura <small>test AOI</small></div><div class="metric-note">A study rectangle, not a verified river or floodplain boundary</div><div class="metric-foot"><span class="tiny-coordinate">8.4003°–8.4603° E</span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>OBSERVATION WINDOW</span><span class="metric-icon">◷</span></div><div class="metric-value metric-text">12 <small>days</small></div><div class="metric-note">8 Oct → 20 Oct 2026 · UTC acquisition dates</div><div class="metric-foot"><span class="tiny-coordinate">NISAR · L-band · GCOV</span></div></article>
+        </div>
+
+        <div class="home-lower-grid">
+          <article class="panel next-panel"><div class="panel-heading"><div><div class="eyebrow">NEXT STEP</div><h3>Bring in your observations</h3></div><span class="step-count">01 / 03</span></div><p>Select the original October 8 and October 20 GeoTIFFs. They are read locally; nothing is uploaded to a server.</p><div class="file-mini-row"><span class="file-glyph">TIF</span><div><strong>Before · 8 October 2026</strong><small>Kura_Before_2026-10-08.tif</small></div><span class="file-state" id="beforeMiniState">Waiting</span></div><div class="file-mini-row"><span class="file-glyph">TIF</span><div><strong>After · 20 October 2026</strong><small>Kura_After_2026-10-20.tif</small></div><span class="file-state" id="afterMiniState">Waiting</span></div><button class="button button-primary button-wide" data-route="compare">Load local GeoTIFFs <span>→</span></button></article>
+          <article class="panel integrity-panel"><div class="panel-heading"><div><div class="eyebrow">SCIENTIFIC INTEGRITY</div><h3>Evidence before interpretation</h3></div><span class="shield-mark">◇</span></div><div class="integrity-rule"><span class="rule-dot"></span><div><strong>Measurements are not diagnoses</strong><p>Radar backscatter can respond to water, wet soil, vegetation, surface roughness and acquisition conditions. A change alone does not prove flooding.</p></div></div><div class="integrity-rule"><span class="rule-dot amber"></span><div><strong>Polarization configuration differs</strong><p>The October products are SHSH and DHDH. We will flag this when assessing comparability.</p></div></div><a class="text-link" href="https://nisar-docs.asf.alaska.edu/gcov/" target="_blank" rel="noopener">Read the NISAR GCOV product guide ↗</a></article>
+        </div>
+        <div class="bottom-note"><span>✳</span> Built by KUNTAU Science Academy · NASA Space Apps Challenge 2026 · “Dancing with the SARs”</div>
+      </section>
+
+      <section class="page" id="page-explore" aria-labelledby="exploreTitle">
+        <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> GEOGRAPHIC CONTEXT</div><h1 id="exploreTitle">Explore the <em>study area.</em></h1><p class="lead">Locate the Kura test footprint and inspect any locally loaded NISAR observation.</p></div><div class="page-intro-actions"><span class="soft-chip"><i class="green-pip"></i> Kura · Kano State</span></div></div>
+        <div class="map-layout">
+          <div class="map-card"><div class="map-toolbar"><div><strong>Study area map</strong><small>OpenStreetMap basemap · NISAR overlay when loaded</small></div><div class="map-tools"><select id="mapLayerSelect" class="map-layer-select" aria-label="Choose map raster overlay"><option value="" selected>Load data to enable</option><option value="change">Change overlay</option><option value="before">8 Oct raster</option><option value="after">20 Oct raster</option></select><button class="map-tool" id="mapFitButton" title="Fit study area">⌗</button><button class="map-tool" id="mapBaseButton" title="Toggle basemap">◈</button></div></div><div id="exploreMap" class="map-canvas" aria-label="Map of the Kura study area"></div><div class="map-footer"><span><i class="legend-outline"></i> Test AOI · 8.4003°E to 8.4603°E</span><span class="map-footer-right"><span class="map-change-legend" id="mapChangeLegend" hidden><i class="legend-low"></i> Lower later <i class="legend-high"></i> Higher later</span><span id="mapLayerStatus">Load observations to show a raster overlay</span></span></div></div>
+          <aside class="map-side panel"><div class="eyebrow">AREA PROFILE</div><h3>Kura, Kano State</h3><p class="muted-copy">A small test footprint for the first KUNTAU TERRAPULSE analysis. Its exact overlap with the Rafin Kura channel has not yet been verified.</p><div class="profile-coords"><span>CENTRE APPROXIMATION</span><strong>11.7714° N</strong><strong>8.4303° E</strong></div><div class="profile-separator"></div><p class="muted-copy river-context">Local reporting from 2 March 2024 described River Kura overflow damaging farms in Kunshama, Kura LGA. This Rimin Daddo-area test rectangle is not yet verified against that river reach.</p><a class="text-link" href="https://www.icirnigeria.org/again-farming-community-in-kano-counts-losses-as-river-kura-wreaks-havoc/" target="_blank" rel="noopener">Read local river-impact reporting ↗</a><div class="profile-separator"></div><div class="profile-item"><span>Coordinate reference</span><strong>WGS 84 / UTM 32N</strong></div><div class="profile-item"><span>Expected raster spacing</span><strong>20 metres</strong></div><div class="profile-item"><span>Footprint status</span><strong class="warn-text">Test AOI — not field verified</strong></div><button class="button button-outline button-wide" data-route="compare">Open observation comparison →</button></aside>
+        </div>
+        <div class="map-disclaimer"><span>ⓘ</span> Change colours show relative increases/decreases in the selected radar measurement for this pair only. They are not a water mask or flood classification. The outlined rectangle is the analysis area used for the initial data extraction. It is not a surveyed river centreline, floodplain boundary or property boundary. The exact intersection with the Rafin Kura channel must be verified. Basemap tiles require an internet connection.</div>
+      </section>
+
+      <section class="page" id="page-compare" aria-labelledby="compareTitle">
+        <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> TWO-DATE ANALYSIS</div><h1 id="compareTitle">Compare what <em>changed.</em></h1><p class="lead">Load the original NISAR GeoTIFFs from your computer. This browser reads them locally.</p></div><span class="privacy-pill"><span class="privacy-dot"></span> Files stay on this device</span></div>
+        <div class="notice notice-caution"><span class="notice-icon">!</span><div><strong>Scientific comparability check required</strong><p>The October 8 scene is SHSH (HH single-polarization); October 20 is DHDH (HH/HV dual-polarization). We use the shared HHHH measurement layer, but the different acquisition modes must be considered before interpreting differences.</p></div></div>
+        <div class="folder-connect-bar panel"><div><div class="eyebrow">QUICK LOAD · CHROME ON WINDOWS</div><h3>Connect your Kura data folder</h3><p>Choose <code>C:\KUNTAU_TERRAPULSE\data</code> once. The app will look for the two original filenames automatically. Your files stay on this computer.</p></div><button class="button button-primary" id="connectDataFolderButton">Choose data folder <span>↗</span></button></div>
+        <div class="folder-connect-bar panel" style="margin-top:12px"><div><div class="eyebrow">EASIEST METHOD · CMD COPY</div><h3>Load files copied into this app</h3><p>Run <code>CONNECT_KURA_DATA_AND_START.bat</code> from the app folder. It copies your two original GeoTIFFs into this app's local <code>data</code> folder. Then click below. The display-only copies are not used.</p></div><button class="button button-outline" id="loadAppDataButton">Load copied Kura files <span>↓</span></button></div>
+        <div class="upload-grid">
+          <label class="upload-card" for="beforeFile"><div class="upload-card-top"><span class="date-chip">BEFORE · 08 OCT 2026</span><span class="upload-status" id="beforeStatus">Not loaded</span></div><div class="upload-icon">↑</div><strong>Choose October 8 GeoTIFF</strong><span class="upload-filename" id="beforeFilename">Kura_Before_2026-10-08.tif</span><span class="upload-hint">Original Float32 GeoTIFF · Band 1 + alpha</span><span class="button button-outline">Choose before file</span><input id="beforeFile" type="file" accept=".tif,.tiff,image/tiff" hidden></label>
+          <label class="upload-card" for="afterFile"><div class="upload-card-top"><span class="date-chip after-date">AFTER · 20 OCT 2026</span><span class="upload-status" id="afterStatus">Not loaded</span></div><div class="upload-icon">↑</div><strong>Choose October 20 GeoTIFF</strong><span class="upload-filename" id="afterFilename">Kura_After_2026-10-20.tif</span><span class="upload-hint">Original Float32 GeoTIFF · Band 1 + alpha</span><span class="button button-outline">Choose after file</span><input id="afterFile" type="file" accept=".tif,.tiff,image/tiff" hidden></label>
+        </div>
+        <div class="loading-line" id="loadMessage" aria-live="polite">No observations loaded yet. Select both original .tif files to enable comparison.</div>
+        <div class="compare-workspace panel" id="compareWorkspace">
+          <div class="panel-heading compare-panel-heading"><div><div class="eyebrow">VISUAL COMPARISON</div><h3>Before / after viewer</h3></div><div class="segmented" role="group" aria-label="Comparison display"><button class="segment active" data-compare-mode="swipe">Swipe</button><button class="segment" data-compare-mode="before">Before</button><button class="segment" data-compare-mode="after">After</button><button class="segment" data-compare-mode="change">Change</button></div></div>
+          <div class="raster-viewer" id="rasterViewer"><div class="raster-empty" id="rasterEmpty"><div class="empty-orbit">◎</div><strong>Your evidence will appear here</strong><p>Load both original GeoTIFFs. The app will check their grids before calculating a pixel-wise difference.</p></div><canvas id="compareCanvas" hidden aria-label="Before and after raster comparison"></canvas><div class="raster-label label-before" id="rasterLabelBefore" hidden>08 OCT · BEFORE</div><div class="raster-label label-after" id="rasterLabelAfter" hidden>20 OCT · AFTER</div><div class="raster-label label-change" id="rasterLabelChange" hidden>AFTER − BEFORE · EXPLORATORY</div></div>
+          <div class="compare-slider-row" id="sliderRow"><label for="splitSlider">REVEAL AFTER IMAGE</label><input id="splitSlider" type="range" min="0" max="100" value="50" disabled><output id="splitValue">50%</output></div>
+          <div class="compare-legend" id="compareLegend"><span><i class="legend-swatch before-swatch"></i> Earlier observation</span><span><i class="legend-swatch after-swatch"></i> Later observation</span><span class="legend-explain">Display stretch is for visualisation only.</span></div>
+          <div class="comparison-stats" id="comparisonStats"><div><span>VALID PIXELS</span><strong>—</strong></div><div><span>MEAN Δ</span><strong>—</strong></div><div><span>POSITIVE Δ</span><strong>—</strong></div><div><span>NEGATIVE Δ</span><strong>—</strong></div></div>
+        </div>
+        <div class="compare-actions"><button class="button button-outline" id="exportChangeButton" disabled>↓ Export change preview PNG</button><button class="button button-outline" id="exportReportButton" disabled>↓ Export analysis CSV</button><span class="fine-print">Exploratory radar-response differences only — not a water mask, river-level measurement or flood forecast.</span></div>
+      </section>
+
+      <section class="page" id="page-insights" aria-labelledby="insightsTitle">
+        <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> INTERPRETATION, WITH CAUTION</div><h1 id="insightsTitle">Turn signals into <em>understanding.</em></h1><p class="lead">A radar measurement can reveal surface change. It cannot, by itself, measure river depth, flow rate or water level.</p></div></div>
+        <div class="insight-state panel" id="insightState"><div class="insight-empty-icon">⌁</div><div><h3>No validated analysis yet</h3><p>Load both original observations in Compare. The app will then show measurement summaries and clearly separate measured differences from possible river or floodplain explanations.</p><button class="button button-primary" data-route="compare">Load observations →</button></div></div>
+        <div class="insight-grid"><article class="panel insight-card"><span class="insight-number">01</span><div class="eyebrow">WHAT RADAR MEASURES</div><h3>Backscatter response</h3><p>GCOV provides calibrated, terrain-corrected radar covariance measurements. The values respond to surface and structural properties, moisture, geometry and other factors.</p><a href="https://nisar-docs.asf.alaska.edu/gcov/" target="_blank" rel="noopener" class="text-link">NISAR GCOV guide ↗</a></article><article class="panel insight-card"><span class="insight-number">02</span><div class="eyebrow">WHAT CHANGE CAN MEAN</div><h3>Several possible drivers</h3><p>Changes can be associated with open water, wet soil, floodplain vegetation, roughness or acquisition conditions. Independent evidence is needed to distinguish them.</p></article><article class="panel insight-card"><span class="insight-number">03</span><div class="eyebrow">WHAT WE MUST NOT CLAIM</div><h3>No automatic flood prediction</h3><p>Do not infer river depth, flow speed, water level or future flood risk from this two-date radar comparison alone.</p></article></div>
+        <div class="field-evidence panel"><div><div class="eyebrow">NEXT EVIDENCE TO ADD</div><h3>Connect radar signals to river evidence</h3><p>For stronger interpretation, combine radar with river-gauge readings, rainfall records, flood reports, field photographs and community observations.</p></div><div class="evidence-tags"><span>River gauge</span><span>Rainfall</span><span>Flood reports</span><span>Field photos</span><span>Local validation</span></div></div>
+      </section>
+
+      <section class="page" id="page-data" aria-labelledby="dataTitle">
+        <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> REPRODUCIBILITY & SOURCES</div><h1 id="dataTitle">Know where the <em>evidence comes from.</em></h1><p class="lead">Product identifiers, processing context and limitations belong alongside every map. Download this catalogue now; file-specific statistics are added after the GeoTIFFs load.</p></div><div class="page-intro-actions"><button class="button button-outline" id="downloadMetadataButton">↓ Metadata JSON</button> <button class="button button-outline" id="downloadMetadataCsvButton">↓ Metadata CSV</button></div></div>
+        <div class="metadata-grid"><article class="panel metadata-card"><div class="eyebrow">BEFORE OBSERVATION</div><h3>8 October 2026</h3><span class="meta-state" id="metaBeforeState">GeoTIFF not loaded</span><div class="meta-rows"><div><span>Product mode</span><strong>SHSH · HH single-pol</strong></div><div><span>Track / frame</span><strong>123 / 83</strong></div><div><span>Direction</span><strong>Descending</strong></div><div><span>Acquisition (UTC)</span><strong>17:54:33</strong></div><div><span>CRID</span><strong>P05023</strong></div></div><div class="product-id">NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001</div></article><article class="panel metadata-card"><div class="eyebrow">AFTER OBSERVATION</div><h3>20 October 2026</h3><span class="meta-state" id="metaAfterState">GeoTIFF not loaded</span><div class="meta-rows"><div><span>Product mode</span><strong>DHDH · HH/HV dual-pol</strong></div><div><span>Track / frame</span><strong>123 / 83</strong></div><div><span>Direction</span><strong>Descending</strong></div><div><span>Acquisition (UTC)</span><strong>17:54:33</strong></div><div><span>CRID</span><strong>P05023</strong></div></div><div class="product-id">NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001</div></article></div>
+        <div class="panel processing-card"><div class="panel-heading"><div><div class="eyebrow">PROCESSING RECORD</div><h3>Current extraction settings</h3></div><span class="verified-tag">USER-REPORTED</span></div><div class="process-grid"><div><span>Science product</span><strong>NISAR GCOV · Provisional · L-band</strong></div><div><span>Selected dataset</span><strong>Frequency A / HHHH</strong></div><div><span>Study location</span><strong>Kura test AOI · Kano, Nigeria</strong></div><div><span>Expected CRS / spacing</span><strong>EPSG:32632 · 20 m</strong></div><div><span>Raster dimensions</span><strong>327 × 332 pixels</strong></div><div><span>Extraction tool</span><strong>GDAL · gdalwarp</strong></div><div><span>Before / after grid</span><strong>Same origin, extent and pixel spacing (reported)</strong></div><div><span>Data maturity</span><strong>Provisional</strong></div></div><div class="method-note"><strong>Important:</strong> The app re-checks the files you load. The values above are the extraction details reported during the initial processing; they are not treated as independently verified metadata until the source files are examined.</div></div>
+        <div class="panel sources-card"><div class="eyebrow">OFFICIAL REFERENCES</div><a href="https://nisar-docs.asf.alaska.edu/gcov/" target="_blank" rel="noopener"><span class="source-icon">↗</span><span><strong>ASF NISAR GCOV Data User Guide</strong><small>Product structure, covariance layers and polarization codes</small></span></a><a href="https://search.asf.alaska.edu/" target="_blank" rel="noopener"><span class="source-icon">↗</span><span><strong>Alaska Satellite Facility — Search</strong><small>Original NISAR data discovery and product records</small></span></a><a href="https://www.icirnigeria.org/again-farming-community-in-kano-counts-losses-as-river-kura-wreaks-havoc/" target="_blank" rel="noopener"><span class="source-icon">↗</span><span><strong>Local reporting: River Kura impacts</strong><small>Context for the Kura-area river and floodplain use case; not a validation of this AOI</small></span></a><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener"><span class="source-icon">↗</span><span><strong>OpenStreetMap attribution</strong><small>Basemap contributors and usage information</small></span></a></div>
+      </section>
+
+      <section class="page" id="page-settings" aria-labelledby="settingsTitle">
+        <div class="page-intro"><div><div class="eyebrow"><span class="eyebrow-line"></span> PERSONALISE YOUR WORKSPACE</div><h1 id="settingsTitle">Make it <em>yours.</em></h1><p class="lead">Choose how KUNTAU TERRAPULSE looks and behaves on this device.</p></div></div>
+        <div class="settings-grid">
+          <article class="panel settings-card appearance-card">
+            <div class="eyebrow">APPEARANCE</div><h3>Choose your theme</h3><p class="muted-copy">Your choice is saved in this browser and stays local to this device.</p>
+            <div class="theme-choice-grid" role="group" aria-label="Choose app theme">
+              <button class="theme-choice" data-theme-choice="light" aria-pressed="false"><span class="theme-preview light-preview"><i></i><i></i><i></i></span><strong>Light mode</strong><small>Bright, clean workspace</small></button>
+              <button class="theme-choice" data-theme-choice="dark" aria-pressed="false"><span class="theme-preview dark-preview"><i></i><i></i><i></i></span><strong>Dark mode</strong><small>Low-light workspace</small></button>
+              <button class="theme-choice" data-theme-choice="system" aria-pressed="false"><span class="theme-preview system-preview"><i></i><i></i><i></i></span><strong>System</strong><small>Follow this device</small></button>
+            </div>
+          </article>
+          <article class="panel settings-card">
+            <div class="eyebrow">LOCAL DATA & PRIVACY</div><h3>Your satellite files stay with you</h3><p class="muted-copy">The app reads the GeoTIFF files you select inside Chrome. It does not automatically upload them to a server. Refreshing the page clears the current in-memory raster session, so keep your original files safe.</p>
+            <div class="settings-fact"><span>Authentication</span><strong>Not required</strong></div><div class="settings-fact"><span>Raster processing</span><strong>In this browser session</strong></div><div class="settings-fact"><span>Source data location</span><strong>Your computer</strong></div>
+          </article>
+          <article class="panel settings-card">
+            <div class="eyebrow">FIRST-RUN EXPERIENCE</div><h3>Replay the introduction</h3><p class="muted-copy">Show the five welcome screens again, including the project story and how the comparison works.</p><button class="button button-outline" id="resetIntroButton">Replay welcome screens ↗</button>
+          </article>
+          <article class="panel settings-card">
+            <div class="eyebrow">VISUAL CREDITS</div><h3>Images used in this workspace</h3><p class="muted-copy">These are illustrative editorial images, not the Kura GeoTIFF observations and not evidence of conditions inside the test AOI.</p>
+            <div class="credit-list"><p><strong>NISAR orbit visual:</strong> <a href="https://svs.gsfc.nasa.gov/5615/" target="_blank" rel="noopener">NASA Scientific Visualization Studio, “NISAR satellite orbit”</a>.</p><p><strong>Nigerian farmland:</strong> <a href="https://commons.wikimedia.org/wiki/File:A_farm_land_in_western_Jos_Nigeria.jpg" target="_blank" rel="noopener">Abeltrust / Wikimedia Commons</a> · CC BY-SA 4.0.</p><p><strong>Nigerian field photograph:</strong> <a href="https://www.pexels.com/photo/african-farmer-inspecting-crops-in-field-34411687/" target="_blank" rel="noopener">mk_photoz / Pexels</a> · Free to use.</p></div>
+          </article>
+        </div>
+        <div class="settings-version"><span>KUNTAU TERRAPULSE</span><strong>Version 0.5.0 · KTP Space Studio</strong><span>Built by KUNTAU Science Academy · Kano Local Event</span></div>
+      </section>
+
+      <footer class="app-footer"><span>© 2026 KUNTAU TERRAPULSE</span><span>Science-led · Evidence-first · Built for the field</span><span>NASA Space Apps Challenge · Kano</span></footer>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation"><button class="mobile-nav-item active" data-route="home"><span>⌂</span><small>Home</small></button><button class="mobile-nav-item" data-route="explore"><span>◎</span><small>Explore</small></button><button class="mobile-nav-item" data-route="compare"><span>◫</span><small>Compare</small></button><button class="mobile-nav-item" data-route="insights"><span>⌁</span><small>Insights</small></button><button class="mobile-nav-item" data-route="data"><span>▤</span><small>Data</small></button></nav>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="modal-backdrop" id="helpModal" hidden><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><button class="modal-close" data-close-modal aria-label="Close">×</button><div class="eyebrow">ABOUT THIS WORKSPACE</div><h2 id="helpTitle">Science first. People always.</h2><p>KUNTAU TERRAPULSE is a KUNTAU Science Academy project for the NASA Space Apps Challenge 2026 challenge “Dancing with the SARs”. It explores how NISAR radar observations can help people investigate surface change around river corridors and floodplains. This prototype does not predict floods or measure river levels.</p><div class="modal-facts"><span>Study area<strong>Kura, Kano State</strong></span><span>Mission<strong>NASA–ISRO NISAR</strong></span><span>Project mode<strong>Local-first PWA</strong></span></div><p class="muted-copy">This is an evidence-workspace prototype. An analysis preview is not a validated flood or water-extent assessment.</p><button class="button button-primary button-wide" data-close-modal>Continue exploring</button></section></div>
+
+  <div class="onboarding" id="onboarding" hidden>
+    <div class="onboard-top"><img src="assets/icons/brand-mark.svg" alt=""><span>KUNTAU TERRAPULSE</span><button id="skipIntro">Skip</button></div>
+    <div class="onboard-progress"><i class="active"></i><i></i><i></i><i></i><i></i></div>
+    <div class="onboard-content"><div class="onboard-visual-wrap"><img class="onboard-visual" id="onboardVisual" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/A_farm_land_in_western_Jos_Nigeria.jpg/1280px-A_farm_land_in_western_Jos_Nigeria.jpg" alt="Illustrative Nigerian landscape"><span class="onboard-visual-caption" id="onboardVisualCaption">River and floodplain landscapes in Nigeria</span></div><div class="onboard-copy"><div class="onboard-illustration" id="onboardIllustration">◉</div><div class="eyebrow" id="onboardKicker">A NEW WAY TO LOOK</div><h1 id="onboardTitle">See beyond<br><em>the surface.</em></h1><p id="onboardText">Explore Earth through radar observations and understand how landscapes change over time.</p></div></div>
+    <div class="onboard-bottom"><span id="onboardCount">01 / 05</span><button class="button button-primary" id="nextIntro">Continue <span>→</span></button></div>
+  </div>
+
+  <noscript><div class="noscript-note">KUNTAU TERRAPULSE needs JavaScript enabled to run the interactive workspace.</div></noscript>
+</body>
+</html>

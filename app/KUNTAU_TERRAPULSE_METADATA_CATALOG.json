@@ -1,0 +1,88 @@
+{
+  "project": "KUNTAU TERRAPULSE",
+  "version": "0.3.0",
+  "challenge": "NASA Space Apps Challenge 2026 \u2014 Dancing with the SARs",
+  "team": "KUNTAU TERRAPULSE",
+  "local_event": "Kano, Nigeria",
+  "use_case": "River-corridor and floodplain observation concept; not a flood forecast",
+  "study_area": {
+    "name": "Kura test AOI, Kano State, Nigeria",
+    "center_approx_latitude": 11.7714,
+    "center_approx_longitude": 8.4303,
+    "footprint_wkt": "POLYGON((8.4003 11.7414,8.4603 11.7414,8.4603 11.8014,8.4003 11.8014,8.4003 11.7414))",
+    "status": "Test extraction AOI around Rimin Daddo; exact overlap with reported River Kura reach / floodplain not yet verified"
+  },
+  "source": {
+    "mission": "NASA\u2013ISRO NISAR",
+    "product": "L2 PR GCOV",
+    "maturity": "Provisional",
+    "band": "L-band",
+    "track": 123,
+    "frame": 83,
+    "orbit_direction": "Descending",
+    "common_extracted_layer": "frequencyA/HHHH",
+    "expected_pixel_spacing_m": 20,
+    "reported_crid": "P05023"
+  },
+  "observations": [
+    {
+      "label": "Before",
+      "date": "2026-10-08",
+      "acquisition_utc": "17:54:33",
+      "mode": "SHSH",
+      "polarization": "HH single-polarization",
+      "product_id": "NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001",
+      "original_geotiff": "Kura_Before_2026-10-08.tif",
+      "reported_file_size_bytes": 869962
+    },
+    {
+      "label": "After",
+      "date": "2026-10-20",
+      "acquisition_utc": "17:54:33",
+      "mode": "DHDH",
+      "polarization": "HH/HV dual-polarization",
+      "product_id": "NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001",
+      "original_geotiff": "Kura_After_2026-10-20.tif",
+      "reported_file_size_bytes": 869962
+    }
+  ],
+  "reported_extraction_grid": {
+    "width_pixels": 327,
+    "height_pixels": 332,
+    "crs": "EPSG:32632",
+    "pixel_size_m": [
+      20,
+      -20
+    ],
+    "origin_m": [
+      434660,
+      1304660
+    ],
+    "lower_right_m": [
+      441200,
+      1298020
+    ],
+    "note": "Previously reported by the user from GDAL; app checks each file again when loaded."
+  },
+  "previous_browser_exploratory_summary": {
+    "valid_shared_pixels": 108555,
+    "mean_after_minus_before": -0.071009,
+    "positive_difference_pixels_percent": 27.3,
+    "negative_difference_pixels_percent": 72.7,
+    "note": "Values reported in an earlier app session; not recalculated in this metadata catalog and not water/flood area percentages."
+  },
+  "limitations": [
+    "SHSH vs DHDH acquisition-mode difference requires scientific comparability review.",
+    "Shared HHHH layer alone does not establish full cross-mode comparability.",
+    "Pixel differences are not a water mask, flood classification, river-stage measurement, flow-rate measurement or flood forecast.",
+    "AOI is not a surveyed river centreline or floodplain boundary.",
+    "A two-date, 12-day pair cannot establish a seasonal trend."
+  ],
+  "local_problem_reference": {
+    "publisher": "The ICIR",
+    "title": "Again, farming community in Kano counts losses as River Kura wreaks havoc",
+    "date": "2024-03-02",
+    "url": "https://www.icirnigeria.org/again-farming-community-in-kano-counts-losses-as-river-kura-wreaks-havoc/",
+    "note": "Context for the Kura-area river/floodplain use case; this report does not verify the raster AOI."
+  }
+}

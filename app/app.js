@@ -1,0 +1,466 @@
+/* KUNTAU TERRAPULSE — local-first NISAR GeoTIFF workspace */
+(() => {
+  'use strict';
+
+  if (window.proj4 && !proj4.defs('EPSG:32632')) {
+    proj4.defs('EPSG:32632', '+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs +type=crs');
+  }
+  const AOI = {
+    name: 'Kura test AOI, Kano State, Nigeria',
+    ring: [[8.4003,11.7414],[8.4603,11.7414],[8.4603,11.8014],[8.4003,11.8014],[8.4003,11.7414]]
+  };
+  const PRODUCT = {
+    before: {
+      date: '2026-10-08', label: '8 October 2026', mode: 'SHSH',
+      id: 'NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001',
+      time: '2026-10-08T17:54:33Z'
+    },
+    after: {
+      date: '2026-10-20', label: '20 October 2026', mode: 'DHDH',
+      id: 'NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001',
+      time: '2026-10-20T17:54:33Z'
+    }
+  };
+  const state = { before: null, after: null, difference: null, map: null, baseLayer: null, aoiLayer: null, overlays: {}, compareMode: 'swipe', split: 50, mapView: 'change', currentRoute: 'home', deferredInstall: null, metadata: null, themeChoice: 'system' };
+  const $ = (id) => document.getElementById(id);
+  const number = (v, digits = 4) => Number.isFinite(v) ? v.toLocaleString(undefined,{maximumFractionDigits:digits}) : '—';
+
+  // Theme preference is stored locally; the system option follows Windows/Android appearance.
+  function effectiveTheme(choice) {
+    if (choice === 'system') return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    return choice;
+  }
+  function applyTheme(choice, announce=false) {
+    state.themeChoice = choice;
+    const effective = effectiveTheme(choice);
+    document.documentElement.dataset.theme = effective;
+    document.documentElement.style.colorScheme = effective;
+    const themeMeta = $('themeColorMeta');
+    if (themeMeta) themeMeta.setAttribute('content', effective === 'light' ? '#f3f7f5' : '#071b24');
+    document.querySelectorAll('[data-theme-choice]').forEach(button => {
+      const active = button.dataset.themeChoice === choice;
+      button.classList.toggle('selected', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    const toggle = $('themeToggle');
+    if (toggle) {
+      toggle.textContent = effective === 'dark' ? '☼' : '☾';
+      toggle.title = `Switch to ${effective === 'dark' ? 'light' : 'dark'} mode`;
+      toggle.setAttribute('aria-label', toggle.title);
+    }
+    try { localStorage.setItem('ktp_theme_v1', choice); } catch (_) {}
+    if (announce) toast(`${effective === 'dark' ? 'Dark' : 'Light'} mode enabled.`);
+  }
+  try { applyTheme(localStorage.getItem('ktp_theme_v1') || 'system'); }
+  catch (_) { applyTheme('system'); }
+  $('themeToggle')?.addEventListener('click', () => applyTheme(effectiveTheme(state.themeChoice) === 'dark' ? 'light' : 'dark', true));
+  $('settingsButton')?.addEventListener('click', () => route('settings'));
+  document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => applyTheme(button.dataset.themeChoice, true)));
+  if (window.matchMedia) window.matchMedia('(prefers-color-scheme: light)').addEventListener?.('change', () => { if (state.themeChoice === 'system') applyTheme('system'); });
+
+  function toast(message, kind='ok') {
+    const el = document.createElement('div'); el.className = `toast ${kind === 'error' ? 'error' : ''}`; el.textContent = message;
+    $('toastRegion').appendChild(el); window.setTimeout(() => el.remove(), 4300);
+  }
+  function setMessage(message, kind='') { const el = $('loadMessage'); el.textContent = message; el.className = `loading-line ${kind}`.trim(); }
+  function route(name) {
+    if (!$( `page-${name}` )) return;
+    state.currentRoute = name;
+    document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === `page-${name}`));
+    document.querySelectorAll('[data-route]').forEach(b => b.classList.toggle('active', b.dataset.route === name));
+    const titles = {home:'Overview',explore:'Explore map',compare:'Compare',insights:'Insights',data:'Data & methods',settings:'Settings'};
+    $('pageCrumb').textContent = titles[name] || 'Overview';
+    if (name === 'explore') setTimeout(() => { initMap(); showRasterOnMap(); if(state.map) state.map.invalidateSize(); }, 80);
+    if (name === 'compare') drawComparison();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  document.querySelectorAll('[data-route]').forEach(el => el.addEventListener('click', () => route(el.dataset.route)));
+
+  function initMap() {
+    if (state.map || !window.L || !$('exploreMap')) return;
+    state.map = L.map('exploreMap', {zoomControl:false, scrollWheelZoom:false, preferCanvas:true}).setView([11.7714,8.4303], 12);
+    L.control.zoom({position:'topright'}).addTo(state.map);
+    state.baseLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(state.map);
+    const coords = AOI.ring.map(([lon,lat]) => [lat,lon]);
+    state.aoiLayer = L.polygon(coords,{color:'#e9bd78',weight:2,dashArray:'6 6',fillColor:'#e9bd78',fillOpacity:.06}).addTo(state.map);
+    state.aoiLayer.bindTooltip('Kura test AOI · not a surveyed river or floodplain boundary');
+    L.circleMarker([11.7714,8.4303],{radius:4,color:'#a4e7c8',weight:2,fillColor:'#a4e7c8',fillOpacity:1}).addTo(state.map).bindTooltip('Approximate study-area centre');
+    setTimeout(() => { if(state.map){state.map.invalidateSize();showRasterOnMap();} }, 180);
+  }
+  $('mapFitButton')?.addEventListener('click', () => { if (state.map) state.map.fitBounds(state.aoiLayer.getBounds(),{padding:[25,25]}); });
+  $('mapBaseButton')?.addEventListener('click', () => { if (!state.map || !state.baseLayer) return; if (state.map.hasLayer(state.baseLayer)) state.map.removeLayer(state.baseLayer); else state.baseLayer.addTo(state.map); });
+
+  function quantile(sorted, q) {
+    if (!sorted.length) return 0;
+    const pos = (sorted.length - 1) * q, base = Math.floor(pos), rest = pos - base;
+    return sorted[base + 1] !== undefined ? sorted[base] + rest * (sorted[base + 1] - sorted[base]) : sorted[base];
+  }
+  function readSample(image, index) {
+    return image.readRasters({samples:[index], interleave:false}).then(result => Array.isArray(result) ? result[0] : result);
+  }
+  function computeStats(values, valid, noData) {
+    const items = [];
+    let sum = 0, min = Infinity, max = -Infinity;
+    for (let i=0;i<values.length;i++) {
+      const v = Number(values[i]);
+      if (!valid[i] || !Number.isFinite(v) || (noData !== null && noData !== undefined && Object.is(v, Number(noData)))) continue;
+      items.push(v); sum += v; if (v < min) min = v; if (v > max) max = v;
+    }
+    items.sort((a,b)=>a-b);
+    return {count:items.length,min:items.length?min:null,max:items.length?max:null,mean:items.length?sum/items.length:null,median:items.length?quantile(items,.5):null,p02:items.length?quantile(items,.02):null,p98:items.length?quantile(items,.98):null,sorted:items};
+  }
+  function makeGrayCanvas(values, valid, stats, width, height) {
+    const canvas = document.createElement('canvas'); canvas.width=width; canvas.height=height;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true}); const pixels=ctx.createImageData(width,height);
+    let low=stats.p02, high=stats.p98;
+    if (!Number.isFinite(low) || !Number.isFinite(high) || high<=low) { low=stats.min ?? 0; high=stats.max ?? 1; }
+    if (high<=low) high=low+1;
+    for(let i=0;i<values.length;i++){
+      const v=Number(values[i]), offset=i*4;
+      if(!valid[i]||!Number.isFinite(v)){pixels.data[offset+3]=0;continue;}
+      let t=Math.max(0,Math.min(1,(v-low)/(high-low))); t=Math.pow(t,.78);
+      const shade=Math.round(24+t*220);
+      pixels.data[offset]=Math.round(shade*.78); pixels.data[offset+1]=Math.round(shade*.94); pixels.data[offset+2]=Math.round(shade*.86); pixels.data[offset+3]=235;
+    }
+    ctx.putImageData(pixels,0,0); return canvas;
+  }
+  function makeDiffCanvas(before, after, valid, values) {
+    const canvas=document.createElement('canvas'); canvas.width=before.width; canvas.height=before.height;
+    const ctx=canvas.getContext('2d'); const pixels=ctx.createImageData(canvas.width,canvas.height);
+    const abs=values.filter((v,i)=>valid[i]&&Number.isFinite(v)).map(v=>Math.abs(v)).sort((a,b)=>a-b);
+    let cap=quantile(abs,.98); if(!Number.isFinite(cap)||cap<=0) cap=1;
+    for(let i=0;i<values.length;i++){
+      const o=i*4, d=values[i];
+      if(!valid[i]||!Number.isFinite(d)){pixels.data[o+3]=0;continue;}
+      const t=Math.min(1,Math.abs(d)/cap), eased=Math.pow(t,.72);
+      // Negative: cool teal/blue. Positive: warm amber. Neutral: dark slate.
+      if(d<0){pixels.data[o]=Math.round(22+35*eased);pixels.data[o+1]=Math.round(53+152*eased);pixels.data[o+2]=Math.round(67+175*eased);}
+      else{pixels.data[o]=Math.round(48+207*eased);pixels.data[o+1]=Math.round(54+111*eased);pixels.data[o+2]=Math.round(50+33*eased);}
+      pixels.data[o+3]=Math.round(110+145*eased);
+    }
+    ctx.putImageData(pixels,0,0); return {canvas,cap};
+  }
+  async function parseGeoTiff(file, key) {
+    if (!window.GeoTIFF || typeof window.GeoTIFF.fromArrayBuffer !== 'function') throw new Error('The GeoTIFF reader did not load. Connect to the internet, refresh the app, and try again.');
+    if (file.size > 500 * 1024 * 1024) throw new Error('This file is larger than the 500 MB browser safety limit. Use your cropped Kura GeoTIFF, not the full HDF5 source file.');
+    const buffer=await file.arrayBuffer();
+    const tiff=await window.GeoTIFF.fromArrayBuffer(buffer);
+    const image=await tiff.getImage(0);
+    const width=image.getWidth(), height=image.getHeight(), samples=image.getSamplesPerPixel();
+    if(width*height>50_000_000) throw new Error('This raster is too large for this browser workspace.');
+    const band=await readSample(image,0);
+    let alpha=null;
+    if(samples>=2){try{alpha=await readSample(image,1);}catch(_){alpha=null;}}
+    const directory=image.getFileDirectory ? image.getFileDirectory() : image.fileDirectory;
+    let noData=null;
+    try{ noData=image.getGDALNoData ? image.getGDALNoData() : (directory && directory.GDAL_NODATA !== undefined ? directory.GDAL_NODATA : null); }catch(_){noData=null;}
+    const valid=new Uint8Array(width*height);
+    for(let i=0;i<valid.length;i++){
+      const v=Number(band[i]);
+      valid[i]=(!alpha || Number(alpha[i])>0) && Number.isFinite(v) && !(noData!==null && noData!==undefined && Object.is(v,Number(noData))) ? 1 : 0;
+    }
+    const stats=computeStats(band,valid,noData);
+    if(!stats.count) throw new Error('No valid pixels were found in Band 1. Check that you selected the original cropped GeoTIFF.');
+    const bbox=image.getBoundingBox();
+    const geoKeys=image.getGeoKeys ? image.getGeoKeys() : (image.geoKeys || {});
+    const epsg=geoKeys.ProjectedCSTypeGeoKey || geoKeys.GeographicTypeGeoKey || null;
+    const origin=image.getOrigin ? image.getOrigin() : null;
+    const resolution=image.getResolution ? image.getResolution() : null;
+    const canvas=makeGrayCanvas(band,valid,stats,width,height);
+    const noDataText=noData===null?'Not specified':String(noData);
+    return {key,fileName:file.name,fileSize:file.size,width,height,samples,band,alpha,valid,stats,bbox,epsg,origin,resolution,noData:noDataText,canvas,dataUrl:canvas.toDataURL('image/png'),date:PRODUCT[key].date,mode:PRODUCT[key].mode};
+  }
+  function sameGrid(a,b) {
+    if(a.width!==b.width || a.height!==b.height) return {ok:false,reason:'Raster dimensions do not match.'};
+    if(a.epsg && b.epsg && a.epsg!==b.epsg) return {ok:false,reason:`Coordinate systems differ (EPSG:${a.epsg} and EPSG:${b.epsg}).`};
+    const tol=.05;
+    if(a.bbox.some((v,i)=>Math.abs(v-b.bbox[i])>tol)) return {ok:false,reason:'Raster geographic extents do not match closely enough.'};
+    if(a.resolution&&b.resolution&&a.resolution.some((v,i)=>Math.abs(v-b.resolution[i])>1e-6)) return {ok:false,reason:'Pixel resolutions differ.'};
+    if(a.origin&&b.origin&&a.origin.some((v,i)=>Math.abs(v-b.origin[i])>tol)) return {ok:false,reason:'Raster origins differ.'};
+    return {ok:true,reason:'Dimensions, bounds, origin and resolution match within tolerance.'};
+  }
+  function calcDifference() {
+    const a=state.before,b=state.after;
+    const values=new Float32Array(a.width*a.height), valid=new Uint8Array(values.length);
+    let sum=0,min=Infinity,max=-Infinity,pos=0,neg=0,zero=0,count=0;
+    for(let i=0;i<values.length;i++){
+      const av=Number(a.band[i]),bv=Number(b.band[i]);
+      const ok=a.valid[i]&&b.valid[i]&&Number.isFinite(av)&&Number.isFinite(bv);
+      if(!ok){values[i]=NaN;continue;}
+      const d=bv-av; values[i]=d;valid[i]=1;count++;sum+=d;
+      if(d<min)min=d;if(d>max)max=d;if(d>0)pos++;else if(d<0)neg++;else zero++;
+    }
+    const diffDisplay=makeDiffCanvas(a,b,valid,Array.from(values));
+    const stats={count,mean:count?sum/count:null,min:count?min:null,max:count?max:null,positive:pos,negative:neg,zero};
+    state.difference={values,valid,stats,canvas:diffDisplay.canvas,cap:diffDisplay.cap,dataUrl:diffDisplay.canvas.toDataURL('image/png')};
+  }
+  function boundsFor(raster) {
+    const bbox=raster.bbox;
+    let minX=bbox[0],minY=bbox[1],maxX=bbox[2],maxY=bbox[3];
+    const epsg=raster.epsg;
+    if(epsg===32632 && window.proj4){
+      const p1=proj4('EPSG:32632','EPSG:4326',[minX,minY]);
+      const p2=proj4('EPSG:32632','EPSG:4326',[maxX,maxY]);
+      return [[p1[1],p1[0]],[p2[1],p2[0]]];
+    }
+    if(epsg===4326 || epsg===null) return [[minY,minX],[maxY,maxX]];
+    throw new Error(`Unsupported raster CRS EPSG:${epsg}. This first build expects the Kura output in EPSG:32632.`);
+  }
+  function showRasterOnMap() {
+    if(!window.L) return;
+    if(!state.map && state.currentRoute==='explore') initMap();
+    if(!state.map) return;
+    Object.values(state.overlays).forEach(layer=>{try{state.map.removeLayer(layer);}catch(_){}});state.overlays={};
+    let target=null, dataUrl=null, label='';
+    if(state.mapView==='change' && state.difference && state.after){
+      target=state.after; dataUrl=state.difference.canvas.toDataURL('image/png'); label='Relative radar change overlay (20 Oct − 8 Oct)';
+    } else if(state.mapView==='before' && state.before){
+      target=state.before; dataUrl=target.dataUrl; label='8 Oct radar observation overlay';
+    } else if(state.mapView==='after' && state.after){
+      target=state.after; dataUrl=target.dataUrl; label='20 Oct radar observation overlay';
+    } else if(state.after){
+      target=state.after; dataUrl=target.dataUrl; label='20 Oct radar observation overlay';
+    } else if(state.before){
+      target=state.before; dataUrl=target.dataUrl; label='8 Oct radar observation overlay';
+    }
+    if(!target){$('mapLayerStatus').textContent='Load observations to show a raster overlay';if($('mapChangeLegend'))$('mapChangeLegend').hidden=true;return;}
+    try{
+      const bounds=boundsFor(target);
+      state.overlays.active=L.imageOverlay(dataUrl,bounds,{opacity:.9,interactive:false}).addTo(state.map);
+      state.map.fitBounds(bounds,{padding:[18,18],maxZoom:15});
+      $('mapLayerStatus').textContent=label;
+      if($('mapChangeLegend'))$('mapChangeLegend').hidden=!(state.mapView==='change' && !!state.difference);
+      setTimeout(()=>state.map.invalidateSize(),100);
+    }catch(err){$('mapLayerStatus').textContent='Raster map overlay unavailable';toast(err.message,'error');}
+  }
+  $('mapLayerSelect')?.addEventListener('change', e=>{
+    state.mapView=e.target.value;
+    showRasterOnMap();
+  });
+  function renderCanvas(mode=state.compareMode) {
+    const canvas=$('compareCanvas'),empty=$('rasterEmpty');
+    if(!state.before||!state.after){canvas.hidden=true;empty.hidden=false;return;}
+    const a=state.before,b=state.after,d=state.difference;
+    const active=mode==='before'?a.canvas:mode==='after'?b.canvas:mode==='change'?d.canvas:a.canvas;
+    canvas.width=active.width;canvas.height=active.height;
+    const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(mode==='change') ctx.drawImage(d.canvas,0,0);
+    else if(mode==='before') ctx.drawImage(a.canvas,0,0);
+    else if(mode==='after') ctx.drawImage(b.canvas,0,0);
+    else {
+      ctx.drawImage(a.canvas,0,0);
+      ctx.save();ctx.beginPath();const split=Math.round(canvas.width*(state.split/100));ctx.rect(split,0,canvas.width-split,canvas.height);ctx.clip();ctx.drawImage(b.canvas,0,0);ctx.restore();
+      ctx.fillStyle='rgba(234,244,239,.88)';ctx.fillRect(Math.round(canvas.width*(state.split/100))-1,0,2,canvas.height);
+      ctx.beginPath();ctx.arc(Math.round(canvas.width*(state.split/100)),canvas.height/2,7,0,Math.PI*2);ctx.fillStyle='#a4e7c8';ctx.fill();
+    }
+    canvas.hidden=false;empty.hidden=true;
+    $('rasterLabelBefore').hidden=!(mode==='swipe'||mode==='before');
+    $('rasterLabelAfter').hidden=!(mode==='swipe'||mode==='after');
+    $('rasterLabelChange').hidden=mode!=='change';
+    $('sliderRow').style.opacity=mode==='swipe'?'1':'.35';$('splitSlider').disabled=mode!=='swipe';
+    $('compareLegend').innerHTML=mode==='change'?'<span><i class="legend-swatch" style="background:#4bb8d9"></i>Lower later measurement</span><span><i class="legend-swatch" style="background:#e6a74c"></i>Higher later measurement</span><span class="legend-explain">Colour scale is relative to this pair.</span>':'<span><i class="legend-swatch before-swatch"></i>8 Oct · Earlier</span><span><i class="legend-swatch after-swatch"></i>20 Oct · Later</span><span class="legend-explain">Per-image percentile stretch for display.</span>';
+  }
+  function setCompareMode(mode){state.compareMode=mode;document.querySelectorAll('[data-compare-mode]').forEach(b=>b.classList.toggle('active',b.dataset.compareMode===mode));renderCanvas(mode);}
+  document.querySelectorAll('[data-compare-mode]').forEach(b=>b.addEventListener('click',()=>setCompareMode(b.dataset.compareMode)));
+  $('splitSlider').addEventListener('input',e=>{state.split=Number(e.target.value);$('splitValue').textContent=`${state.split}%`;renderCanvas('swipe');});
+  function updateLoadedUI(){
+    const count=Number(!!state.before)+Number(!!state.after);
+    $('observationCount').innerHTML=`${count} <small>/ 2</small>`;$('observationProgress').style.width=`${count*50}%`;
+    $('beforeMiniState').textContent=state.before?'Loaded':'Waiting';$('beforeMiniState').classList.toggle('ready',!!state.before);
+    $('afterMiniState').textContent=state.after?'Loaded':'Waiting';$('afterMiniState').classList.toggle('ready',!!state.after);
+    $('beforeStatus').textContent=state.before?'Loaded':'Not loaded';$('beforeStatus').classList.toggle('ready',!!state.before);
+    $('afterStatus').textContent=state.after?'Loaded':'Not loaded';$('afterStatus').classList.toggle('ready',!!state.after);
+    $('metaBeforeState').textContent=state.before?`${state.before.width} × ${state.before.height} · ${state.before.fileName}`:'GeoTIFF not loaded';$('metaBeforeState').classList.toggle('ready',!!state.before);
+    $('metaAfterState').textContent=state.after?`${state.after.width} × ${state.after.height} · ${state.after.fileName}`:'GeoTIFF not loaded';$('metaAfterState').classList.toggle('ready',!!state.after);
+    $('compareNavDot').classList.toggle('show',count===2);
+    $('exportChangeButton').disabled=!(state.before&&state.after&&state.difference);
+    $('exportReportButton').disabled=!(state.before&&state.after&&state.difference);
+    $('downloadMetadataButton').disabled=false; if($('downloadMetadataCsvButton'))$('downloadMetadataCsvButton').disabled=false;
+    if($('mapLayerSelect')){const sel=$('mapLayerSelect');sel.querySelector('[value=change]').disabled=!(state.before&&state.after&&state.difference);sel.querySelector('[value=before]').disabled=!state.before;sel.querySelector('[value=after]').disabled=!state.after;}
+  }
+  function updateStats(){
+    const s=state.difference.stats, total=s.count||1;
+    $('comparisonStats').innerHTML=`<div><span>VALID PIXELS</span><strong>${s.count.toLocaleString()}</strong></div><div><span>MEAN Δ (AFTER − BEFORE)</span><strong>${number(s.mean,6)}</strong></div><div><span>POSITIVE Δ</span><strong>${number(100*s.positive/total,1)}%</strong></div><div><span>NEGATIVE Δ</span><strong>${number(100*s.negative/total,1)}%</strong></div>`;
+    $('insightState').innerHTML=`<div class="insight-empty-icon">⌁</div><div><div class="eyebrow">EXPLORATORY RASTER SUMMARY</div><h3>Measurement differences calculated</h3><p>${s.count.toLocaleString()} pixels were valid in both rasters. Mean pixel difference (October 20 minus October 8): <strong>${number(s.mean,6)}</strong> in the stored raster values. This is a measurement summary, not a validated water or flood classification.</p><p>Higher later values: ${number(100*s.positive/total,1)}% of valid pixels. Lower later values: ${number(100*s.negative/total,1)}%. Independent evidence and product comparability review are still required.</p><button class="button button-outline" data-route="compare">Review comparison →</button></div>`;
+    $('insightState').querySelector('[data-route]').addEventListener('click',()=>route('compare'));
+  }
+  async function loadFile(file,key){
+    if(!file) return;
+    const expected=key==='before'?'2026-10-08':'2026-10-20';
+    setMessage(`Reading ${file.name} locally…`);
+    try{
+      const parsed=await parseGeoTiff(file,key);
+      if(parsed.epsg && parsed.epsg!==32632) throw new Error(`This file reports EPSG:${parsed.epsg}; the selected Kura extraction is expected to use EPSG:32632.`);
+      state[key]=parsed;
+      $(key==='before'?'beforeFilename':'afterFilename').textContent=file.name;
+      updateLoadedUI();
+      setMessage(`${file.name} loaded locally · ${parsed.width} × ${parsed.height} · ${parsed.stats.count.toLocaleString()} valid Band 1 pixels.`, 'success');
+      toast(`${key==='before'?'October 8':'October 20'} observation loaded.`);
+      if(state.before&&state.after){
+        const grid=sameGrid(state.before,state.after);
+        if(!grid.ok){state.difference=null;setMessage(`Both files loaded, but comparison is blocked: ${grid.reason} Please align the rasters before calculating a difference.`,'error');toast(grid.reason,'error');renderCanvas();updateLoadedUI();showRasterOnMap();return;}
+        calcDifference();updateStats();state.mapView='change';if($('mapLayerSelect'))$('mapLayerSelect').value='change';updateLoadedUI();setMessage(`Both rasters loaded. ${grid.reason} Pixel-wise difference calculated for exploration.`, 'success');
+        $('rasterEmpty').hidden=true;setCompareMode('swipe');$('splitSlider').disabled=false;
+      } else {state.difference=null;state.mapView=key;if($('mapLayerSelect'))$('mapLayerSelect').value=key;setMessage('First observation loaded. Select the other original GeoTIFF to compare.','success');}
+      showRasterOnMap();
+    }catch(err){setMessage(err.message,'error');toast(err.message,'error');}
+  }
+  $('connectDataFolderButton')?.addEventListener('click', async () => {
+    if (!window.showDirectoryPicker) {
+      toast('This browser does not support folder selection here. Use the two Choose file buttons below instead.', 'error');
+      return;
+    }
+    const button = $('connectDataFolderButton');
+    button.disabled = true;
+    const originalLabel = button.innerHTML;
+    button.textContent = 'Opening folder picker…';
+    try {
+      const directory = await window.showDirectoryPicker({ id: 'kuntau-terrapulse-data', mode: 'read' });
+      const beforeHandle = await directory.getFileHandle('Kura_Before_2026-10-08.tif');
+      const afterHandle = await directory.getFileHandle('Kura_After_2026-10-20.tif');
+      const beforeFile = await beforeHandle.getFile();
+      const afterFile = await afterHandle.getFile();
+      await loadFile(beforeFile, 'before');
+      await loadFile(afterFile, 'after');
+      if (state.before && state.after) {
+        if (state.difference) toast('Both original Kura GeoTIFF files were read. The exploratory comparison is ready.');
+        else toast('Both files were read, but the app has not enabled a difference view. Review the comparison message.', 'error');
+      } else {
+        toast('The folder was selected, but one or both TIFFs did not load. Review the status message.', 'error');
+      }
+    } catch (err) {
+      if (err && err.name !== 'AbortError') {
+        const message = err && err.name === 'NotFoundError'
+          ? 'I could not find both expected original TIFF filenames in that folder. Open C:\\KUNTAU_TERRAPULSE\\data and check the filenames.'
+          : (err.message || 'The folder could not be read.');
+        setMessage(message, 'error');
+        toast(message, 'error');
+      }
+    } finally {
+      button.disabled = false;
+      button.innerHTML = originalLabel;
+    }
+  });
+  async function loadCopiedKuraFiles() {
+    const button = $('loadAppDataButton');
+    const original = button.innerHTML;
+    button.disabled = true;
+    button.textContent = 'Reading copied Kura files…';
+    try {
+      const names = [
+        ['Kura_Before_2026-10-08.tif', 'before'],
+        ['Kura_After_2026-10-20.tif', 'after']
+      ];
+      for (const [name, key] of names) {
+        const response = await fetch(`./data/${encodeURIComponent(name)}?nocache=${Date.now()}`, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`Could not find ${name} inside this app's data folder. First run CONNECT_KURA_DATA_AND_START.bat from the app folder.`);
+        }
+        const blob = await response.blob();
+        if (!blob.size) throw new Error(`${name} is empty. Copy the original GeoTIFF again.`);
+        const file = new File([blob], name, { type: 'image/tiff' });
+        await loadFile(file, key);
+        if (!state[key]) throw new Error(`The app could not read ${name}. Please share the message shown above the comparison panel.`);
+      }
+      if (state.before && state.after && state.difference) {
+        toast('Both original Kura observations loaded from the app data folder.');
+      }
+    } catch (err) {
+      const message = err && err.message === 'Failed to fetch' ? 'The local data request failed. Keep the local server window open, refresh this page, then use the two Choose file buttons to select the original TIFFs from C:\\KUNTAU_TERRAPULSE\\data.' : (err.message || 'The copied Kura files could not be loaded.');
+      setMessage(message, 'error');
+      toast(message, 'error');
+    } finally {
+      button.disabled = false;
+      button.innerHTML = original;
+    }
+  }
+  $('loadAppDataButton')?.addEventListener('click', loadCopiedKuraFiles);
+  $('beforeFile').addEventListener('change',e=>loadFile(e.target.files[0],'before'));
+  $('afterFile').addEventListener('change',e=>loadFile(e.target.files[0],'after'));
+  document.querySelectorAll('.upload-card').forEach(card=>{
+    card.addEventListener('dragover',e=>{e.preventDefault();card.classList.add('dragover');});
+    card.addEventListener('dragleave',()=>card.classList.remove('dragover'));
+    card.addEventListener('drop',e=>{e.preventDefault();card.classList.remove('dragover');const f=e.dataTransfer.files[0];if(!f)return;const key=card.htmlFor==='beforeFile'?'before':'after';loadFile(f,key);});
+  });
+  $('exportChangeButton').addEventListener('click',()=>{
+    if(!state.difference)return;const a=document.createElement('a');a.href=state.difference.dataUrl;a.download='KUNTAU_TERRAPULSE_Kura_exploratory_difference.png';a.click();
+  });
+  $('exportReportButton').addEventListener('click',()=>{
+    if(!state.difference)return;const s=state.difference.stats;
+    const rows=[['field','value'],['project','KUNTAU TERRAPULSE'],['study_area',AOI.name],['before_product_id',PRODUCT.before.id],['after_product_id',PRODUCT.after.id],['before_mode','SHSH (HH single-pol)'],['after_mode','DHDH (HH/HV dual-pol)'],['band','frequencyA/HHHH'],['operation','after minus before; raw raster values'],['valid_pixel_count',s.count],['mean_difference',s.mean],['minimum_difference',s.min],['maximum_difference',s.max],['positive_difference_pixels',s.positive],['negative_difference_pixels',s.negative],['zero_difference_pixels',s.zero],['interpretation_limit','Exploratory pixel difference; not a water mask, river-stage estimate or flood forecast']];
+    const csv=rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\r\n');downloadBlob(csv,'KUNTAU_TERRAPULSE_exploratory_analysis.csv','text/csv');
+  });
+  function buildMetadata(){
+    const toMeta=r=>r?({fileName:r.fileName,fileSizeBytes:r.fileSize,width:r.width,height:r.height,samplesPerPixel:r.samples,epsg:r.epsg,boundingBox:r.bbox,origin:r.origin,resolution:r.resolution,band1Statistics:{validPixels:r.stats.count,min:r.stats.min,max:r.stats.max,mean:r.stats.mean,median:r.stats.median,p02:r.stats.p02,p98:r.stats.p98},nodata:r.noData}):null;
+    return {project:'KUNTAU TERRAPULSE',version:'0.4.0',useCase:'River corridor and floodplain observation concept; not a flood forecast',generatedAt:new Date().toISOString(),studyArea:{name:AOI.name,footprintWKT:'POLYGON((8.4003 11.7414,8.4603 11.7414,8.4603 11.8014,8.4003 11.8014,8.4003 11.7414))',footprintStatus:'Test extraction AOI; not a surveyed river channel or floodplain boundary'},source:'NASA-ISRO NISAR L2 PR GCOV provisional L-band',dataset:'frequencyA / HHHH',track:123,frame:83,orbitDirection:'Descending',crid:'P05023',observations:{before:{...PRODUCT.before,parsed:toMeta(state.before)},after:{...PRODUCT.after,parsed:toMeta(state.after)}},comparison:state.difference?{operation:'after minus before',validPixelCount:state.difference.stats.count,meanDifference:state.difference.stats.mean,minDifference:state.difference.stats.min,maxDifference:state.difference.stats.max,positivePixels:state.difference.stats.positive,negativePixels:state.difference.stats.negative,zeroPixels:state.difference.stats.zero,interpretation:'Exploratory radar-measurement difference only; product mode differs (SHSH vs DHDH); no water mask, river-stage estimate or flood classification.'}:null,processingNotes:['Source rasters were cropped locally using GDAL from the NISAR GCOV HDF5 products.','Browser display stretches are percentile-based and are not applied to the original arrays used for difference calculation.','A difference is calculated only after raster dimensions, EPSG, bounds, origin and pixel resolution pass the application grid check.','Product polarization configuration differs between observations (SHSH vs DHDH); scientific comparability requires additional assessment.','This prototype highlights radar measurement differences; it does not measure river depth, flow rate, water level, or forecast floods.','The current Kura test AOI has not yet been verified against a surveyed river centreline or floodplain boundary.']};
+  }
+  function downloadBlob(content,name,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  $('downloadMetadataButton').addEventListener('click',()=>downloadBlob(JSON.stringify(buildMetadata(),null,2),'KUNTAU_TERRAPULSE_metadata.json','application/json'));
+  $('downloadMetadataCsvButton')?.addEventListener('click',()=>{
+    const m=buildMetadata();
+    const rows=[
+      ['field','value'],['project',m.project],['use_case','River corridor and floodplain observation concept'],['study_area',m.studyArea.name],['footprint_status',m.studyArea.footprintStatus],['footprint_wkt',m.studyArea.footprintWKT],['source',m.source],['science_product','L2 PR GCOV · Provisional'],['frequency_layer',m.dataset],
+      ['before_date',m.observations.before.date],['before_product_id',m.observations.before.id],['before_mode',m.observations.before.mode],['before_file',m.observations.before.parsed?.fileName||'Not loaded'],
+      ['after_date',m.observations.after.date],['after_product_id',m.observations.after.id],['after_mode',m.observations.after.mode],['after_file',m.observations.after.parsed?.fileName||'Not loaded'],
+      ['comparison_operation','October 20 minus October 8'],['valid_pixel_count',m.comparison?.validPixelCount??'Not calculated'],['mean_difference',m.comparison?.meanDifference??'Not calculated'],
+      ['polarization_caveat','SHSH (before) vs DHDH (after); shared HHHH layer only; comparability review required'],['interpretation_limit','Not a river-stage measurement, flood forecast, or validated water classification']
+    ];
+    const csv=rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\r\n');
+    downloadBlob(csv,'KUNTAU_TERRAPULSE_metadata.csv','text/csv');
+  });
+  $('helpButton').addEventListener('click',()=>$('helpModal').hidden=false);
+  $('resetIntroButton')?.addEventListener('click', () => { slideIndex = 0; showSlide(); $('onboarding').hidden = false; });
+  document.querySelectorAll('[data-close-modal]').forEach(b=>b.addEventListener('click',()=>$('helpModal').hidden=true));
+  $('helpModal').addEventListener('click',e=>{if(e.target===$('helpModal'))$('helpModal').hidden=true;});
+
+  const VISUALS = {
+    farmland: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/A_farm_land_in_western_Jos_Nigeria.jpg/1280px-A_farm_land_in_western_Jos_Nigeria.jpg',
+    nisar: 'https://svs.gsfc.nasa.gov/vis/a000000/a005600/a005615/nisar_orbit.02415.jpg',
+    farmer: 'https://images.pexels.com/photos/34411687/pexels-photo-34411687.jpeg?cs=srgb&dl=pexels-mk_photoz-2149411980-34411687.jpg&fm=jpg'
+  };
+  const fallbackVisual = 'assets/hero-terrain.svg';
+  document.querySelectorAll('.visual-story-card img').forEach(img => img.addEventListener('error', () => {
+    if (img.dataset.fallbackApplied) return;
+    img.dataset.fallbackApplied = '1';
+    img.src = fallbackVisual;
+  }));
+  $('onboardVisual')?.addEventListener('error', () => {
+    const img = $('onboardVisual');
+    if (img.dataset.fallbackApplied) return;
+    img.dataset.fallbackApplied = '1';
+    img.src = fallbackVisual;
+    $('onboardVisualCaption').textContent = 'KUNTAU TERRAPULSE project illustration';
+  });
+  const slides=[
+    {icon:'◉',image:VISUALS.farmland,caption:'River and floodplain landscapes in Nigeria',kicker:'A NEW WAY TO LOOK',title:'See beyond<br><em>the surface.</em>',text:'KUNTAU TERRAPULSE connects satellite radar observations with river corridors and the communities beside them.'},
+    {icon:'⌁',image:VISUALS.nisar,caption:'NASA Scientific Visualization Studio · NISAR orbit',kicker:'RADAR, NOT JUST PHOTOGRAPHS',title:'Read the signals<br><em>Earth sends.</em>',text:'NISAR uses L-band and S-band radar to observe changing land and ice surfaces, day and night.'},
+    {icon:'◫',image:VISUALS.farmland,caption:'Illustrative landscape photograph · not satellite data',kicker:'COMPARE TWO MOMENTS',title:'Place dates<br><em>side by side.</em>',text:'Compare georeferenced observations from the same footprint and inspect where radar measurements differ.'},
+    {icon:'◇',image:VISUALS.farmer,caption:'Illustrative field photograph · Pexels',kicker:'EVIDENCE BEFORE CLAIMS',title:'Understand change<br><em>responsibly.</em>',text:'A radar change is a signal to investigate, not automatic proof of flood depth, river level or damage.'},
+    {icon:'⌂',image:VISUALS.nisar,caption:'NASA NISAR orbit visualisation',kicker:'YOUR DATA, YOUR DEVICE',title:'A field-ready<br><em>workspace.</em>',text:'Load the cropped GeoTIFF files from your computer. This prototype reads them in your browser and does not upload them.'}
+  ];
+  let slideIndex=0;
+  function showSlide(){
+    const s=slides[slideIndex];
+    $('onboardIllustration').textContent=s.icon;
+    $('onboardVisual').src=s.image;
+    $('onboardVisual').alt=s.caption;
+    $('onboardVisualCaption').textContent=s.caption;
+    $('onboardKicker').textContent=s.kicker;
+    $('onboardTitle').innerHTML=s.title;
+    $('onboardText').textContent=s.text;
+    $('onboardCount').textContent=`0${slideIndex+1} / 05`;
+    document.querySelectorAll('.onboard-progress i').forEach((e,i)=>e.classList.toggle('active',i<=slideIndex));
+    $('nextIntro').innerHTML=slideIndex===4?'Enter workspace <span>→</span>':'Continue <span>→</span>';
+  }
+  function finishIntro(){ $('onboarding').hidden=true;try{localStorage.setItem('ktp_intro_seen_v1','1');}catch(_){} }
+  $('nextIntro').addEventListener('click',()=>{if(slideIndex<4){slideIndex++;showSlide();}else finishIntro();});$('skipIntro').addEventListener('click',finishIntro);
+  try{if(!localStorage.getItem('ktp_intro_seen_v1')){$('onboarding').hidden=false;showSlide();}}catch(_){$('onboarding').hidden=false;showSlide();}
+
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.deferredInstall=e;$('installButton').hidden=false;});
+  $('installButton').addEventListener('click',async()=>{if(!state.deferredInstall){toast('Use your browser menu and choose “Install app” or “Add to Home screen”.');return;}state.deferredInstall.prompt();await state.deferredInstall.userChoice;state.deferredInstall=null;$('installButton').hidden=true;});
+  if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  $('downloadMetadataButton').disabled=true;
+  updateLoadedUI();
+  // Data loading is started by an explicit user click to avoid an automatic fetch racing
+  // the local server or a stale PWA service-worker session.
+})();

@@ -1,0 +1,74 @@
+# KUNTAU TERRAPULSE — v0.5.0 demonstration guide
+
+KUNTAU TERRAPULSE is a local-first Progressive Web App for the KUNTAU Science Academy NASA Space Apps Challenge 2026 project, **“Dancing with the SARs.”** This demonstration uses two NISAR L-band GCOV provisional observations cropped to a small test area near Kura, Kano State, Nigeria.
+
+## Demonstration focus
+
+The team is exploring a **Kura River / floodplain observation use case**. A 2 March 2024 ICIR report describes River Kura overflow damaging farms in Kunshama, Kura LGA. The current raster rectangle is a test AOI around the Rimin Daddo area; its exact overlap with the reported river reach and floodplain has not yet been verified.
+
+The responsible project claim is:
+
+> Compare satellite radar observations to highlight where the river corridor and surrounding land may have changed, so those locations can be investigated with field evidence.
+
+This app does **not** measure river depth, flow rate or water level; it does not make a flood forecast; and the current difference display is not a validated water mask or flood classification.
+
+## What is included in v0.5.0
+
+- Responsive desktop/mobile PWA workspace.
+- New KTP app icon: earthy brown K, blue/green Earth-inspired TP, red pulse line.
+- Overview, Explore map, Compare, Insights, Data & Methods, and Settings sections.
+- Kura test-AOI outline and OpenStreetMap basemap.
+- Local GeoTIFF selection using GeoTIFF.js; selected source rasters are processed in the browser and not uploaded by the app.
+- Before/after swipe comparison and exploratory pixel-difference visualization.
+- **Map layer selector** for the 8 October image, 20 October image, and October 20 minus October 8 difference overlay.
+- Raster grid checks before enabling pixel-wise differences.
+- Export buttons for change-preview PNG, analysis CSV, metadata JSON and metadata CSV.
+- Metadata can now be downloaded even before TIFF files are loaded; raster-specific fields will say “not loaded” until that session reads the files.
+- PWA manifest, refreshed service-worker cache and Windows launch/data-copy scripts.
+
+Local problem reference: ICIR, “Again, farming community in Kano counts losses as River Kura wreaks havoc” (2 March 2024): https://www.icirnigeria.org/again-farming-community-in-kano-counts-losses-as-river-kura-wreaks-havoc/
+
+## Current observations
+
+- Before: 8 October 2026, NISAR L2 PR GCOV, track 123 / frame 83, descending, SHSH mode, HH single-polarization.
+- After: 20 October 2026, NISAR L2 PR GCOV, track 123 / frame 83, descending, DHDH mode, HH/HV dual-polarization.
+- Common extracted layer: `frequencyA/HHHH`.
+- Reported raster grid: 327 × 332 pixels, EPSG:32632, 20 m pixel spacing, same origin and extent.
+- Earlier browser test: 108,555 valid shared pixels; mean stored-value difference -0.071009; 27.3% positive and 72.7% negative differences. These are exploratory measurement statistics, **not** percentages of flooded, dry or affected land.
+
+## Scientific limitations to explain during the demo
+
+1. The two products have different acquisition modes (SHSH and DHDH). Using their shared HHHH layer does not by itself prove that the observations are fully comparable. Al Amin / the GIS reviewer should assess product metadata, calibration, geometry and quality before interpreting the difference.
+2. A pixel difference can respond to water, wet soil, vegetation structure, surface roughness, geometry and acquisition conditions. It is not automatically a water/flood signal.
+3. The test AOI is not a surveyed river centreline, floodplain boundary or local property boundary.
+4. A single 12-day pair cannot establish a seasonal flood trend or predict future flooding.
+5. `*_DISPLAY_ONLY.tif` files have transformed values and must never be used for scientific calculations. Load only `Kura_Before_2026-10-08.tif` and `Kura_After_2026-10-20.tif`.
+6. Browser display stretches are for visualization; numerical analysis uses the original raster values.
+7. The current app checks grid alignment, but does not complete a full scientific comparability validation.
+
+## Windows setup
+
+1. Extract this ZIP into a new folder, for example `%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V030`.
+2. Keep the original Float32 TIFFs in `C:\KUNTAU_TERRAPULSE\data`.
+3. Open the extracted `KUNTAU_TERRAPULSE_PWA` folder.
+4. Double-click `CONNECT_KURA_DATA_AND_START.bat`. It copies only the two original TIFFs into the app's `data` folder and starts the local server.
+5. Keep the black CMD server window open. The launcher picks an available local port from 8080–8090 and opens the address printed in that CMD window.
+6. Open **Compare** and click **Load copied Kura files**.
+7. If the red status says “Failed to fetch”, refresh once while the black server window remains open, then use the two **Choose before file / Choose after file** buttons and select the originals from `C:\KUNTAU_TERRAPULSE\data`.
+8. Wait until both file cards say **Loaded** and the comparison status says the grid check passed. Do not present the comparison if either card still says Not loaded.
+
+## Demo sequence (3–4 minutes)
+
+1. **Overview:** explain that TERRAPULSE is a radar evidence workspace for investigating river-corridor and floodplain change.
+2. **Explore map:** show the Kura test rectangle. Explain that it is a test footprint, not a surveyed river boundary. After loading data, select Change overlay to show the georeferenced difference image.
+3. **Compare:** show Swipe, Before, After, then Change. State that teal indicates lower later values and amber indicates higher later values for this pair only; these are not flood/no-flood labels.
+4. **Insights:** explain what radar measures and why field validation matters.
+5. **Data & methods:** download Metadata JSON and Metadata CSV. After a successful raster load, also download the change-preview PNG and analysis CSV.
+
+## Suggested 60-second explanation
+
+“KUNTAU TERRAPULSE explores how NISAR radar observations can help communities investigate changes around river corridors and floodplains. We selected a small test area near Kura, Kano State, and prepared two provisional NISAR GCOV observations from 8 and 20 October 2026. The app checks whether the cropped rasters share the same grid, compares their common HH measurement layer, and maps the relative difference so analysts can identify places for further investigation. Radar response can change for several reasons, so this is not yet a flood map or flood prediction. Our next scientific steps are to verify the river footprint, review the different acquisition modes, compare more dates, and validate candidate water changes against gauge, rainfall and field evidence.”
+
+## Keep these files private / out of Git
+
+The `.gitignore` excludes local raster files and Earthdata credentials. Do not upload `.dodsrc`, `.netrc`, HDF5 source files or original GeoTIFFs to a public repository unless you have deliberately reviewed the access and redistribution requirements.

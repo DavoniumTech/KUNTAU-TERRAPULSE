@@ -1,0 +1,22 @@
+# Never commit local satellite data or credentials
+*.tif
+*.tiff
+*.h5
+*.hdf5
+*.nc
+*.grd
+*.vrt
+*.qgz
+*.qgs
+.netrc
+_netrc
+.env
+.env.*
+secrets.*
+
+# Local machine outputs
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.tmp

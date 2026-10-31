@@ -1,0 +1,11 @@
+WHAT THIS MAP SHOWS
+
+This is a satellite radar measurement, not an ordinary camera photograph.
+
+BEFORE: what the satellite measured on 8 October 2026.
+AFTER: what it measured on 20 October 2026.
+CHANGE: places where the measured radar return is higher or lower in the later observation.
+
+A change does not automatically mean flooding, crop damage or better crop growth. Water, vegetation, soil surface, moisture and viewing conditions can all affect radar measurements.
+
+WHAT TO DO: use highlighted locations as places to investigate. Check with farmers, field observations, rainfall records and local river information before making a decision.

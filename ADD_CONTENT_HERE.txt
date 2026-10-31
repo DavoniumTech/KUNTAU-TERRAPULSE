@@ -1,0 +1,6 @@
+Copy your tested KTP v0.5.0 application files/folders into app\.
+Copy only the small, reviewed catalogue CSV/JSON/GeoJSON into data\catalogue\.
+Copy only reviewed QA summary CSVs and small QA PDFs/XML into data\qa\.
+Copy the selected labelled preview PNGs into data\visualizations\.
+Copy processing scripts into scripts\ and update docs\PROJECT_STATUS.md.
+Do NOT copy raw HDF5, raw GeoTIFFs, credentials, .netrc, .dodsrc, .env, or the entire working bundle ZIP into the Git repository.

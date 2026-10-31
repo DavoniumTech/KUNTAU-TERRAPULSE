@@ -1,0 +1,6 @@
+The PWA reads your existing original GeoTIFFs from the file picker.
+You do not need to copy them into this folder.
+Select:
+- Kura_Before_2026-10-08.tif
+- Kura_After_2026-10-20.tif
+Do not select the _DISPLAY_ONLY.tif files for scientific comparison.

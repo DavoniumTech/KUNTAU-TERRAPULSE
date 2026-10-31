@@ -1,0 +1,46 @@
+﻿metric,value
+project,KUNTAU TERRAPULSE (KTP)
+analysis_status,EXPLORATORY — scientific comparability review required
+before_date,2026-10-08
+after_date,2026-10-20
+interval_days,12
+before_product_id,NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001
+after_product_id,NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001
+measurement,Frequency A HHHH; band 1 from supplied GeoTIFFs
+before_mode,SHSH
+after_mode,DHDH
+crs,EPSG:32632
+pixel_size_m,"[20, 20]"
+width,327
+height,332
+total_pixels,108564
+before_alpha_valid,108555
+after_alpha_valid,108555
+common_valid_pixels,108555
+before.min,0.004649102687835693
+before.p2,0.04407825469970703
+before.median,0.218017578125
+before.mean,0.29279704358147146
+before.p98,0.8195504760742183
+before.max,348.609375
+after.min,0.0037756264209747314
+after.p2,0.0325627326965332
+after.median,0.1599903106689453
+after.mean,0.22178824497116995
+after.p98,0.6818908691406248
+after.max,92.486328125
+delta_after_minus_before.min,-256.123046875
+delta_after_minus_before.p2,-0.3981773376464844
+delta_after_minus_before.median,-0.04771232604980469
+delta_after_minus_before.mean,-0.0710087986103015
+delta_after_minus_before.p98,0.20217864990234374
+delta_after_minus_before.max,5.43060302734375
+delta_after_minus_before.positive_pixels,29603
+delta_after_minus_before.negative_pixels,78951
+delta_after_minus_before.exact_zero_pixels,1
+display_stretch_pooled_percentiles.p2,0.036376810073852545
+display_stretch_pooled_percentiles.p98,0.764728240966797
+change_preview_symmetric_abs_p98,0.426511764526367
+interpretation_warning,"Positive/negative values indicate changes in the measured HH radar return only. They do not by themselves identify flooding, crop damage, crop health, soil moisture or river depth."
+comparability_warning,"The 8 October product is SHSH single-polarization and the 20 October product is DHDH dual-polarization. The shared Frequency-A HHHH channel is used, but product QA and acquisition comparability must be reviewed before drawing environmental conclusions."
+generated_utc,2026-10-31T01:01:01.923338+00:00
