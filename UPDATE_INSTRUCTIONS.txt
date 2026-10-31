@@ -1,0 +1,14 @@
+KTP v0.7.0 overlay update
+
+Extract this ZIP directly into the existing KUNTAU-TERRAPULSE-GITHUB folder.
+It contains relative app/, docs/ and README.md paths and is intended to overlay the v0.6.0 working tree on integration/nisar-data-map.
+
+It does not include or overwrite app/data/kura/ science evidence, raw GeoTIFFs, HDF5 files, credentials or the .git directory.
+
+After extraction:
+1. Confirm `git branch --show-current` reports integration/nisar-data-map.
+2. Open app and run START_TERRAPULSE.bat.
+3. Test Overview, Explore map, Compare, Insights, Learn & field guide, Data & methods and Settings.
+4. Confirm offline coordinate grid is default. Esri satellite basemap is optional and uses internet data.
+5. Run `git status --short` and review the changed files before commit.
+6. Commit and push only after local testing.

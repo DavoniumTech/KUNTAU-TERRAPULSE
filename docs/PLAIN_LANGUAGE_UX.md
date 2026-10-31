@@ -1,24 +1,22 @@
-# KTP plain-language user experience
+# KTP plain-language experience
 
-## Default view: Simple View
+## Main message for community users
+“The satellite measured a difference in radar return between two dates. The colours show where the measurement was higher or lower later. They do not tell us the cause. A local check is needed.”
 
-Use everyday language and answer these questions beside the map:
+## Three steps
+1. **Look** — choose the earlier or later observation.
+2. **Notice** — see where the radar measurement changed.
+3. **Check** — compare the highlighted area with local observations, rainfall/river records and field reports.
 
-- **What am I looking at?** A satellite radar measurement of the Earth's surface, not an ordinary camera photograph.
-- **What changed?** The radar measurement is different between the selected observation dates.
-- **What might explain it?** Water, vegetation, soil moisture, surface roughness, land preparation or other surface conditions may affect the radar return.
-- **What should happen next?** Check the location using local reports, field observations and other supporting information.
+## Colour explanation
+- Blue/cool: lower later radar measurement.
+- Red/warm: higher later radar measurement.
+- Pale/neutral: values closer to zero difference.
 
-Avoid definitive labels such as “flooded”, “damaged”, “healthy crop” or “drought” based only on this two-date radar difference.
+These colours represent the difference in the selected radar measurement only. They are not a flood/water/crop classification.
 
-## Science View
+## Technical view
+Researchers can inspect product IDs, dates, acquisition modes, HHHH measurement, grid information, QA records, metadata downloads and processing notes in Data & methods.
 
-Provide product IDs, dates, acquisition mode, frequency, polarization, measurement units, CRS, pixel size, mask/valid-pixel count, QA status, processing history and download links.
-
-## Map legend
-
-Clearly label earlier observation, later observation, positive difference, negative difference and masked/no-data areas. Explain that positive/negative means an increase/decrease in the selected radar measurement—not good/bad conditions.
-
-## Accessible interaction
-
-Use short sentences, a visible legend, readable contrast, mobile-friendly controls, a help panel and a “How to read this map” explanation. Do not require a user to know SAR, GCOV, HH or GeoTIFF to use Simple View.
+## Accessibility and low-data design
+Previews are bundled with the app, so a user can see the current result without downloading the original science products. The local coordinate canvas does not request third-party map tiles. Original GeoTIFF selection is optional and used only for local recalculation.

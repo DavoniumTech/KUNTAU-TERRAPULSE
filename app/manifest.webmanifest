@@ -1,9 +1,9 @@
 {
   "id": "./",
-  "name": "KUNTAU TERRAPULSE \u00b7 KTP Space Studio",
+  "name": "KUNTAU TERRAPULSE \u00b7 Earth Intelligence Studio",
   "short_name": "KTP TerraPulse",
-  "description": "Installable KTP Earth-observation studio for local NISAR radar exploration and river-corridor change investigation.",
-  "start_url": "./index.html",
+  "description": "An accessible, local-first Earth-observation studio for exploring NISAR radar evidence, comparing observations and supporting field investigation.",
+  "start_url": "./index.html?release=070",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -16,17 +16,17 @@
   ],
   "icons": [
     {
-      "src": "assets/icons/icon-192.png?v=050",
+      "src": "assets/icons/icon-192.png?v=070",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/icons/icon-512.png?v=050",
+      "src": "assets/icons/icon-512.png?v=070",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "version": "0.5.0"
+  "version": "0.7.0"
 }

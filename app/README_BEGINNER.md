@@ -1,4 +1,4 @@
-# KUNTAU TERRAPULSE — v0.5.0 demonstration guide
+# KUNTAU TERRAPULSE — v0.7.0 demonstration guide
 
 KUNTAU TERRAPULSE is a local-first Progressive Web App for the KUNTAU Science Academy NASA Space Apps Challenge 2026 project, **“Dancing with the SARs.”** This demonstration uses two NISAR L-band GCOV provisional observations cropped to a small test area near Kura, Kano State, Nigeria.
 
@@ -12,18 +12,20 @@ The responsible project claim is:
 
 This app does **not** measure river depth, flow rate or water level; it does not make a flood forecast; and the current difference display is not a validated water mask or flood classification.
 
-## What is included in v0.5.0
+## What is included in v0.7.0
 
 - Responsive desktop/mobile PWA workspace.
 - New KTP app icon: earthy brown K, blue/green Earth-inspired TP, red pulse line.
 - Overview, Explore map, Compare, Insights, Data & Methods, and Settings sections.
-- Kura test-AOI outline and OpenStreetMap basemap.
+- Kura test-AOI outline on a local coordinate canvas; no volunteer map tiles are requested.
 - Local GeoTIFF selection using GeoTIFF.js; selected source rasters are processed in the browser and not uploaded by the app.
+- Packaged 8 October, 20 October and exploratory difference previews that open without selecting the original rasters.
 - Before/after swipe comparison and exploratory pixel-difference visualization.
+- Data & Methods portal with downloadable ASF catalogue records, QA reports, ISO metadata, labelled images and analysis summaries.
 - **Map layer selector** for the 8 October image, 20 October image, and October 20 minus October 8 difference overlay.
 - Raster grid checks before enabling pixel-wise differences.
 - Export buttons for change-preview PNG, analysis CSV, metadata JSON and metadata CSV.
-- Metadata can now be downloaded even before TIFF files are loaded; raster-specific fields will say “not loaded” until that session reads the files.
+- Analysis metadata can be downloaded before local TIFFs are loaded; the export records that packaged previews are available but the original source rasters are not loaded in that browser session.
 - PWA manifest, refreshed service-worker cache and Windows launch/data-copy scripts.
 
 Local problem reference: ICIR, “Again, farming community in Kano counts losses as River Kura wreaks havoc” (2 March 2024): https://www.icirnigeria.org/again-farming-community-in-kano-counts-losses-as-river-kura-wreaks-havoc/
@@ -51,7 +53,7 @@ Local problem reference: ICIR, “Again, farming community in Kano counts losses
 1. Extract this ZIP into a new folder, for example `%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V030`.
 2. Keep the original Float32 TIFFs in `C:\KUNTAU_TERRAPULSE\data`.
 3. Open the extracted `KUNTAU_TERRAPULSE_PWA` folder.
-4. Double-click `CONNECT_KURA_DATA_AND_START.bat`. It copies only the two original TIFFs into the app's `data` folder and starts the local server.
+4. To view packaged previews first, double-click `START_TERRAPULSE.bat`. To copy the original TIFFs for local recalculation, double-click `CONNECT_KURA_DATA_AND_START.bat`.
 5. Keep the black CMD server window open. The launcher picks an available local port from 8080–8090 and opens the address printed in that CMD window.
 6. Open **Compare** and click **Load copied Kura files**.
 7. If the red status says “Failed to fetch”, refresh once while the black server window remains open, then use the two **Choose before file / Choose after file** buttons and select the originals from `C:\KUNTAU_TERRAPULSE\data`.
@@ -72,3 +74,23 @@ Local problem reference: ICIR, “Again, farming community in Kano counts losses
 ## Keep these files private / out of Git
 
 The `.gitignore` excludes local raster files and Earthdata credentials. Do not upload `.dodsrc`, `.netrc`, HDF5 source files or original GeoTIFFs to a public repository unless you have deliberately reviewed the access and redistribution requirements.
+
+
+## v0.7.0: Open the included evidence
+Open Explore map or Compare: the packaged 8 October, 20 October and exploratory change previews are already included. No NASA download is needed to view them. The local original GeoTIFFs are still required only if you want to recalculate the comparison. Open Data & methods to download the ASF catalogue, QA summaries, ISO metadata and product QA reports.
+
+
+## v0.7.0 evidence-first workflow
+
+- Open **Explore map** to see the packaged georeferenced before, after or exploratory difference overlay on a local coordinate grid. This screen does not use OpenStreetMap background tiles.
+- Open **Compare** to view the packaged previews immediately. The swipe control compares the two date previews; Change shows the exploratory difference figure.
+- The file pickers are optional. They read the original Float32 GeoTIFFs locally when a new pixel calculation is required.
+- Open **Insights** for the plain-language explanation. It describes measured radar response differences and explicitly says the cause is not known from this pair alone.
+- Open **Data & Methods** to inspect product identifiers, acquisition details, QA status and download the figures, metadata, QA CSV/PDF and ISO XML.
+- The two QA summaries report an identification-group check failure. The two product modes differ (SHSH vs DHDH). Treat the difference output as exploratory until the QA diagnostics and cross-mode comparability are resolved.
+- The local test rectangle has not been field-verified against the Rafin Kura river channel.
+
+
+## v0.7.0: Learning and presentation
+
+The Learn & field guide page has separate routes for farmers/communities, students/children and science teams. Use the guided tour for a short presentation. The app uses local illustration diagrams; it does not auto-download a video.

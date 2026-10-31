@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title KUNTAU TERRAPULSE v0.5.0 - Connect Kura data
+title KUNTAU TERRAPULSE v0.7.0 - Connect Kura data
 set "SOURCE=C:\KUNTAU_TERRAPULSE\data"
 if not exist "%SOURCE%\Kura_Before_2026-10-08.tif" (
   echo ERROR: Cannot find the October 8 original file:

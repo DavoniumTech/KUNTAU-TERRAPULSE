@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "release": "0.6.0",
+  "project": "KUNTAU TERRAPULSE (KTP)",
+  "status": "EXPLORATORY \u2014 product QA and cross-mode comparability review remain open",
+  "studyArea": {
+    "name": "Kura test AOI, Kano State, Nigeria",
+    "centre": [
+      11.7714,
+      8.4303
+    ],
+    "extentWgs84": {
+      "west": 8.400220170738681,
+      "south": 11.741327682876202,
+      "east": 8.460368378284523,
+      "north": 11.801493718413242
+    },
+    "footprintStatus": "Initial test footprint near Rimin Daddo; exact overlap with the Rafin Kura channel is not field-verified."
+  },
+  "grid": {
+    "width": 327,
+    "height": 332,
+    "crs": "EPSG:32632",
+    "pixelSizeMetres": [
+      20,
+      20
+    ],
+    "totalPixels": 108564,
+    "commonValidPixels": 108555
+  },
+  "layers": {
+    "before": "data/kura/overlays/before.png",
+    "after": "data/kura/overlays/after.png",
+    "change": "data/kura/overlays/change.png"
+  },
+  "figures": {
+    "before": "data/kura/visualizations/KTP_BEFORE_LABELLED.png",
+    "after": "data/kura/visualizations/KTP_AFTER_LABELLED.png",
+    "change": "data/kura/visualizations/KTP_CHANGE_LABELLED_EXPLORATORY.png"
+  },
+  "catalogue": {
+    "csv": "data/kura/catalogue/KTP_NISAR_GRANULES_CORRECTED.csv",
+    "json": "data/kura/catalogue/KTP_NISAR_GRANULE_DETAILS_CORRECTED.json",
+    "geojson": "data/kura/catalogue/KTP_NISAR_GRANULES_CORRECTED.geojson",
+    "analysisJson": "data/kura/catalogue/KTP_ANALYSIS_METADATA.json",
+    "analysisCsv": "data/kura/catalogue/KTP_ANALYSIS_SUMMARY.csv"
+  },
+  "qa": {
+    "overview": "data/kura/qa/KTP_QA_OVERVIEW.csv",
+    "checks": "data/kura/qa/KTP_QA_CHECKS_CONSOLIDATED.csv",
+    "beforeStatus": "REVIEW REQUIRED \u2014 identification group check failed",
+    "afterStatus": "REVIEW REQUIRED \u2014 identification group check failed",
+    "beforePassed": 6,
+    "beforeFailed": 1,
+    "afterPassed": 8,
+    "afterFailed": 1,
+    "failedCheck": "Passes all identification group checks?"
+  },
+  "observations": [
+    {
+      "date": "2026-10-08",
+      "productId": "NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001",
+      "mode": "SHSH",
+      "polarizations": "HH",
+      "measurement": "Frequency A / HHHH",
+      "timeUtc": "17:54:33",
+      "direction": "Descending",
+      "track": 123,
+      "frame": 83,
+      "crid": "P05023",
+      "qaPdf": "data/kura/qa/2026-10-08/NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001_QA_REPORT.pdf",
+      "isoXml": "data/kura/qa/2026-10-08/NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001.h5.iso.xml",
+      "qaCsv": "data/kura/qa/2026-10-08/NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001_QA_SUMMARY.csv"
+    },
+    {
+      "date": "2026-10-20",
+      "productId": "NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001",
+      "mode": "DHDH",
+      "polarizations": "HH / HV",
+      "measurement": "Frequency A / HHHH",
+      "timeUtc": "17:54:33",
+      "direction": "Descending",
+      "track": 123,
+      "frame": 83,
+      "crid": "P05023",
+      "qaPdf": "data/kura/qa/2026-10-20/NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001_QA_REPORT.pdf",
+      "isoXml": "data/kura/qa/2026-10-20/NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001.h5.iso.xml",
+      "qaCsv": "data/kura/qa/2026-10-20/NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001_QA_SUMMARY.csv"
+    }
+  ],
+  "comparison": {
+    "intervalDays": 12,
+    "validPixels": 108555,
+    "meanDifference": -0.0710087986103015,
+    "medianDifference": -0.04771232604980469,
+    "minDifference": -256.123046875,
+    "maxDifference": 5.43060302734375,
+    "positivePixels": 29603,
+    "negativePixels": 78951,
+    "zeroPixels": 1,
+    "positivePercent": 27.270047441389156,
+    "negativePercent": 72.72903136658837,
+    "operation": "20 October measurement minus 8 October measurement",
+    "display": "Same pooled 2nd\u201398th percentile stretch for before/after; change display clipped at the 98th percentile of absolute differences. The extreme difference pixel remains in the underlying Float32 difference raster."
+  },
+  "interpretation": {
+    "farmerSummary": "The satellite measured a difference in radar return between two dates. This shows where the measurements changed, but it does not tell us the cause. A local check is needed.",
+    "possibleFactors": [
+      "surface water or wetness",
+      "vegetation structure",
+      "soil moisture",
+      "surface roughness",
+      "acquisition and processing conditions"
+    ],
+    "notProven": [
+      "flood occurrence",
+      "flood depth or water level",
+      "crop health or crop damage",
+      "river flow rate"
+    ],
+    "nextAction": "Use the highlighted area as a place to investigate alongside rainfall, river observations and field reports."
+  },
+  "limitations": [
+    "The two product modes differ: SHSH on 8 October and DHDH on 20 October.",
+    "Both QA summaries report failure of the identification-group check; detailed diagnostic cause has not been established from the summary CSV alone.",
+    "The exact intersection between this Rimin Daddo-area test rectangle and the Rafin Kura channel is not field-verified.",
+    "The difference layer is exploratory and is not a validated water/flood/crop classification.",
+    "The source measurement GeoTIFFs remain local to the research workstation and are not included in this app package."
+  ],
+  "source": "ASF DAAC catalogue records and supplied local GDAL-processed GeoTIFF outputs; no source HDF5 products included."
+}
