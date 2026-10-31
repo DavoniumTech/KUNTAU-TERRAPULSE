@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101923">
+  <meta name="description" content="KUNTAU TP explains the October NISAR observations and what they can and cannot tell us.">
+  <title>KUNTAU TP — Science Review</title>
+  <link rel="stylesheet" href="science-review.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="science-review.html" aria-label="KUNTAU TP Science Review home">
+      <span class="brand-mark">TP</span><span>KUNTAU <b>TP</b><small>SCIENCE REVIEW</small></span>
+    </a>
+    <span class="status-pill"><i></i> Review in progress</span>
+  </header>
+
+  <main>
+    <section class="hero" id="overview">
+      <div class="eyebrow">EARTH OBSERVATION · KANO, NIGERIA</div>
+      <h1>Understand the signal.<br><em>Don't guess the story.</em></h1>
+      <p>We are reviewing two NISAR radar observations from October. This page explains what we measured, what is still being checked, and what we must not claim yet.</p>
+      <div class="notice" role="status">
+        <span class="notice-icon">!</span>
+        <div><strong>Comparison not yet validated</strong><span>The two products use different acquisition configurations. A difference map is not proof of crop damage, flooding, or soil-moisture change.</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="observations">
+      <div class="section-head"><div><div class="eyebrow">THE TWO DATES</div><h2>Look at each observation separately</h2></div><p>12 days apart</p></div>
+      <div class="observation-grid">
+        <article class="observation-card date-one">
+          <div class="date-label">OBSERVATION 01</div><div class="date">08 <small>OCT</small></div><h3>8 October 2026</h3>
+          <div class="chips"><span>GCOV</span><span>SHSH</span><span>HH</span></div>
+          <p>Single-polarisation configuration in the product record. The HH measurement is available.</p>
+          <button class="text-button" data-panel="oct8">What does this mean? <span>→</span></button>
+        </article>
+        <article class="observation-card date-two">
+          <div class="date-label">OBSERVATION 02</div><div class="date">20 <small>OCT</small></div><h3>20 October 2026</h3>
+          <div class="chips"><span>GCOV</span><span>DHDH</span><span>HH + HV</span></div>
+          <p>Dual-polarisation configuration in the product record. HH and HV measurements are available.</p>
+          <button class="text-button" data-panel="oct20">What does this mean? <span>→</span></button>
+        </article>
+      </div>
+      <div class="detail-panel" id="oct8" hidden><strong>8 October — SHSH</strong><p>The product is recorded as single-polarisation HH. The team must confirm the units, calibration, geometry, and quality information from its original metadata.</p></div>
+      <div class="detail-panel" id="oct20" hidden><strong>20 October — DHDH</strong><p>The product is recorded as dual-polarisation HH/HV. The HH channel is common to both dates, but the different product configuration still needs a scientific comparability review.</p></div>
+    </section>
+
+    <section class="section" id="meaning">
+      <div class="eyebrow">IN PLAIN LANGUAGE</div><h2>What does the satellite measure?</h2>
+      <div class="explain-layout">
+        <div class="radar-visual" aria-hidden="true"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="earth"><span></span></div><div class="signal signal-a"></div><div class="signal signal-b"></div><div class="satellite">✦</div></div>
+        <div class="explain-copy"><p>A radar satellite sends microwave signals towards the Earth's surface and measures the energy that returns.</p><p>The return can be affected by the surface and by the way the satellite observes it. It is not an ordinary camera photograph and it is not a direct crop-health score.</p><p class="callout">A radar signal is evidence to investigate—not an automatic farming instruction.</p></div>
+      </div>
+      <div class="term-grid">
+        <article><b>SAR</b><p>Radar imaging that can observe the surface without relying on sunlight.</p></article>
+        <article><b>HH</b><p>A radar polarisation channel. It describes how the radar signal is transmitted and received.</p></article>
+        <article><b>HV</b><p>A different polarisation channel that can provide additional information about the scattering surface.</p></article>
+        <article><b>GCOV</b><p>A NISAR geocoded polarimetric covariance product. Its measurements and quality layers need careful interpretation.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="validation">
+      <div class="section-head"><div><div class="eyebrow">WHAT THE TEAM MUST CHECK</div><h2>Before comparing the dates</h2></div><span class="pending-tag">Pending</span></div>
+      <div class="check-list">
+        <div><span class="check-number">01</span><div><b>Product metadata</b><p>Confirm product IDs, acquisition mode, time, orbit/track, processing version, units, and calibration.</p></div></div>
+        <div><span class="check-number">02</span><div><b>Map alignment</b><p>Check CRS, pixel size, dimensions, extent, and whether matching pixel centres really line up.</p></div></div>
+        <div><span class="check-number">03</span><div><b>Data quality</b><p>Inspect valid-data masks, quality flags, NoData definitions, and number-of-looks information.</p></div></div>
+        <div><span class="check-number">04</span><div><b>Scientific interpretation</b><p>Decide whether the common HH measurements are suitable for a limited comparison and record the limitations.</p></div></div>
+        <div><span class="check-number">05</span><div><b>Independent evidence</b><p>Identify field observations or other relevant information before making agricultural interpretations.</p></div></div>
+      </div>
+      <p class="footnote">Same map grid is not enough. Geometric alignment does not, by itself, establish radiometric or scientific comparability.</p>
+    </section>
+
+    <section class="section" id="farmer">
+      <div class="eyebrow">FOR FARMERS AND COMMUNITIES</div><h2>What can we say today?</h2>
+      <div class="yes-no-grid">
+        <article class="can-card"><h3><span>✓</span> We can say</h3><p>We have two radar observations from different dates, and the team is checking whether a reliable comparison is possible.</p></article>
+        <article class="cannot-card"><h3><span>×</span> We cannot claim</h3><ul><li>These crops are healthy or damaged.</li><li>This field has flooded.</li><li>Soil moisture increased or decreased.</li><li>A farmer should irrigate, plant, or harvest.</li></ul></article>
+      </div>
+      <blockquote>“Radar measurements from these two dates look different in some places. Our team is checking whether the observations are suitable for a reliable comparison. This result is not a diagnosis of crop health, flood damage, or soil moisture.”</blockquote>
+    </section>
+
+    <section class="section final-section" id="decision">
+      <div class="eyebrow">THE NEXT DECISION</div><h2>Evidence first. Advice later.</h2>
+      <p>The team will publish a comparison only after reviewing metadata, alignment, quality, and appropriate supporting evidence.</p>
+      <div class="decision-options"><span>Comparable for a stated analysis</span><span>Comparable with limitations</span><span>Not sufficiently comparable</span><span>Insufficient evidence to decide</span></div>
+      <p class="small-note">This page is a science-review companion. It does not replace the original satellite products or the team's QGIS validation report.</p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Page sections">
+    <a href="#overview" class="active"><span>⌂</span>Overview</a>
+    <a href="#observations"><span>◷</span>Dates</a>
+    <a href="#meaning"><span>◎</span>Learn</a>
+    <a href="#validation"><span>✓</span>Checks</a>
+    <a href="#farmer"><span>⌁</span>Farmers</a>
+  </nav>
+  <script src="science-review.js" defer></script>
+</body>
+</html>

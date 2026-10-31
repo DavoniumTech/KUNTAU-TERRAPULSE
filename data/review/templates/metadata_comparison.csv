@@ -1,0 +1,18 @@
+field,2026-10-08,2026-10-20,source_or_metadata_file,notes,status
+product_id,,,,,not_checked
+product_type,GCOV,GCOV,,,
+acquisition_time_utc,2026-10-08T17:54:33Z,2026-10-20T17:54:33Z,,verify against source metadata,needs_verification
+acquisition_mode,SHSH,DHDH,,from team inventory; verify original metadata,needs_verification
+polarization_channels,HH,HH;HV,,from team inventory; verify original metadata,needs_verification
+orbit_direction,,,,,not_checked
+track_or_frame,,,,,not_checked
+incidence_or_look_geometry,,,,,not_checked
+radiometric_quantity,,,,,not_checked
+measurement_units,,,,,not_checked
+calibration_or_scaling,,,,,not_checked
+processing_version,,,,,not_checked
+crs,,,,,not_checked
+pixel_size,,,,,not_checked
+raster_dimensions,,,,,not_checked
+raster_extent,,,,,not_checked
+nodata_definition,,,,,not_checked
