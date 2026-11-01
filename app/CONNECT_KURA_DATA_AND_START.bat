@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title KUNTAU TERRAPULSE v0.8.0 - Connect Kura data
+title KUNTAU TERRAPULSE v0.8.2 - Connect Kura data
 set "SOURCE=C:\KUNTAU_TERRAPULSE\data"
 if not exist "%SOURCE%\Kura_Before_2026-10-08.tif" (
   echo Default folder was not found: %SOURCE%

@@ -26,18 +26,18 @@ for port in range(8080, 8091):
 if server is None:
     raise SystemExit("No free local port found between 8080 and 8090. Close an old TERRAPULSE server and try again.")
 url = f"http://127.0.0.1:{server.server_address[1]}"
-print("\n KUNTAU TERRAPULSE · KTP v0.8.0 · EARTH INTELLIGENCE STUDIO")
+print("\n KUNTAU TERRAPULSE · v0.8.2 · MOBILE EARTH INTELLIGENCE STUDIO")
 print(" --------------------------------")
 print(" Interactive, team-built Earth-observation studio")
 print(" Interactive 3D Earth viewer; georeferenced map layers show packaged NISAR evidence.")
 print(f" Open this address: {url}")
-print(" Security: server bound to this computer only (127.0.0.1).")
+print(" Local preview only: this address works on this computer, not as a phone install URL. Use the deployed HTTPS Cloudflare site on Android.")
 print(" Keep this black window open while using the app.")
 print(" Press Ctrl+C to stop the server.\n")
 webbrowser.open(url)
 try:
     server.serve_forever()
 except KeyboardInterrupt:
-    print("\nKTP local server stopped.")
+    print("\nTERRAPULSE local server stopped.")
 finally:
     server.server_close()

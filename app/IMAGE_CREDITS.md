@@ -17,6 +17,17 @@ Images are linked from their source hosts in this prototype and therefore requir
 - The optional satellite basemap is Esri World Imagery. Attribution is displayed in the map footer when this basemap is selected. Offline coordinate grid remains the default.
 
 
-## v0.8.0 interactive globe
+## v0.8.2 interactive globe
 
 The interactive Earth is a Three.js sphere rendered from the bundled `assets/earth-blue-marble.jpg` texture. The atmosphere, cloud wisps, star field and satellite/orbit are generated as interface visuals. The Kura marker is an approximate coordinate locator. They are not an active satellite position, NISAR acquisition footprint, live data stream or science layer.
+
+
+## v0.8.2 community-context visual
+
+The main riverside/community image in the home page and onboarding is a real photograph of a rehabilitated irrigation canal in Kano State. Photo credit: David Shonowo for the World Bank. Source feature: https://www.worldbank.org/en/news/feature/2025/10/15/how-smarter-irrigation-is-changing-nigerian-farming . The photo is regional educational context only; it is not a photograph of Kunshama, the Rafin Kura channel or the Kura test AOI, and is not satellite evidence. The app links to the source. Use is for a non-commercial educational demonstration with attribution; consult the World Bank reuse terms before any commercial redistribution: https://www.worldbank.org/ext/en/legal/terms-conditions/reproduction-and-use .
+
+The bundled `assets/education/river-community-context.webp` is a generated local fallback used only when the original photograph cannot load. It is illustrative artwork, not documentary photography or evidence about the study footprint.
+
+## v0.8.2 app badge
+
+The installed-app icon and workspace brand mark use the KUNTAU Science Academy shield isolated from the finalized TerraPulse emblem supplied in the project assets.

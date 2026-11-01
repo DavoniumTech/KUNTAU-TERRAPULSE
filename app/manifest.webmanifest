@@ -1,32 +1,60 @@
 {
   "id": "./",
-  "name": "KUNTAU TERRAPULSE \u00b7 Earth Intelligence Studio",
-  "short_name": "KTP TerraPulse",
-  "description": "An interactive, local-first Earth-observation studio developed by the KUNTAU science and engineering team for exploring and comparing NISAR radar evidence.",
-  "start_url": "./index.html?release=080",
+  "name": "KUNTAU TERRAPULSE \u2014 Earth Intelligence Studio",
+  "short_name": "TERRAPULSE",
+  "description": "A mobile-first Earth observation studio by the KUNTAU Science and Engineering Team for exploring NISAR radar evidence and river-corridor change responsibly.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "orientation": "any",
-  "background_color": "#071920",
-  "theme_color": "#071b24",
+  "background_color": "#05080e",
+  "theme_color": "#05080e",
   "categories": [
     "education",
     "science",
     "utilities"
   ],
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "assets/icons/icon-192.png?v=080",
+      "src": "assets/icons/icon-192.png?v=082",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/icons/icon-512.png?v=080",
+      "src": "assets/icons/icon-512.png?v=082",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "version": "0.8.0"
+  "shortcuts": [
+    {
+      "name": "Explore map",
+      "short_name": "Map",
+      "url": "./?view=explore",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png?v=082",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Compare observations",
+      "short_name": "Compare",
+      "url": "./?view=compare",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png?v=082",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
 }

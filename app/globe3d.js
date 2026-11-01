@@ -1,17 +1,26 @@
-/* KUNTAU TERRAPULSE 0.8.0 — interactive Three.js Earth viewer.
+/* KUNTAU TERRAPULSE 0.8.2 — interactive Three.js Earth viewer.
    The globe is an educational overview. The georeferenced NISAR rasters remain in the science map. */
 (() => {
   'use strict';
   const host = document.getElementById('heroThreeScene');
   if (!host) return;
   if (!window.THREE) {
-    host.classList.add('globe-unavailable');
-    host.setAttribute('aria-label', 'The interactive globe needs an internet connection to load the Three.js graphics library. The Earth illustration remains available.');
+    host.classList.add('globe-library-loading');
+    host.setAttribute('aria-label', 'Loading the interactive 3D Earth viewer. A lightweight Earth illustration is available while it loads.');
+    const script=document.createElement('script');
+    script.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js';
+    script.async=true;script.crossOrigin='anonymous';
+    script.onload=()=>{if(window.THREE){host.classList.remove('globe-library-loading');bootGlobe();}else failGlobe();};
+    script.onerror=failGlobe;
+    document.head.appendChild(script);
     return;
   }
-
+  bootGlobe();
+  function failGlobe(){host.classList.add('globe-unavailable');host.classList.remove('globe-library-loading');host.setAttribute('aria-label','The interactive globe library could not load. The Earth illustration remains available.');}
+  function bootGlobe(){
   const THREE = window.THREE;
   const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  const compactDevice = window.matchMedia?.('(max-width: 760px)').matches ?? false;
   let renderer, scene, camera, earthRoot, earth, clouds, satellite, satelliteOrbit, marker, markerHalo;
   let frame = 0, running = true, autoSpin = !reducedMotion, dragging = false, lastX = 0, lastY = 0;
   let targetZoom = 6.2, zoom = targetZoom, quality = 'auto';
@@ -20,7 +29,7 @@
   const clamp = (v,min,max) => Math.max(min,Math.min(max,v));
 
   function makeStars() {
-    const count = 1600, positions = new Float32Array(count * 3);
+    const count = compactDevice ? 520 : 1250, positions = new Float32Array(count * 3);
     for (let i=0;i<count;i++) {
       const u=Math.random()*2-1, a=Math.random()*Math.PI*2, r=8+Math.random()*24;
       const s=Math.sqrt(1-u*u);
@@ -62,8 +71,8 @@
     try {
       scene=new THREE.Scene();
       camera=new THREE.PerspectiveCamera(38,1,.1,100); camera.position.set(0,.15,zoom);
-      renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'high-performance'});
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+      renderer=new THREE.WebGLRenderer({alpha:true,antialias:!compactDevice,powerPreference:'low-power'});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,compactDevice?1.2:1.6));
       renderer.outputColorSpace=THREE.SRGBColorSpace;
       renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.16;
       renderer.setClearColor(0x000000,0);
@@ -80,12 +89,12 @@
       const texture=new THREE.TextureLoader().load('assets/earth-blue-marble.jpg',()=>{host.closest('.hero-art')?.classList.add('three-ready');});
       texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
       const earthMat=new THREE.MeshStandardMaterial({map:texture,roughness:.94,metalness:0});
-      earth=new THREE.Mesh(new THREE.SphereGeometry(2,112,80),earthMat);earthRoot.add(earth);
+      earth=new THREE.Mesh(new THREE.SphereGeometry(2,compactDevice?76:104,compactDevice?52:72),earthMat);earthRoot.add(earth);
       const cloudMat=new THREE.MeshStandardMaterial({map:makeCloudTexture(),transparent:true,opacity:.24,depthWrite:false,side:THREE.DoubleSide});
-      clouds=new THREE.Mesh(new THREE.SphereGeometry(2.016,72,52),cloudMat);earthRoot.add(clouds);
+      clouds=new THREE.Mesh(new THREE.SphereGeometry(2.016,compactDevice?48:64,compactDevice?32:44),cloudMat);earthRoot.add(clouds);
 
-      const atmosphere=new THREE.Mesh(new THREE.SphereGeometry(2.13,72,56),new THREE.ShaderMaterial({vertexShader:`varying vec3 vNormal; varying vec3 vView; void main(){vNormal=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.0);vView=-mv.xyz;gl_Position=projectionMatrix*mv;}`,fragmentShader:`varying vec3 vNormal;varying vec3 vView;void main(){float f=pow(1.0-max(dot(normalize(vNormal),normalize(vView)),0.0),2.25);gl_FragColor=vec4(0.18,0.68,0.94,f*0.42);}`,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,side:THREE.BackSide}));earthRoot.add(atmosphere);
-      const glow=new THREE.Mesh(new THREE.SphereGeometry(2.045,72,52),new THREE.MeshBasicMaterial({color:0x65bde1,transparent:true,opacity:.055,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false}));earthRoot.add(glow);
+      const atmosphere=new THREE.Mesh(new THREE.SphereGeometry(2.13,compactDevice?48:64,compactDevice?32:44),new THREE.ShaderMaterial({vertexShader:`varying vec3 vNormal; varying vec3 vView; void main(){vNormal=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.0);vView=-mv.xyz;gl_Position=projectionMatrix*mv;}`,fragmentShader:`varying vec3 vNormal;varying vec3 vView;void main(){float f=pow(1.0-max(dot(normalize(vNormal),normalize(vView)),0.0),2.25);gl_FragColor=vec4(0.18,0.68,0.94,f*0.42);}`,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,side:THREE.BackSide}));earthRoot.add(atmosphere);
+      const glow=new THREE.Mesh(new THREE.SphereGeometry(2.045,compactDevice?48:64,compactDevice?32:44),new THREE.MeshBasicMaterial({color:0x65bde1,transparent:true,opacity:.055,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false}));earthRoot.add(glow);
 
       const lat=THREE.MathUtils.degToRad(KURA.lat),lon=THREE.MathUtils.degToRad(KURA.lon),r=2.025;
       const pos=new THREE.Vector3(r*Math.cos(lat)*Math.cos(lon),r*Math.sin(lat),-r*Math.cos(lat)*Math.sin(lon));
@@ -96,7 +105,7 @@
 
       satelliteOrbit=new THREE.Group();scene.add(satelliteOrbit);satellite=makeSatellite();satelliteOrbit.add(satellite);
       const orbitCurve=new THREE.EllipseCurve(0,0,2.88,2.5,0,Math.PI*2,false,0);
-      const pts=orbitCurve.getPoints(180).map(p=>new THREE.Vector3(p.x,p.y*.55,p.y*.5));
+      const pts=orbitCurve.getPoints(compactDevice?96:150).map(p=>new THREE.Vector3(p.x,p.y*.55,p.y*.5));
       const orbitGeom=new THREE.BufferGeometry().setFromPoints(pts);
       const orbitLine=new THREE.LineLoop(orbitGeom,new THREE.LineBasicMaterial({color:0x5fd6d1,transparent:true,opacity:.25}));satelliteOrbit.add(orbitLine);
 
@@ -109,7 +118,7 @@
       window.addEventListener('ktp:visual-quality',e=>{quality=e.detail?.quality||'auto';applyQuality();});
       frame=requestAnimationFrame(animate);
     } catch(error) {
-      console.warn('KTP interactive globe could not initialise:',error);
+      console.warn('TERRAPULSE interactive globe could not initialise:',error);
       host.classList.add('globe-unavailable');host.closest('.hero-art')?.classList.remove('three-ready');
       renderer?.dispose();renderer?.domElement.remove();
     }
@@ -153,4 +162,5 @@
   }
   init();
   window.addEventListener('beforeunload',()=>{cancelAnimationFrame(frame);renderer?.dispose();});
+  }
 })();

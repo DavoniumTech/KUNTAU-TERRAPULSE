@@ -1,11 +1,11 @@
-# KUNTAU TERRAPULSE — v0.8.0 local demonstration
+# KUNTAU TERRAPULSE — v0.8.2 local demonstration
 
 ## Start the application in Windows CMD
 
 After extracting the ZIP to the Desktop, open CMD and run:
 
 ```bat
-cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V0.8.0\app" && START_TERRAPULSE.bat
+cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V0.8.2_MOBILE_STUDIO\app" && START_TERRAPULSE.bat
 ```
 
 Python 3 is required for the local server. Keep the black CMD window open while using the application. The launcher opens the address printed in that window, normally `http://127.0.0.1:8080`. Press Ctrl+C in CMD when the session is finished.

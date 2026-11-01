@@ -1,6 +1,6 @@
-# KTP user guide — farmers, communities, students and science teams
+# KUNTAU TERRAPULSE user guide — farmers, communities, students and science teams
 
-KUNTAU TERRAPULSE helps people look at two satellite radar observations and ask better questions about a place. It does not replace local knowledge, river gauges, weather information or field inspection.
+KUNTAU TERRAPULSE helps people explore two satellite radar observations and ask better questions about a place. It does not replace local knowledge, river gauges, weather information or field inspection.
 
 ## For farmers and community members
 
@@ -40,3 +40,12 @@ Open **Learn & field guide → Start guided tour**. It walks through the project
 ## Important limit
 
 This demonstration does not measure river depth, water level, crop health or future flood probability. Always combine satellite evidence with independent observations and a field check.
+
+
+## What do the two packaged dates mean?
+
+The included observations are from **8 October 2026** and **20 October 2026**, twelve days apart. The first is the earlier observation; the second is the later observation. The difference view shows how the shared HHHH radar measurement changed between those two acquisitions. It does not measure river depth, water level, flood extent or crop damage. The acquisition modes differ (SHSH and DHDH), and the quality review remains open.
+
+## Export a picture for a report
+
+On the Compare page, choose **Export change preview PNG**. This saves a visual image of the exploratory difference. Add the product dates and limitations when using it in a presentation.

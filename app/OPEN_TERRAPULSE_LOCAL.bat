@@ -1,9 +1,9 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title KUNTAU TERRAPULSE · KTP v0.8.0 - Local application
+title KUNTAU TERRAPULSE · KUNTAU TERRAPULSE v0.8.2 - Local application
 echo.
-echo KUNTAU TERRAPULSE KTP v0.8.0
+echo KUNTAU TERRAPULSE KUNTAU TERRAPULSE v0.8.2
 echo ============================
 echo Starting the application with the packaged NISAR preview evidence.
 echo Original GeoTIFF files are optional for browsing and comparison previews.

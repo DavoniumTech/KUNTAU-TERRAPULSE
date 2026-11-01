@@ -1,4 +1,4 @@
-# KUNTAU TERRAPULSE — v0.8.0 Interactive Earth Intelligence Studio
+# KUNTAU TERRAPULSE — v0.8.2 Interactive Earth Intelligence Studio
 
 ## Interface and experience
 - Interactive Three.js 3D Earth with Earth texture, rotation by drag, scroll and button zoom, Focus Kura, reset and spin/pause controls.

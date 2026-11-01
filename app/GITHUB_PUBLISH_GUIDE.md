@@ -1,62 +1,31 @@
-# Publish KUNTAU TERRAPULSE v0.8.0 to GitHub `main` (Windows CMD)
+# Publish KUNTAU TERRAPULSE v0.8.2 to GitHub `main` (Windows CMD)
 
-## 1. Extract and check the app
+The release root contains `PUBLISH_TO_GITHUB_MAIN.bat`. Use that script instead of hand-writing a Robocopy line; it normalizes the source folder path so a trailing-backslash quoting error cannot occur.
 
-1. Extract `KUNTAU_TERRAPULSE_V0.8.0_INTERACTIVE_GLOBE.zip` to your Desktop.
-2. Open `KUNTAU_TERRAPULSE_V0.8.0\app` and double-click `START_TERRAPULSE.bat`.
-3. Check Overview, Explore map, Compare, Insights, Learn & field guide, Data & methods, and Settings. Try the globe drag/zoom/Focus Kura controls, both display modes and several palettes.
-4. The packaged previews work without the original GeoTIFFs. The original Float32 GeoTIFFs are optional and can be selected locally for a fresh recalculation.
+## One-command extraction and publish
 
-## 2. Prepare the repository
+1. Place `KUNTAU_TERRAPULSE_V0.8.2_MOBILE_STUDIO.zip` in your Windows Downloads folder.
+2. Open CMD.
+3. Copy the complete one-line command from the package-root file `CMD_EXTRACT_AND_PUBLISH.txt`.
+4. The command extracts the release to the Desktop and launches `PUBLISH_TO_GITHUB_MAIN.bat`.
+5. Press Enter to use the default Desktop clone path, or enter the full path to the existing clone (without quotation marks).
+6. Review the staged file list. Type `Y` only when it is correct.
 
-The default repository used in this guide is `https://github.com/DavoniumTech/KUNTAU-TERRAPULSE.git`. If the GitHub repository has another owner or name, replace that URL with the repository's exact HTTPS clone URL.
+The script checks that the `origin` remote is `https://github.com/DavoniumTech/KUNTAU-TERRAPULSE.git`, refuses to overwrite a dirty local Git clone, fetches/pulls `main`, preserves `.git`, excludes raw GeoTIFF/HDF5 files and credentials, checks the staged files, then asks before committing and pushing.
 
-Open CMD. If the repository has not already been cloned onto the Desktop, run this once:
+## Cloudflare Pages
 
-```cmd
-cd /d "%USERPROFILE%\Desktop"
-git clone https://github.com/DavoniumTech/KUNTAU-TERRAPULSE.git
-```
+- Production branch: `main`
+- Root directory: `app`
+- Build command: `exit 0`
+- Build output directory: `.`
 
-If the repository is already cloned, skip `git clone`. Make sure the extracted update folder is named `KUNTAU_TERRAPULSE_V0.8.0` on the Desktop.
+A successful push triggers a deployment only if Cloudflare Pages is already connected to this GitHub repository and branch. Check the Cloudflare deployment log before reinstalling the phone app.
 
-## 3. Copy the update into the existing clone
+## Android installation
 
-This copies the new project files into the clone while preserving its `.git` directory and commit history:
+Do not install the phone app from the Windows local preview (`http://127.0.0.1:8080`). Deploy to Cloudflare first, remove the previous home-screen app, open the public HTTPS Pages/custom-domain address in Chrome on the phone, then choose **Install app** or **Add to Home screen**. See `INSTALL_ON_ANDROID.md`.
 
-```cmd
-robocopy "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V0.8.0" "%USERPROFILE%\Desktop\KUNTAU-TERRAPULSE" /E /XD .git
-```
+## Data safety
 
-Robocopy return codes 0–7 are normally success or success-with-differences. Continue to Git only if the files copied without a serious error.
-
-## 4. Review and push to `main`
-
-```cmd
-cd /d "%USERPROFILE%\Desktop\KUNTAU-TERRAPULSE"
-git switch main
-git status --short
-git add .
-git status
-git commit -m "KTP v0.8.0: interactive 3D Earth and 12 colour themes"
-git push origin main
-```
-
-Before `git commit`, inspect `git status`. The source project and packaged low-resolution previews/catalogue/QA files may be committed; **do not commit** original `.tif`, `.tiff`, `.h5`, `.hdf5`, `.netrc`, `.dodsrc`, `.env`, access tokens or passwords. The root `.gitignore` excludes these common formats. If Git says there is nothing to commit, there are no staged changes to publish.
-
-GitHub may request sign-in in a browser. Use Git Credential Manager; never put a password or token in code or a project file.
-
-## 5. Cloudflare Pages production settings
-
-In the Cloudflare Pages project connected to this repository, set:
-
-- **Production branch:** `main`
-- **Root directory:** `app`
-- **Build command:** `exit 0`
-- **Build output directory:** `.`
-
-Save the settings. A successful push to `main` should trigger a Pages deployment automatically. Verify the deployment log and open the generated Pages URL. The app is a static PWA; this update does not create a backend or upload raw source rasters.
-
-## Later updates
-
-After making and testing another change, use `git status`, `git add .`, `git commit -m "Describe the change"` and `git push origin main`.
+Do not put the original Float32 GeoTIFFs, source HDF5 granules, Earthdata `.netrc`/`_netrc`, `.dodsrc`, `.env` files, passwords, tokens, private keys or certificates into the public repository. The package includes preview/QA evidence and metadata; the original full science products are obtained separately from ASF after local Earthdata authentication.
