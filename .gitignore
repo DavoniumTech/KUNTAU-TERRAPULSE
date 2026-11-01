@@ -1,56 +1,39 @@
-# Secrets and local authentication — NEVER COMMIT
+# Earthdata / ASF credentials and local environment files
+.netrc
+_netrc
+.dodsrc
 .env
 .env.*
 !.env.example
-.netrc
-.dodsrc
-.earthaccess/
-*credentials*
-*token*
 *.pem
 *.key
+*.p12
+*.pfx
 
-# Python and editor files
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-.vscode/
-.idea/
-
-# Local/raw scientific data — keep on the data owner's computer
-/data/raw/**
-/data/processed/**
-/data/processed/*
+# Original remote-sensing source rasters and large raw products
+*.tif
+*.tiff
+*.TIF
+*.TIFF
 *.h5
 *.hdf5
-*.nc
-*.aux.xml
-*.tif
-*.tiff
+*.H5
+*.HDF5
 *.vrt
+*.aux.xml
+*.ovr
 
-# Local caches and temporary outputs
-.cache/
-.cache_earthdata/
-*.log
-*.tmp
+# Keep private or locally generated workspaces out of the public repository
+**/raw/
+**/private-data/
+app/data/local/
+app/data/private/
+
+# Local GIS caches and generated development files
+.qgis/
+*.qgz~
+*.qgs~
+__pycache__/
+*.py[cod]
 .DS_Store
 Thumbs.db
-
-# Local bundles; do not upload whole working archives by default
-*KTP_DELIVERABLES_BUNDLE*.zip
-*KTP_LOCAL_PROCESSING_PACK*.zip
-.env
-.env.*
-!.env.example
-.netrc
-.dodsrc
-*.h5
-*.tif
-*.tiff
-*.aux.xml
-*.pem
-*.key
-*credentials*
-KTP_DELIVERABLES_BUNDLE.zip

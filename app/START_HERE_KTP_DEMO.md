@@ -1,52 +1,55 @@
-# KUNTAU TERRAPULSE — KTP local demonstration (v0.5.0)
+# KUNTAU TERRAPULSE — v0.8.0 local demonstration
 
-## One CMD command to launch and open the browser
+## Start the application in Windows CMD
 
-After extracting the ZIP, open Command Prompt and paste this command (change the folder name only if you extracted it somewhere else):
-
-```bat
-cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V041\KUNTAU_TERRAPULSE_PWA" && OPEN_TERRAPULSE_LOCAL.bat
-```
-
-This copies the two original Kura GeoTIFFs from `C:\KUNTAU_TERRAPULSE\data`, starts the local server, and opens your browser. Keep the black CMD window open. The server prints the exact local URL, usually `http://127.0.0.1:8080`. Press Ctrl+C in CMD to stop it.
-
-If you only want to open the app without copying data:
+After extracting the ZIP to the Desktop, open CMD and run:
 
 ```bat
-cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V041\KUNTAU_TERRAPULSE_PWA" && START_TERRAPULSE.bat
+cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V0.8.0\app" && START_TERRAPULSE.bat
 ```
 
-If your extracted folder has another name: open that folder in File Explorer, click its address bar, type `cmd`, press Enter, then type `OPEN_TERRAPULSE_LOCAL.bat`.
+Python 3 is required for the local server. Keep the black CMD window open while using the application. The launcher opens the address printed in that window, normally `http://127.0.0.1:8080`. Press Ctrl+C in CMD when the session is finished.
 
-## What is needed for the demonstration?
+The two packaged NISAR preview images and their catalogue/QA evidence are already included, so the Overview, Explore, Compare and Data & methods pages can be demonstrated without downloading source data.
 
-- **Before and After:** yes. They are the two original NISAR GeoTIFF observations, 8 Oct and 20 Oct 2026. Without both files the comparison cannot calculate a change layer.
-- **Visualization:** yes. The map and before/after/change views help people understand where the raster values differ. The decorative Three.js globe, satellite, stars and moons are interface visuals only—not scientific data.
-- **Metadata:** yes. It records the product IDs, dates, area, measurement and limitations so the comparison can be traced and reviewed.
-- **Display-only GeoTIFFs:** do not use them for analysis. Use the original Float32 files.
+## Connect the original GeoTIFFs (optional)
 
-## Science caution
+Original Float32 GeoTIFFs are only needed for a fresh local pixel calculation. They are not required to view the packaged previews.
 
-The 8 Oct product is SHSH (HH only) and 20 Oct is DHDH (HH/HV). The common HH layer is selected, but the acquisition-mode difference still needs review. The current Kura rectangle is a test footprint, not a surveyed river boundary. The output is an exploratory radar-change view—not a flood map, river-depth measurement, water-level reading or flood prediction.
+1. Keep the two original source files in a private folder, using these expected filenames:
+   - `Kura_Before_2026-10-08.tif`
+   - `Kura_After_2026-10-20.tif`
+2. Double-click `CONNECT_KURA_DATA_AND_START.bat`. If the default folder is not found, enter the folder path when requested.
+3. The batch file copies the originals into the app's local `data` folder, which is excluded from Git by the root `.gitignore`.
+4. On the Compare page, choose **Load copied Kura files**. Alternatively, choose the two original files directly using the file pickers.
+5. Wait for both file cards to show **Loaded** and review the grid-alignment status before interpreting a new difference.
 
-## 45-second demo script
+Do not use display-only transformed GeoTIFFs for scientific calculations. Use the original Float32 source files.
 
-“This is KUNTAU TERRAPULSE, our KTP Earth-observation workspace. We load two NISAR L-band GCOV observations from 8 and 20 October 2026 for a small test area in Kura, Kano. The app checks the raster grids, compares the shared HH measurement layer, and displays the spatial pattern of radar-measurement differences. This is an exploratory result, not proof of flooding or a prediction. Our next step is to verify the study footprint against a river and floodplain boundary and compare the radar evidence with rainfall, water and field observations.”
+## What the 3D Earth does — and does not do
 
+The home-page globe is a genuine interactive Three.js sphere with drag-to-rotate, zoom, Focus Kura, pause/resume and reset controls. The bundled Earth texture, atmosphere, cloud wisps, star field and animated satellite are visual orientation elements. The satellite path is conceptual, not a live NISAR position or actual orbit. The Kura marker is an approximate location.
 
-## KTP 3D Space Studio (v0.5.0)
+The actual georeferenced NISAR preview rasters are shown on the **Explore map** and **Compare** pages. Do not interpret the 3D decorative globe as a NISAR data layer or as a 3D flood simulation.
 
-- Full-window Three.js scene: illustrated Earth, orbital paths, NISAR-inspired satellite model, small moons/planets, a sun-like star, 2,600 desktop background stars and drifting particles.
-- Responsive rendering is capped to a lighter pixel ratio and 30 FPS on smaller screens to reduce device heat and battery use. Reduced-motion and WebGL fallback modes are supported.
-- The 3D scene is decorative only. It is not a live NISAR feed, real satellite position, Earth basemap or scientific visualization. The GIS map and raster layer remain the source of geographic evidence.
-- Sticky top workspace bar, fixed side rail on larger screens and fixed bottom navigation on mobile.
-- KTP icon refreshed in SVG, 32px, 192px and 512px variants; app manifest and service-worker cache updated.
-- Local server binds only to 127.0.0.1 and sends basic browser security headers. This is a local demonstration server, not a public production deployment.
+## Quick presentation sequence (3–4 minutes)
 
-## Start from CMD
+1. **Overview:** introduce KUNTAU TERRAPULSE as a KUNTAU Science Academy team-built Earth-observation workspace. Rotate the globe, use Focus Kura and show the controls.
+2. **Explore map:** show the georeferenced before, after and exploratory change overlays. Explain that the footprint is a test AOI, not a surveyed river boundary.
+3. **Compare:** demonstrate Before, After, Swipe and Change. State that the colours describe radar measurement values, not flood/no-flood labels.
+4. **Insights:** explain that radar returns can respond to water, wet soil, vegetation, roughness and acquisition conditions.
+5. **Data & methods:** show the source product IDs, acquisition dates/modes, QA status and downloadable catalogue/metadata/QA evidence.
+6. **Settings:** switch Dark/Light and select any of the 12 accent palettes.
 
-Extract the ZIP to `Desktop\KUNTAU_TERRAPULSE_V050`, then run:
+## 45-second project explanation
 
-```bat
-cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V050\KUNTAU_TERRAPULSE_PWA" && OPEN_TERRAPULSE_LOCAL.bat
-```
+“KUNTAU TERRAPULSE is a team-developed Earth-observation workspace from KUNTAU Science Academy for NASA Space Apps Challenge 2026, Dancing with the SARs. The demonstration uses two provisional NISAR L-band GCOV observations from 8 and 20 October 2026 for a small test area near Kura, Kano State. The application displays the georeferenced radar previews, compares the shared HH measurement layer and records the product metadata and quality checks. The visible difference is exploratory: the acquisition modes are different, the supplied QA summaries have an unresolved identification-group check, and the test footprint has not yet been verified against a surveyed river channel. The result is a prompt for further investigation, not a flood map, water-level reading or forecast.”
+
+## Important science limits
+
+- The 8 October product is SHSH (HH) and the 20 October product is DHDH (HH/HV). A shared HHHH measurement does not alone establish full cross-mode comparability.
+- Both QA summaries report an identification-group check failure. Review the detailed QA PDFs and metadata with the GIS/science team.
+- The current Kura test footprint is not field-verified against the Rafin Kura river channel or floodplain boundary.
+- A 12-day two-image pair cannot establish a seasonal trend.
+- The app does not measure river depth, stage, flow, crop health or future flood probability.
+- Validate any candidate change with independent imagery, rainfall/gauge records and local field observations.

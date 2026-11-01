@@ -1,12 +1,15 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title KUNTAU TERRAPULSE v0.5.0 - Connect Kura data
+title KUNTAU TERRAPULSE v0.8.0 - Connect Kura data
 set "SOURCE=C:\KUNTAU_TERRAPULSE\data"
 if not exist "%SOURCE%\Kura_Before_2026-10-08.tif" (
-  echo ERROR: Cannot find the October 8 original file:
-  echo %SOURCE%\Kura_Before_2026-10-08.tif
-  echo Check that the original NISAR files are still in C:\KUNTAU_TERRAPULSE\data.
+  echo Default folder was not found: %SOURCE%
+  echo Enter the folder containing both original Float32 GeoTIFF files.
+  set /p "SOURCE=Source folder path: "
+)
+if not exist "%SOURCE%\Kura_Before_2026-10-08.tif" (
+  echo ERROR: October 8 original not found in: %SOURCE%
   pause
   exit /b 1
 )
@@ -27,7 +30,7 @@ echo.
 echo SUCCESS: Both original GeoTIFFs copied into:
 echo %~dp0data
 echo.
-echo IMPORTANT: Keep the original files in C:\KUNTAU_TERRAPULSE\data.
+echo IMPORTANT: Keep the original source files backed up in a private research folder outside the public GitHub repository.
 echo In the app, open Compare and click "Load copied Kura files". If that request fails, use the two Choose file buttons and select the originals from this folder.
 echo.
 echo Starting the local application server now...

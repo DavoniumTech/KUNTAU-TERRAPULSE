@@ -1,60 +1,62 @@
-# Publish KUNTAU TERRAPULSE source to GitHub using Windows CMD
+# Publish KUNTAU TERRAPULSE v0.8.0 to GitHub `main` (Windows CMD)
 
-## Before you publish
+## 1. Extract and check the app
 
-1. Test the app locally in Chrome first.
-2. Create an empty GitHub repository named `KUNTAU-TERRAPULSE` (or use your chosen name).
-3. Do not upload any `.tif`, `.tiff`, `.h5`, `.hdf5`, `.netrc`, `_netrc`, `.env` or password/token files. The project's `.gitignore` excludes common sensitive/raster formats, but always inspect `git status` before committing.
+1. Extract `KUNTAU_TERRAPULSE_V0.8.0_INTERACTIVE_GLOBE.zip` to your Desktop.
+2. Open `KUNTAU_TERRAPULSE_V0.8.0\app` and double-click `START_TERRAPULSE.bat`.
+3. Check Overview, Explore map, Compare, Insights, Learn & field guide, Data & methods, and Settings. Try the globe drag/zoom/Focus Kura controls, both display modes and several palettes.
+4. The packaged previews work without the original GeoTIFFs. The original Float32 GeoTIFFs are optional and can be selected locally for a fresh recalculation.
 
-## CMD commands
+## 2. Prepare the repository
 
-Open CMD and enter the application folder (adjust only if you extracted elsewhere):
+The default repository used in this guide is `https://github.com/DavoniumTech/KUNTAU-TERRAPULSE.git`. If the GitHub repository has another owner or name, replace that URL with the repository's exact HTTPS clone URL.
+
+Open CMD. If the repository has not already been cloned onto the Desktop, run this once:
 
 ```cmd
-cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V030\KUNTAU_TERRAPULSE_PWA"
+cd /d "%USERPROFILE%\Desktop"
+git clone https://github.com/DavoniumTech/KUNTAU-TERRAPULSE.git
 ```
 
-Check Git is installed:
+If the repository is already cloned, skip `git clone`. Make sure the extracted update folder is named `KUNTAU_TERRAPULSE_V0.8.0` on the Desktop.
+
+## 3. Copy the update into the existing clone
+
+This copies the new project files into the clone while preserving its `.git` directory and commit history:
 
 ```cmd
-git --version
+robocopy "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V0.8.0" "%USERPROFILE%\Desktop\KUNTAU-TERRAPULSE" /E /XD .git
 ```
 
-Start version control and review the file list:
+Robocopy return codes 0–7 are normally success or success-with-differences. Continue to Git only if the files copied without a serious error.
+
+## 4. Review and push to `main`
 
 ```cmd
-git init
+cd /d "%USERPROFILE%\Desktop\KUNTAU-TERRAPULSE"
+git switch main
+git status --short
 git add .
 git status
+git commit -m "KTP v0.8.0: interactive 3D Earth and 12 colour themes"
+git push origin main
 ```
 
-Read the status list. It should include source files such as `index.html`, `app.js`, `styles.css`, `manifest.webmanifest`, `assets`, `README_BEGINNER.md` and `IMAGE_CREDITS.md`. It must not include your GeoTIFF/HDF5 data or Earthdata credentials.
+Before `git commit`, inspect `git status`. The source project and packaged low-resolution previews/catalogue/QA files may be committed; **do not commit** original `.tif`, `.tiff`, `.h5`, `.hdf5`, `.netrc`, `.dodsrc`, `.env`, access tokens or passwords. The root `.gitignore` excludes these common formats. If Git says there is nothing to commit, there are no staged changes to publish.
 
-Create the first commit:
+GitHub may request sign-in in a browser. Use Git Credential Manager; never put a password or token in code or a project file.
 
-```cmd
-git commit -m "KUNTAU TERRAPULSE v0.5.0: KTP 3D Space Studio"
-git branch -M main
-```
+## 5. Cloudflare Pages production settings
 
-Connect your GitHub repository. Replace the example URL with the exact HTTPS URL displayed by GitHub after creating your repository:
+In the Cloudflare Pages project connected to this repository, set:
 
-```cmd
-git remote add origin https://github.com/YOUR-GITHUB-USERNAME/KUNTAU-TERRAPULSE.git
-git push -u origin main
-```
+- **Production branch:** `main`
+- **Root directory:** `app`
+- **Build command:** `exit 0`
+- **Build output directory:** `.`
 
-GitHub may open a browser sign-in window. Use Git Credential Manager/browser sign-in; do not paste your GitHub password or personal access token into project files or chat.
+Save the settings. A successful push to `main` should trigger a Pages deployment automatically. Verify the deployment log and open the generated Pages URL. The app is a static PWA; this update does not create a backend or upload raw source rasters.
 
-## Future updates
+## Later updates
 
-After editing and testing files:
-
-```cmd
-git status
-git add .
-git commit -m "Describe the update"
-git push
-```
-
-GitHub is for source-code version history and collaboration. It is not where we store the large local NISAR files. We can configure GitHub Pages or Cloudflare Pages after the app passes its local data tests and the deployment path is chosen.
+After making and testing another change, use `git status`, `git add .`, `git commit -m "Describe the change"` and `git push origin main`.

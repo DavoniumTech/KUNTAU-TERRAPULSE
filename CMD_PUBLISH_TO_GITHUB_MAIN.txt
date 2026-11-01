@@ -1,0 +1,27 @@
+KUNTAU TERRAPULSE v0.8.1 — Windows CMD publishing
+
+IMPORTANT: This package does not itself push to GitHub. Run PUBLISH_TO_GITHUB_MAIN.bat after extracting the package, or follow the steps below.
+
+1. Extract the ZIP. Keep the folder KUNTAU_TERRAPULSE_V0.8.1_EVIDENCE_COMPLETE.
+2. Test first: open its app folder and double-click START_TERRAPULSE.bat.
+3. Close the browser and press Ctrl+C in the server CMD window after testing.
+4. Open Command Prompt in the extracted root folder and run:
+
+   PUBLISH_TO_GITHUB_MAIN.bat
+
+The helper asks where your local repository clone is (press Enter for the Desktop default). It checks Git, clones https://github.com/DavoniumTech/KUNTAU-TERRAPULSE.git if needed, fetches and updates main, copies this release while preserving .git, shows the staged change list, asks for confirmation, then commits and pushes.
+
+Cloudflare Pages Git integration should deploy after the push if the GitHub repo is connected. Configure:
+  Production branch: main
+  Root directory: app
+  Framework preset: None
+  Build command: leave blank (or `exit 0` only if your dashboard requires a command)
+  Build output directory: .
+
+Source-product rule:
+- Do NOT commit raw .h5/.hdf5 or source .tif/.tiff files.
+- Do NOT commit .netrc, _netrc, .dodsrc, .env, API tokens or passwords.
+- Full HDF5 granules are around 1.49 GB and 1.90 GB. Cloudflare Pages static assets have a 25 MiB per-file limit. Store full raw data separately (for example, access-controlled Cloudflare R2), not in the Pages output.
+- The small KTP evidence ZIPs are included in app/data/kura/downloads and are below the Pages per-file asset limit.
+
+The app contains available catalogue, visual preview, metadata and QA evidence; it does not pretend that unavailable original HDF5 or before/after Float32 GeoTIFF files are embedded.

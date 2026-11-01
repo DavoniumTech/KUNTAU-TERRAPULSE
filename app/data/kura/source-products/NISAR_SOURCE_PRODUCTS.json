@@ -1,0 +1,42 @@
+{
+  "project": "KUNTAU TERRAPULSE",
+  "release": "0.8.1",
+  "studyArea": "Kura test AOI, Kano State, Nigeria",
+  "dataSource": "NASA-ISRO NISAR L2 PR GCOV Provisional via ASF DAAC",
+  "sourceAvailability": "NOT_INCLUDED_IN_THIS_ZIP",
+  "hdf5Products": [
+    {
+      "label": "Before observation",
+      "acquisitionDate": "2026-10-08",
+      "mode": "SHSH",
+      "productId": "NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001",
+      "fileName": "NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001.h5",
+      "reportedSizeBytes": 1493172224,
+      "reportedSizeGiB": 1.39,
+      "directSourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_123_D_083_2005_SHSH_A_20261008T175433_20261008T175508_P05023_N_F_J_001.h5"
+    },
+    {
+      "label": "After observation",
+      "acquisitionDate": "2026-10-20",
+      "mode": "DHDH",
+      "productId": "NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001",
+      "fileName": "NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001.h5",
+      "reportedSizeBytes": 1900019712,
+      "reportedSizeGiB": 1.77,
+      "directSourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_123_D_083_2005_DHDH_A_20261020T175433_20261020T175508_P05023_N_F_J_001.h5"
+    }
+  ],
+  "expectedLocalFloat32GeoTIFFs": [
+    {
+      "fileName": "Kura_Before_2026-10-08.tif",
+      "represents": "Original Float32 crop from 8 October HDF5 GCOV frequencyA/HHHH",
+      "status": "NOT_FOUND_IN_SAVED_UPLOADS"
+    },
+    {
+      "fileName": "Kura_After_2026-10-20.tif",
+      "represents": "Original Float32 crop from 20 October HDF5 GCOV frequencyA/HHHH",
+      "status": "NOT_FOUND_IN_SAVED_UPLOADS"
+    }
+  ],
+  "important": "The TIFFs inside KTP_DELIVERABLES_BUNDLE.zip are explicitly labelled DISPLAY_ONLY or EXPLORATORY_CHANGE. They are not the two original Float32 input rasters."
+}
