@@ -1,8 +1,8 @@
-# Quenta TeraPost — interface and product benchmark (v0.8.0)
+# KUNTAU TERRAPULSE — interface and product benchmark (v0.8.0)
 
 ## Scope and method
 
-This is a curated design review of 25 relevant public products, documentation sets and open-source mapping libraries across Earth-observation discovery, environmental monitoring, GIS, 3D globes and public-facing science interfaces. It is not a claim that 25 full enterprise applications were independently audited end-to-end or that the team has integrated their services. The benchmark records interaction patterns useful for Quenta TeraPost and how they were adapted for this prototype.
+This is a curated design review of 25 relevant public products, documentation sets and open-source mapping libraries across Earth-observation discovery, environmental monitoring, GIS, 3D globes and public-facing science interfaces. It is not a claim that 25 full enterprise applications were independently audited end-to-end or that the team has integrated their services. The benchmark records interaction patterns useful for KUNTAU TERRAPULSE and how they were adapted for this prototype.
 
 ## Reference products and patterns
 

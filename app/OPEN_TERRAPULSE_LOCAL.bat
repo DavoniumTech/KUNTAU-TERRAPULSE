@@ -1,13 +1,13 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title QUENTA TERAPOST · QUENTA TERAPOST v0.9.0 - Local application
+title KUNTAU TERRAPULSE · KUNTAU TERRAPULSE v1.0.0 - Local application
 echo.
-echo QUENTA TERAPOST QUENTA TERAPOST v0.9.0
+echo KUNTAU TERRAPULSE v1.0.0
 echo ============================
 echo Starting the application with the packaged NISAR preview evidence.
 echo Original GeoTIFF files are optional for browsing and comparison previews.
 echo To recalculate from original rasters, use CONNECT_KURA_DATA_AND_START.bat.
 echo.
-call "%~dp0START_TERAPOST.bat"
+call "%~dp0START_TERRAPULSE.bat"
 endlocal

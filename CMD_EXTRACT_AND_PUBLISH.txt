@@ -1,13 +1,7 @@
-QUENTA TERAPOST v0.9.0 — ONE-COMMAND WINDOWS CMD PUBLISH
+Copy `KUNTAU_TERRAPULSE_V1.0.0.zip` into your Windows Downloads folder, open **Command Prompt (CMD)**, and paste this single line:
 
-1. Download this ZIP into Downloads.
-2. Open Command Prompt and paste this single command exactly:
+```cmd
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$zip = Join-Path $env:USERPROFILE 'Downloads\KUNTAU_TERRAPULSE_V1.0.0.zip'; if (!(Test-Path -LiteralPath $zip)) { throw 'ZIP not found in Downloads' }; Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $env:USERPROFILE 'Desktop') -Force" && call "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V1.0.0\PUBLISH_TO_GITHUB_MAIN.bat"
+```
 
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$z=Get-ChildItem -LiteralPath ($env:USERPROFILE + '\Downloads') -Filter 'QUENTA_TERAPOST_V0.9.0_PRODUCT_STUDIO.zip' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if (!$z) { throw 'Release ZIP not found in Downloads' }; Expand-Archive -LiteralPath $z.FullName -DestinationPath ($env:USERPROFILE + '\Desktop\QUENTA_TERAPOST_V0.9.0_PRODUCT_STUDIO') -Force" && call "%USERPROFILE%\Desktop\QUENTA_TERAPOST_V0.9.0_PRODUCT_STUDIO\PUBLISH_TO_GITHUB_MAIN.bat"
-
-The helper finds the existing Desktop\KUNTAU-TERRAPULSE Git clone, fetches main, checks that the local clone is clean, copies the release without touching .git, displays the changes, and asks for YES before committing and pushing.
-
-Do not delete the GitHub repository or Cloudflare Pages project.
-Never commit original GeoTIFF/HDF5 science products or Earthdata credentials.
-
-Cloudflare Pages: production branch main; root directory app; build command exit 0; output directory .
+The script uses the existing clone at `%USERPROFILE%\Desktop\KUNTAU-TERRAPULSE`. It verifies the origin URL, pulls `main` with fast-forward only, refuses a dirty local clone, shows the changes, and requires you to type `YES` before committing and pushing.

@@ -1,7 +1,7 @@
-# Quenta TeraPost — project brief
+# KUNTAU TERRAPULSE — project brief
 
 **Challenge:** NASA Space Apps Challenge 2026 · Dancing with the SARs  
-**Team:** Quenta TeraPost · KUNTAU Science Academy  
+**Team:** KUNTAU TERRAPULSE · KUNTAU Science Academy  
 **Local Event:** Kano, Nigeria  
 **Study area:** Kura test AOI, Kano State, Nigeria  
 **Concept:** River-corridor and floodplain observation
@@ -10,9 +10,9 @@
 
 A report published by The ICIR on 2 March 2024 describes River Kura overflow damaging farms in Kunshama, Kura LGA. Community impact creates a need for better ways to notice and investigate changing water/land conditions around river corridors. The current test raster rectangle is around the Rimin Daddo area and has not yet been verified against the exact reported river reach.
 
-## What TeraPost does today
+## What TERRAPULSE does today
 
-TeraPost is a local-first Progressive Web App that reads two locally selected NISAR-derived Float32 GeoTIFFs, checks whether their dimensions and spatial grids match, compares their shared HHHH measurement layer, displays a before/after swipe and difference visualization, places the selected raster in geographic map context, and exports exploratory statistics and product metadata.
+TERRAPULSE is a local-first Progressive Web App that reads two locally selected NISAR-derived Float32 GeoTIFFs, checks whether their dimensions and spatial grids match, compares their shared HHHH measurement layer, displays a before/after swipe and difference visualization, places the selected raster in geographic map context, and exports exploratory statistics and product metadata.
 
 ## What is new about the approach
 
@@ -33,4 +33,4 @@ The source products differ in acquisition mode (SHSH vs DHDH), and a common HH l
 3. Add more matched observations to distinguish temporary changes from persistent/seasonal patterns.
 4. Develop and validate a water-extent method against independent references such as gauge data, rainfall, optical imagery, official flood reports and field photographs.
 
-**Project statement:** TeraPost is an evidence-to-investigation prototype—not an operational flood-warning service.
+**Project statement:** TERRAPULSE is an evidence-to-investigation prototype—not an operational flood-warning service.

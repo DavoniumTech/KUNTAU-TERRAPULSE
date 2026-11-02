@@ -1,7 +1,7 @@
-const CACHE = 'terapost-shell-v12-product-studio';
+const CACHE = 'ktp-shell-v13-fixed-bottom-dock';
 const CORE = [
   './','./index.html','./INSTALL_ON_ANDROID.md','./install.html','./styles.css','./app.js','./globe3d.js','./manifest.webmanifest',
-  './assets/icons/icon-32.png?v=090','./assets/icons/icon-192.png?v=090','./assets/icons/icon-512.png?v=090','./assets/icons/apple-touch-icon.png?v=090','./assets/icons/kuntau-academy-crest.png','./assets/icons/brand-mark.svg',
+  './assets/icons/icon-32.png?v=100','./assets/icons/icon-192.png?v=100','./assets/icons/icon-512.png?v=100','./assets/icons/apple-touch-icon.png?v=100','./assets/icons/kuntau-academy-crest.png','./assets/icons/brand-mark.svg','./assets/icons/icon.svg','./assets/space-doodle-pattern.svg',
   './assets/hero-terrain.svg','./assets/earth-blue-marble.jpg','./assets/education/river-community-context.webp',
   './assets/education/story-orbit.svg','./assets/education/story-river.svg','./assets/education/story-field-check.svg','./assets/education/radar-echo.svg','./assets/education/compare-dates.svg','./assets/education/field-check.svg',
   './data/kura/README.md','./data/kura/ktp_data_manifest.json',
@@ -27,14 +27,14 @@ self.addEventListener('fetch', event => {
     event.respondWith(fetch(request).then(response => {
       if (response && response.ok) { const copy = response.clone(); caches.open(CACHE).then(cache => cache.put('./index.html', copy)); }
       return response.status === 404 ? caches.match('./index.html').then(fallback => fallback || response) : response;
-    }).catch(async () => (await caches.match('./index.html')) || new Response('Quenta TeraPost is offline and its app shell is not cached yet. Reconnect once, then reopen the app.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}})));
+    }).catch(async () => (await caches.match('./index.html')) || new Response('KUNTAU TERRAPULSE is offline and its app shell is not cached yet. Reconnect once, then reopen the app.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}})));
     return;
   }
   if (url.pathname.includes('/data/kura/')) {
     event.respondWith(caches.match(request).then(cached => cached || fetch(request).then(response => {
       if (response.ok) { const copy = response.clone(); caches.open(CACHE).then(cache => cache.put(request, copy)); }
       return response;
-    }).catch(() => new Response('Packaged Quenta TeraPost evidence is unavailable. Reconnect and reopen this section.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}}))));
+    }).catch(() => new Response('Packaged KUNTAU TERRAPULSE evidence is unavailable. Reconnect and reopen this section.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}}))));
     return;
   }
   event.respondWith(caches.match(request).then(cached => cached || fetch(request).then(response => {

@@ -1,4 +1,4 @@
-# Quenta TeraPost — source data status and retrieval
+# KUNTAU TERRAPULSE — source data status and retrieval
 
 ## What is included with this release
 

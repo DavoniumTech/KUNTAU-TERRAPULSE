@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "release": "0.6.0",
-  "project": "Quenta TeraPost",
+  "project": "KUNTAU TERRAPULSE",
   "status": "EXPLORATORY \u2014 product QA and cross-mode comparability review remain open",
   "studyArea": {
     "name": "Kura test AOI, Kano State, Nigeria",
@@ -129,5 +129,5 @@
   ],
   "source": "ASF DAAC catalogue records and supplied local GDAL-processed GeoTIFF outputs; no source HDF5 products included.",
   "team": "Quentausas Corp",
-  "productVersion": "0.9.0"
+  "productVersion": "1.0.0"
 }

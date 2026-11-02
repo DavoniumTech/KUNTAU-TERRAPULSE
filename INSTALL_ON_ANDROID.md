@@ -1,7 +1,7 @@
-# Install Quenta TeraPost on Android
+# Install KUNTAU TERRAPULSE on Android
 
 1. Wait until the updated `main` branch has completed its Cloudflare Pages deployment.
-2. On Android, remove the previous TeraPost home-screen shortcut/app.
+2. On Android, remove the previous TERRAPULSE home-screen shortcut/app.
 3. Open the deployed HTTPS Cloudflare website in Chrome (not `127.0.0.1`, `localhost`, or the Windows local-preview address).
 4. Open Chrome's menu and select **Install app** or **Add to Home screen**.
 5. Launch the new app icon showing the KUNTAU Science Academy crest.

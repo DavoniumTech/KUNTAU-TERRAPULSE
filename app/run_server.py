@@ -24,9 +24,9 @@ for port in range(8080, 8091):
     except OSError:
         continue
 if server is None:
-    raise SystemExit("No free local port found between 8080 and 8090. Close an old TeraPost server and try again.")
+    raise SystemExit("No free local port found between 8080 and 8090. Close an old TERRAPULSE server and try again.")
 url = f"http://127.0.0.1:{server.server_address[1]}"
-print("\n QUENTA TERAPOST · v0.9.0 · PRODUCT STUDIO")
+print("\n KUNTAU TERRAPULSE · v1.0.0 · PRODUCT STUDIO")
 print(" --------------------------------")
 print(" Interactive, team-built Earth-observation studio")
 print(" Interactive 3D Earth viewer; georeferenced map layers show packaged NISAR evidence.")
@@ -38,6 +38,6 @@ webbrowser.open(url)
 try:
     server.serve_forever()
 except KeyboardInterrupt:
-    print("\nQuenta TeraPost local preview stopped.")
+    print("\nKUNTAU TERRAPULSE local preview stopped.")
 finally:
     server.server_close()

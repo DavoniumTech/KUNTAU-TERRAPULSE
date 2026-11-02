@@ -1,4 +1,4 @@
-/* QUENTA TERAPOST 0.9.0 — interactive Three.js Earth viewer.
+/* KUNTAU TERRAPULSE 1.0.0 — interactive Three.js Earth viewer.
    The globe is an educational overview. The georeferenced NISAR rasters remain in the science map. */
 (() => {
   'use strict';
@@ -118,7 +118,7 @@
       window.addEventListener('ktp:visual-quality',e=>{quality=e.detail?.quality||'auto';applyQuality();});
       frame=requestAnimationFrame(animate);
     } catch(error) {
-      console.warn('Quenta TeraPost interactive globe could not initialise:',error);
+      console.warn('KUNTAU TERRAPULSE interactive globe could not initialise:',error);
       host.classList.add('globe-unavailable');host.closest('.hero-art')?.classList.remove('three-ready');
       renderer?.dispose();renderer?.domElement.remove();
     }

@@ -1,31 +1,9 @@
-# Publish Quenta TeraPost v0.9.0 to GitHub `main` (Windows CMD)
+# Publish KUNTAU TERRAPULSE v1.0.0 to GitHub main
 
-The release root contains `PUBLISH_TO_GITHUB_MAIN.bat`. Use that script instead of hand-writing a Robocopy line; it normalizes the source folder path so a trailing-backslash quoting error cannot occur.
+1. Download and extract `KUNTAU_TERRAPULSE_V1.0.0.zip` to the Desktop using the one-line command in the release root file `CMD_EXTRACT_AND_PUBLISH.txt`.
+2. The command opens `PUBLISH_TO_GITHUB_MAIN.bat`.
+3. The helper checks that the existing clone points to `DavoniumTech/KUNTAU-TERRAPULSE`, updates `main` with fast-forward only, and refuses to work on a dirty clone.
+4. Review the proposed file list. Type `YES` only when it is correct.
+5. The helper commits and pushes to the existing `origin/main`; it never deletes or recreates the remote repository.
 
-## One-command extraction and publish
-
-1. Place `KUNTAU_TeraPost_V0.9.0_MOBILE_STUDIO.zip` in your Windows Downloads folder.
-2. Open CMD.
-3. Copy the complete one-line command from the package-root file `CMD_EXTRACT_AND_PUBLISH.txt`.
-4. The command extracts the release to the Desktop and launches `PUBLISH_TO_GITHUB_MAIN.bat`.
-5. Press Enter to use the default Desktop clone path, or enter the full path to the existing clone (without quotation marks).
-6. Review the staged file list. Type `Y` only when it is correct.
-
-The script checks that the `origin` remote is `https://github.com/DavoniumTech/KUNTAU-TeraPost.git`, refuses to overwrite a dirty local Git clone, fetches/pulls `main`, preserves `.git`, excludes raw GeoTIFF/HDF5 files and credentials, checks the staged files, then asks before committing and pushing.
-
-## Cloudflare Pages
-
-- Production branch: `main`
-- Root directory: `app`
-- Build command: `exit 0`
-- Build output directory: `.`
-
-A successful push triggers a deployment only if Cloudflare Pages is already connected to this GitHub repository and branch. Check the Cloudflare deployment log before reinstalling the phone app.
-
-## Android installation
-
-Do not install the phone app from the Windows local preview (`http://127.0.0.1:8080`). Deploy to Cloudflare first, remove the previous home-screen app, open the public HTTPS Pages/custom-domain address in Chrome on the phone, then choose **Install app** or **Add to Home screen**. See `INSTALL_ON_ANDROID.md`.
-
-## Data safety
-
-Do not put the original Float32 GeoTIFFs, source HDF5 granules, Earthdata `.netrc`/`_netrc`, `.dodsrc`, `.env` files, passwords, tokens, private keys or certificates into the public repository. The package includes preview/QA evidence and metadata; the original full science products are obtained separately from ASF after local Earthdata authentication.
+The helper excludes original GeoTIFF/HDF5 files and credential material from the copied/staged files. Cloudflare Pages must already be connected to this repository and branch for automatic deployment.

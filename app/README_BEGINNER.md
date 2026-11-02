@@ -1,13 +1,13 @@
-# Quenta TeraPost v0.9.0 — beginner guide
+# KUNTAU TERRAPULSE v1.0.0 — beginner guide
 
-Quenta TeraPost is a mobile-first Earth Intelligence Studio built by the Quentausas Corp at KUNTAU Science Academy for NASA Space Apps 2026, challenge **Dancing with the SARs**.
+KUNTAU TERRAPULSE is a mobile-first Earth Intelligence Studio developed by Quentausas Corp in collaboration with KUNTAU Science Academy for NASA Space Apps 2026, challenge **Dancing with the SARs**.
 
 ## What is in the studio?
 
 - Interactive Three.js 3D Earth with drag rotation, zoom, Focus Kura, atmosphere, cloud layer and a conceptual orbiting satellite.
 - Dark Mode and Light Mode as the main appearance choices, plus twelve accent palettes in Settings.
 - Home dashboard, Explore map, Compare, Insights, Learn & field guide, Data & methods and Settings.
-- A five-item phone navigation bar with four primary areas and a More sheet for the other sections.
+- A fixed five-item phone navigation bar with four primary areas and a More sheet for the other sections.
 - Kura test-area before/after/change previews, product catalogue, metadata, QA reports and ISO XML records.
 - Before/after swipe, change preview and a PNG export; the Insights chart reports the supplied lower/higher radar-measurement pixel shares.
 - Mobile-first onboarding, offline app-shell caching and responsive controls.
@@ -19,7 +19,7 @@ Install the PWA only from the live HTTPS Cloudflare Pages/custom-domain website.
 ## Open the local preview on Windows
 
 1. Extract the release ZIP on the computer.
-2. Open `app` and double-click `START_TeraPost.bat`, or run it from CMD.
+2. Open `app` and double-click `START_TERRAPULSE.bat`, or run it from CMD.
 3. Keep the black CMD window open. The app opens in the computer's browser at `http://127.0.0.1:8080`.
 4. Press Ctrl+C in CMD to stop the local server.
 
@@ -34,7 +34,7 @@ A lower or higher radar response is not automatically water, flood, wet soil, cr
 ## Load original GeoTIFF files (desktop workflow)
 
 1. Use the original Float32 GeoTIFFs, not any `*_DISPLAY_ONLY.tif` display copy.
-2. Select the two files on the Compare page. The browser reads the files locally; they are not uploaded to a TeraPost server.
+2. Select the two files on the Compare page. The browser reads the files locally; they are not uploaded to a TERRAPULSE server.
 3. If the original files are not available, the packaged previews can still be viewed and explored, but they cannot be used to recalculate the original pixel comparison.
 4. Do not commit source `.tif`, `.tiff`, `.h5`, `.hdf5` files or Earthdata credentials to public GitHub.
 
@@ -50,8 +50,6 @@ Open **Compare** and choose **Export change preview PNG**. The PNG is a visual p
 - **Pixel:** one grid cell in a digital raster map.
 - **Field check:** a visit or trusted local observation used to test what a satellite signal might mean.
 
-## Community context
+## Visual context
 
-The home page links to the 2 March 2024 ICIR report about farmers in Kunshama, Kura LGA, describing River Kura overflow and farm impacts. A separate 2022 report also covers Tiga Dam flooding and affected Kano communities. These reports are community context; they do not prove that the current test rectangle covers the same river reach.
-
-The World Bank irrigation-canal photograph is regional Kano context, not a photograph of the Kura test AOI. A generated local image is used only as an offline fallback and is labelled illustrative.
+The home page uses bundled illustrative Earth and landscape artwork to introduce the product. These visuals are not live satellite imagery. The NISAR observation previews are identified separately in the Explore, Compare and Data & methods sections. See `IMAGE_CREDITS.md` for visual sources and credits.

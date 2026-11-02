@@ -1,4 +1,4 @@
-/* Quenta TeraPost — Earth intelligence studio */
+/* KUNTAU TERRAPULSE — Earth intelligence studio */
 (() => {
   'use strict';
 
@@ -86,7 +86,7 @@
       toggle.title = `Switch to ${effective === 'dark' ? 'light' : 'dark'} mode`;
       toggle.setAttribute('aria-label', toggle.title);
     }
-    try { localStorage.setItem('terapost_theme_v3', effective); } catch (_) {}
+    try { localStorage.setItem('terrapulse_theme_v3', effective); } catch (_) {}
     if (announce) toast(`${effective === 'dark' ? 'Dark' : 'Light'} mode enabled.`);
   }
   function applyPalette(choice, announce=false) {
@@ -98,11 +98,11 @@
       button.classList.toggle('selected', active);
       button.setAttribute('aria-pressed', String(active));
     });
-    try { localStorage.setItem('terapost_palette_v1', palette); } catch (_) {}
+    try { localStorage.setItem('terrapulse_palette_v1', palette); } catch (_) {}
     if (announce) toast(`${palette[0].toUpperCase()+palette.slice(1)} colour theme applied.`);
   }
-  try { applyTheme(localStorage.getItem('terapost_theme_v3') || 'dark'); } catch (_) { applyTheme('dark'); }
-  try { applyPalette(localStorage.getItem('terapost_palette_v1') || 'ocean'); } catch (_) { applyPalette('ocean'); }
+  try { applyTheme(localStorage.getItem('terrapulse_theme_v3') || localStorage.getItem('terapost_theme_v3') || 'dark'); } catch (_) { applyTheme('dark'); }
+  try { applyPalette(localStorage.getItem('terrapulse_palette_v1') || localStorage.getItem('terapost_palette_v1') || 'ocean'); } catch (_) { applyPalette('ocean'); }
   $('themeToggle')?.addEventListener('click', () => applyTheme(state.themeChoice === 'dark' ? 'light' : 'dark', true));
   $('settingsButton')?.addEventListener('click', () => route('settings'));
   document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => applyTheme(button.dataset.themeChoice, true)));
@@ -137,21 +137,9 @@
   $('moreNavButton')?.addEventListener('click',()=>{ $('moreNavSheet').hidden=false; $('moreNavButton').setAttribute('aria-expanded','true'); });
   $('closeMoreNav')?.addEventListener('click',()=>{ $('moreNavSheet').hidden=true; $('moreNavButton').setAttribute('aria-expanded','false'); });
   $('moreNavSheet')?.addEventListener('click',e=>{if(e.target===$('moreNavSheet')){$('moreNavSheet').hidden=true;$('moreNavButton').setAttribute('aria-expanded','false');}});
-  // App-like floating dock: tuck away while scrolling down and reappear on upward intent.
+  // Persistent app navigation: the bottom dock stays pinned while every page scrolls.
   const mobileDock = document.querySelector('.mobile-nav');
-  let lastScrollY = window.scrollY || 0, dockRaf = false;
-  window.addEventListener('scroll', () => {
-    if (!mobileDock || dockRaf) return;
-    dockRaf = true;
-    requestAnimationFrame(() => {
-      const y = window.scrollY || 0, delta = y - lastScrollY;
-      if (Math.abs(delta) > 7 && y > 100 && !$('moreNavSheet')?.hidden) { mobileDock.classList.remove('dock-hidden'); }
-      else if (Math.abs(delta) > 7 && y > 140 && delta > 0 && $('moreNavSheet')?.hidden !== false) { mobileDock.classList.add('dock-hidden'); }
-      else if (delta < -4 || y < 90) { mobileDock.classList.remove('dock-hidden'); }
-      lastScrollY = y; dockRaf = false;
-    });
-  }, {passive:true});
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden)mobileDock?.classList.remove('dock-hidden');});
+  mobileDock?.classList.remove('dock-hidden');
 
 
   function initMap() {
@@ -482,7 +470,7 @@
       if(state.mapView==='change'&&$('mapLayerSelect'))$('mapLayerSelect').value='change';
       if(state.currentRoute==='explore'){initMap();showRasterOnMap();}
       toast('Included NISAR evidence previews loaded. No download required.');
-    }catch(err){console.warn('Packaged Quenta TeraPost evidence could not be loaded:',err);}
+    }catch(err){console.warn('Packaged KUNTAU TERRAPULSE evidence could not be loaded:',err);}
   }
   async function loadFile(file,key){
     if(!file) return;
@@ -532,7 +520,7 @@
     } catch (err) {
       if (err && err.name !== 'AbortError') {
         const message = err && err.name === 'NotFoundError'
-          ? 'I could not find both expected original TIFF filenames in that folder. Open C:\\KUNTAU_TeraPost\\data and check the filenames.'
+          ? 'I could not find both expected original TIFF filenames in that folder. Open C:\\KUNTAU_TERRAPULSE\\data and check the filenames.'
           : (err.message || 'The folder could not be read.');
         setMessage(message, 'error');
         toast(message, 'error');
@@ -567,7 +555,7 @@
         toast('Both original Kura observations loaded from the app data folder.');
       }
     } catch (err) {
-      const message = err && err.message === 'Failed to fetch' ? 'The local data request failed. Keep the local server window open, refresh this page, then use the two Choose file buttons to select the original TIFFs from C:\\KUNTAU_TeraPost\\data.' : (err.message || 'The copied Kura files could not be loaded.');
+      const message = err && err.message === 'Failed to fetch' ? 'The local data request failed. Keep the local server window open, refresh this page, then use the two Choose file buttons to select the original TIFFs from C:\\KUNTAU_TERRAPULSE\\data.' : (err.message || 'The copied Kura files could not be loaded.');
       setMessage(message, 'error');
       toast(message, 'error');
     } finally {
@@ -585,14 +573,14 @@
   });
   $('exportChangeButton').addEventListener('click',()=>{
     const a=document.createElement('a');
-    if(state.difference){a.href=state.difference.dataUrl;a.download='Quenta_TeraPost_Kura_exploratory_difference.png';a.click();return;}
+    if(state.difference){a.href=state.difference.dataUrl;a.download='Quenta_TERRAPULSE_Kura_exploratory_difference.png';a.click();return;}
     if(state.published?.manifest?.figures?.change){a.href=state.published.manifest.figures.change;a.download='KTP_CHANGE_LABELLED_EXPLORATORY.png';a.click();}
   });
   $('exportReportButton').addEventListener('click',()=>{
     if(!state.difference){if(state.published){const a=document.createElement('a');a.href='data/kura/catalogue/KTP_ANALYSIS_SUMMARY.csv';a.download='KTP_ANALYSIS_SUMMARY.csv';a.click();}return;}
     const s=state.difference.stats;
-    const rows=[['field','value'],['project','Quenta TeraPost'],['study_area',AOI.name],['before_product_id',PRODUCT.before.id],['after_product_id',PRODUCT.after.id],['before_mode','SHSH (HH single-pol)'],['after_mode','DHDH (HH/HV dual-pol)'],['band','frequencyA/HHHH'],['operation','after minus before; raw raster values'],['valid_pixel_count',s.count],['mean_difference',s.mean],['minimum_difference',s.min],['maximum_difference',s.max],['positive_difference_pixels',s.positive],['negative_difference_pixels',s.negative],['zero_difference_pixels',s.zero],['interpretation_limit','Exploratory pixel difference; not a water mask, river-stage estimate or flood forecast']];
-    const csv=rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\r\n');downloadBlob(csv,'Quenta_TeraPost_exploratory_analysis.csv','text/csv');
+    const rows=[['field','value'],['project','KUNTAU TERRAPULSE'],['study_area',AOI.name],['before_product_id',PRODUCT.before.id],['after_product_id',PRODUCT.after.id],['before_mode','SHSH (HH single-pol)'],['after_mode','DHDH (HH/HV dual-pol)'],['band','frequencyA/HHHH'],['operation','after minus before; raw raster values'],['valid_pixel_count',s.count],['mean_difference',s.mean],['minimum_difference',s.min],['maximum_difference',s.max],['positive_difference_pixels',s.positive],['negative_difference_pixels',s.negative],['zero_difference_pixels',s.zero],['interpretation_limit','Exploratory pixel difference; not a water mask, river-stage estimate or flood forecast']];
+    const csv=rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\r\n');downloadBlob(csv,'Quenta_TERRAPULSE_exploratory_analysis.csv','text/csv');
   });
   function buildMetadata(){
     const saved=state.published?.manifest||{};
@@ -600,10 +588,10 @@
     const savedCmp=saved.comparison||null;
     const liveCmp=state.difference?{operation:'after minus before',validPixelCount:state.difference.stats.count,meanDifference:state.difference.stats.mean,minDifference:state.difference.stats.min,maxDifference:state.difference.stats.max,positivePixels:state.difference.stats.positive,negativePixels:state.difference.stats.negative,zeroPixels:state.difference.stats.zero,interpretation:'Exploratory radar-measurement difference only; product mode differs (SHSH vs DHDH); no water mask, river-stage estimate or flood classification.'}:null;
     const comparison=liveCmp|| (savedCmp?{operation:savedCmp.operation,validPixelCount:savedCmp.validPixels,meanDifference:savedCmp.meanDifference,medianDifference:savedCmp.medianDifference,minDifference:savedCmp.minDifference,maxDifference:savedCmp.maxDifference,positivePixels:savedCmp.positivePixels,negativePixels:savedCmp.negativePixels,zeroPixels:savedCmp.zeroPixels,positivePercent:savedCmp.positivePercent,negativePercent:savedCmp.negativePercent,interpretation:'Saved exploratory pixel difference. Product mode differs (SHSH vs DHDH); not a water mask, river-stage estimate or flood classification.'}:null);
-    return {project:'Quenta TeraPost',version:'0.9.0',useCase:'River corridor and floodplain observation concept; not a flood forecast',generatedAt:new Date().toISOString(),studyArea:saved.studyArea||{name:AOI.name,footprintWKT:'POLYGON((8.4003 11.7414,8.4603 11.7414,8.4603 11.8014,8.4003 11.8014,8.4003 11.7414))',footprintStatus:'Test extraction AOI; not a surveyed river channel or floodplain boundary'},source:'NASA-ISRO NISAR L2 PR GCOV provisional L-band',dataset:'frequencyA / HHHH',track:123,frame:83,orbitDirection:'Descending',crid:'P05023',observations:{before:{...PRODUCT.before,parsed:toMeta(state.before),catalogueRecordIncluded:!!saved.observations?.[0]},after:{...PRODUCT.after,parsed:toMeta(state.after),catalogueRecordIncluded:!!saved.observations?.[1]}},comparison,qa:saved.qa||{status:'Review required; inspect source QA reports'},publishedEvidence:{previewAvailable:!!state.published,sourceGeoTiffsLoadedLocally:!!(state.before&&state.after),catalogue:saved.catalogue||{},qa:saved.qa||{}},processingNotes:['Source rasters were cropped locally using GDAL from the NISAR GCOV HDF5 products; the full source HDF5 products are not included in this app package.','Browser display previews are supplied as derived PNGs. They are not the original science rasters and do not replace the Float32 GeoTIFFs.','A fresh difference is calculated only after raster dimensions, EPSG, bounds, origin and pixel resolution pass the application grid check.','Product polarization configuration differs between observations (SHSH vs DHDH); scientific comparability requires additional assessment.','Both supplied QA summaries contain an identification-group check failure; the exact diagnostic cause has not yet been established.','This prototype highlights radar measurement differences; it does not measure river depth, flow rate, water level, crop health, or forecast floods.','The current Kura test AOI has not yet been verified against a surveyed river centreline or floodplain boundary.']};
+    return {project:'KUNTAU TERRAPULSE',version:'1.0.0',useCase:'River corridor and floodplain observation concept; not a flood forecast',generatedAt:new Date().toISOString(),studyArea:saved.studyArea||{name:AOI.name,footprintWKT:'POLYGON((8.4003 11.7414,8.4603 11.7414,8.4603 11.8014,8.4003 11.8014,8.4003 11.7414))',footprintStatus:'Test extraction AOI; not a surveyed river channel or floodplain boundary'},source:'NASA-ISRO NISAR L2 PR GCOV provisional L-band',dataset:'frequencyA / HHHH',track:123,frame:83,orbitDirection:'Descending',crid:'P05023',observations:{before:{...PRODUCT.before,parsed:toMeta(state.before),catalogueRecordIncluded:!!saved.observations?.[0]},after:{...PRODUCT.after,parsed:toMeta(state.after),catalogueRecordIncluded:!!saved.observations?.[1]}},comparison,qa:saved.qa||{status:'Review required; inspect source QA reports'},publishedEvidence:{previewAvailable:!!state.published,sourceGeoTiffsLoadedLocally:!!(state.before&&state.after),catalogue:saved.catalogue||{},qa:saved.qa||{}},processingNotes:['Source rasters were cropped locally using GDAL from the NISAR GCOV HDF5 products; the full source HDF5 products are not included in this app package.','Browser display previews are supplied as derived PNGs. They are not the original science rasters and do not replace the Float32 GeoTIFFs.','A fresh difference is calculated only after raster dimensions, EPSG, bounds, origin and pixel resolution pass the application grid check.','Product polarization configuration differs between observations (SHSH vs DHDH); scientific comparability requires additional assessment.','Both supplied QA summaries contain an identification-group check failure; the exact diagnostic cause has not yet been established.','This comparison highlights radar measurement differences; it does not measure river depth, flow rate, water level, crop health, or forecast floods.','The current Kura test AOI has not yet been verified against a surveyed river centreline or floodplain boundary.']};
   }
   function downloadBlob(content,name,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  $('downloadMetadataButton').addEventListener('click',()=>downloadBlob(JSON.stringify(buildMetadata(),null,2),'Quenta_TeraPost_metadata.json','application/json'));
+  $('downloadMetadataButton').addEventListener('click',()=>downloadBlob(JSON.stringify(buildMetadata(),null,2),'Quenta_TERRAPULSE_metadata.json','application/json'));
   $('downloadMetadataCsvButton')?.addEventListener('click',()=>{
     const m=buildMetadata();
     const rows=[
@@ -614,18 +602,15 @@
       ['polarization_caveat','SHSH (before) vs DHDH (after); shared HHHH layer only; comparability review required'],['interpretation_limit','Not a river-stage measurement, flood forecast, or validated water classification']
     ];
     const csv=rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\r\n');
-    downloadBlob(csv,'Quenta_TeraPost_metadata.csv','text/csv');
+    downloadBlob(csv,'Quenta_TERRAPULSE_metadata.csv','text/csv');
   });
   $('helpButton').addEventListener('click',()=>$('helpModal').hidden=false);
   $('resetIntroButton')?.addEventListener('click', () => { slideIndex = 0; showSlide(); $('onboarding').hidden = false; });
   document.querySelectorAll('[data-close-modal]').forEach(b=>b.addEventListener('click',()=>$('helpModal').hidden=true));
   $('helpModal').addEventListener('click',e=>{if(e.target===$('helpModal'))$('helpModal').hidden=true;});
 
-  const VISUALS = {
-    farmland: 'https://worldbank.scene7.com/is/image/worldbankprod/IrrigationcanalKano?hei=439&qlt=85%2C0&resMode=sharp&wid=780',
-    nisar: 'assets/earth-blue-marble.jpg',
-    farmer: 'data/kura/visualizations/KTP_CHANGE_LABELLED_EXPLORATORY.png'
-  };
+  const VISUALS = { nisar: 'assets/earth-blue-marble.jpg' };
+  const onboardingFallbackCaption = 'Illustrative Earth and terrain artwork · not a live satellite observation';
   const fallbackVisual = 'assets/hero-terrain.svg';
   document.querySelectorAll('.visual-story-card img').forEach(img => img.addEventListener('error', () => {
     if (img.dataset.fallbackApplied) return;
@@ -646,17 +631,16 @@
     if (img.dataset.fallbackApplied) return;
     img.dataset.fallbackApplied = '1';
     img.src = img.dataset.fallbackSrc || fallbackVisual;
-    $('onboardVisualCaption').textContent = 'Illustrative river-and-farming context artwork · not a photograph of the Kura test area';
-    $('onboardVisual').alt = 'Generated illustrative river-and-farming context artwork, not a photograph of the Kura test area';
+    $('onboardVisualCaption').textContent = onboardingFallbackCaption;
+    $('onboardVisual').alt = onboardingFallbackCaption;
   });
   const slides=[
-    {icon:'◉',image:VISUALS.farmland,caption:'Kano irrigation landscape · World Bank photo · regional context only, not the Kura test site',kicker:'WELCOME TO QUENTA TERAPOST',title:'Earth intelligence<br><em>for real decisions.</em>',text:'Quenta TeraPost is an Earth-observation product from Quentausas Corp. It brings satellite radar evidence, maps and local knowledge into one clear workspace.'},
-    {icon:'⌁',image:VISUALS.nisar,caption:'Illustrative NISAR mission visual · not a live satellite feed',kicker:'HOW RADAR WORKS',title:'Radar measures<br><em>the returned signal.</em>',text:'NISAR sends microwave energy toward Earth and measures the signal that returns. It is not an ordinary camera photo. Water, wet soil, vegetation, rough surfaces and viewing conditions can all affect the return.'},
-    {icon:'◫',image:'data/kura/overlays/before.png',caption:'8 October 2026 · NISAR GCOV browse preview for the Kura test AOI',kicker:'OBSERVATION ONE',title:'8 October<br><em>SHSH · HH.</em>',text:'The earlier scene is a provisional GCOV observation in SHSH mode, with an HH measurement layer available for the current comparison.'},
-    {icon:'◇',image:'data/kura/overlays/after.png',caption:'20 October 2026 · NISAR GCOV browse preview for the Kura test AOI',kicker:'OBSERVATION TWO · 12 DAYS LATER',title:'20 October<br><em>DHDH · HH/HV.</em>',text:'The later scene is in DHDH mode. Both scenes share an extracted HHHH layer, but the different acquisition modes mean that the pair still needs careful scientific review.'},
-    {icon:'⌂',image:'data/kura/overlays/change.png',caption:'Exploratory radar measurement difference · not a flood map or crop-damage classification',kicker:'WHAT THE DIFFERENCE MEANS',title:'Notice a signal.<br><em>Then verify it.</em>',text:'The saved summary shows lower later radar values in 72.7% and higher later values in 27.3% of common valid pixels. These are measurement differences, not flooded or damaged area. Field checks and further QA are essential.'}
-  ];
-  let slideIndex=0;
+    {icon:'◎',image:VISUALS.nisar,caption:'Earth from orbit · illustrative mission visual, not live satellite telemetry',kicker:'WELCOME TO KUNTAU TERRAPULSE',title:'Explore Earth.<br><em>See the bigger picture.</em>',text:'Discover an interactive Earth, explore satellite observations and move from a global view to the details of a place—all in one clear workspace.'},
+    {icon:'⌁',image:'assets/education/radar-echo.svg',caption:'Radar remote sensing illustration · not an ordinary camera photograph',kicker:'DISCOVER RADAR',title:'Read the signals<br><em>beyond what eyes see.</em>',text:'Synthetic Aperture Radar measures the energy returned from Earth’s surface. It can collect observations by day or night and through many cloud conditions.'},
+    {icon:'◫',image:'data/kura/overlays/before.png',caption:'8 October 2026 · NISAR GCOV browse preview for the featured Kura study area',kicker:'OBSERVE A PLACE',title:'Start with an<br><em>observation.</em>',text:'Choose a place and a date. Explore the available radar layer, its acquisition details and the context needed to read it responsibly.'},
+    {icon:'◇',image:'data/kura/overlays/after.png',caption:'20 October 2026 · a second NISAR observation, 12 days after the first',kicker:'COMPARE THROUGH TIME',title:'Two dates.<br><em>A new perspective.</em>',text:'Compare the 8 October and 20 October observations, separated by 12 days. Two snapshots help reveal differences, but they do not describe every moment in between.'},
+    {icon:'✧',image:'data/kura/overlays/change.png',caption:'Exploratory radar measurement difference · not a flood map or crop-damage classification',kicker:'UNDERSTAND THE EVIDENCE',title:'Explore patterns.<br><em>Verify what matters.</em>',text:'Radar responses can change for many reasons, including moisture, vegetation, surface structure and acquisition settings. Use the evidence as a guide for further investigation—not as an automatic diagnosis.'}
+  ];  let slideIndex=0;
   function showSlide(){
     const s=slides[slideIndex];
     $('onboardIllustration').textContent=s.icon;
@@ -670,9 +654,9 @@
     document.querySelectorAll('.onboard-progress i').forEach((e,i)=>e.classList.toggle('active',i<=slideIndex));
     $('nextIntro').innerHTML=slideIndex===4?'Enter workspace <span>→</span>':'Continue <span>→</span>';
   }
-  function finishIntro(){ $('onboarding').hidden=true;try{localStorage.setItem('terapost_intro_seen_v4','1');}catch(_){} }
+  function finishIntro(){ $('onboarding').hidden=true;try{localStorage.setItem('terrapulse_intro_seen_v4','1');}catch(_){} }
   $('nextIntro').addEventListener('click',()=>{if(slideIndex<4){slideIndex++;showSlide();}else finishIntro();});$('skipIntro').addEventListener('click',finishIntro);
-  try{if(!localStorage.getItem('terapost_intro_seen_v4')){$('onboarding').hidden=false;showSlide();}}catch(_){$('onboarding').hidden=false;showSlide();}
+  try{if(!localStorage.getItem('terrapulse_intro_seen_v4')){$('onboarding').hidden=false;showSlide();}}catch(_){$('onboarding').hidden=false;showSlide();}
 
   // Audience switcher keeps learning content simple and lets technical users open the science notes.
   function activateLearnAudience(audience) {
@@ -707,11 +691,11 @@
 
   // Guided five-step presentation; users can screen-record it as a lightweight demo video.
   const tourSteps = [
-    {title:'Meet Quenta TeraPost', text:'Quenta TeraPost is an Earth intelligence product from Quentausas Corp. It brings satellite observations, evidence maps and local context into one clear workspace.', image:'assets/education/story-orbit.svg', caption:'Decorative satellite illustration — not a live satellite track.'},
+    {title:'Meet KUNTAU TERRAPULSE', text:'KUNTAU TERRAPULSE is an Earth intelligence product from Quentausas Corp. It brings satellite observations, evidence maps and local context into one clear workspace.', image:'assets/education/story-orbit.svg', caption:'Decorative satellite illustration — not a live satellite track.'},
     {title:'Explore the Kura study area', text:'The first study is a small test area near Kura in Kano State. Its exact overlap with the river channel has not yet been verified.', image:'assets/education/story-river.svg', caption:'Illustrative river landscape — not a surveyed river boundary.'},
     {title:'Compare 8 and 20 October', text:'The earlier 8 October scene is SHSH; the later 20 October scene is DHDH, twelve days apart. A shared HHHH layer is available, but the different acquisition modes require scientific review.', image:'assets/education/compare-dates.svg', caption:'Teaching illustration — open Compare to see the NISAR evidence.'},
     {title:'Understand what the colours mean', text:'The saved comparison shows 72.7% lower later values and 27.3% higher later values among common valid pixels. Those percentages describe radar measurements, not flood extent or damaged farmland. Both QA summaries also flag one identification-group check.', image:'assets/education/radar-echo.svg', caption:'Radar echo illustration — not a measurement graphic.'},
-    {title:'Connect signals with local evidence', text:'Talk with local observers, record dates and locations, and compare rainfall or river records. Do not treat this prototype as a flood forecast.', image:'assets/education/field-check.svg', caption:'Field-check illustration — verify observations locally.'}
+    {title:'Connect signals with local evidence', text:'Talk with local observers, record dates and locations, and compare rainfall or river records. Do not treat this two-date comparison as a flood forecast.', image:'assets/education/field-check.svg', caption:'Field-check illustration — verify observations locally.'}
   ];
   let tourIndex = 0;
   const tourModal = $('guidedTourModal');
@@ -734,9 +718,9 @@
   // Device-aware 3D quality setting. Selection is stored locally; no analytics.
   const qualitySelect = $('visualQualitySelect');
   if (qualitySelect) {
-    try { qualitySelect.value = localStorage.getItem('terapost_3d_quality_v1') || 'auto'; } catch (_) {}
+    try { qualitySelect.value = localStorage.getItem('terrapulse_3d_quality_v1') || 'auto'; } catch (_) {}
     qualitySelect.addEventListener('change', () => {
-      try { localStorage.setItem('terapost_3d_quality_v1', qualitySelect.value); } catch (_) {}
+      try { localStorage.setItem('terrapulse_3d_quality_v1', qualitySelect.value); } catch (_) {}
       window.dispatchEvent(new CustomEvent('ktp:visual-quality', { detail: { quality: qualitySelect.value } }));
       toast(`3D rendering quality set to ${qualitySelect.options[qualitySelect.selectedIndex].text}.`);
     });
@@ -750,7 +734,7 @@
     navigator.serviceWorker.register(workerUrl.href,{scope:appBase.pathname,updateViaCache:'none'}).then(reg=>reg.update().catch(()=>{})).catch(err=>console.warn('Offline app shell registration failed:',err));
   }
   window.addEventListener('offline',()=>toast('You are offline. Cached pages and included previews remain available. Map tiles and external links may be unavailable.'));
-  window.addEventListener('online',()=>toast('Connection restored. TeraPost is online.'));
+  window.addEventListener('online',()=>toast('Connection restored. TERRAPULSE is online.'));
   $('downloadMetadataButton').disabled=false;
   const originLabel=$('installOriginText');
   if(originLabel){originLabel.textContent=window.location.origin;originLabel.title=window.location.href;}

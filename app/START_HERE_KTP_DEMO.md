@@ -1,11 +1,11 @@
-# Quenta TeraPost — v0.9.0 local demonstration
+# KUNTAU TERRAPULSE — v1.0.0 local demonstration
 
 ## Start the application in Windows CMD
 
 After extracting the ZIP to the Desktop, open CMD and run:
 
 ```bat
-cd /d "%USERPROFILE%\Desktop\KUNTAU_TeraPost_V0.9.0_MOBILE_STUDIO\app" && START_TeraPost.bat
+cd /d "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V1.0.0\app" && START_TERRAPULSE.bat
 ```
 
 Python 3 is required for the local server. Keep the black CMD window open while using the application. The launcher opens the address printed in that window, normally `http://127.0.0.1:8080`. Press Ctrl+C in CMD when the session is finished.
@@ -34,7 +34,7 @@ The actual georeferenced NISAR preview rasters are shown on the **Explore map** 
 
 ## Quick presentation sequence (3–4 minutes)
 
-1. **Overview:** introduce Quenta TeraPost as a Quentausas Corp product team, in collaboration with KUNTAU Science Academy-built Earth-observation workspace. Rotate the globe, use Focus Kura and show the controls.
+1. **Overview:** introduce KUNTAU TERRAPULSE as an Earth-observation product by Quentausas Corp, in collaboration with KUNTAU Science Academy. Rotate the globe, use Focus Kura and show the controls.
 2. **Explore map:** show the georeferenced before, after and exploratory change overlays. Explain that the footprint is a test AOI, not a surveyed river boundary.
 3. **Compare:** demonstrate Before, After, Swipe and Change. State that the colours describe radar measurement values, not flood/no-flood labels.
 4. **Insights:** explain that radar returns can respond to water, wet soil, vegetation, roughness and acquisition conditions.
@@ -43,7 +43,7 @@ The actual georeferenced NISAR preview rasters are shown on the **Explore map** 
 
 ## 45-second project explanation
 
-“Quenta TeraPost is a team-developed Earth-observation workspace from KUNTAU Science Academy for NASA Space Apps Challenge 2026, Dancing with the SARs. The demonstration uses two provisional NISAR L-band GCOV observations from 8 and 20 October 2026 for a small test area near Kura, Kano State. The application displays the georeferenced radar previews, compares the shared HH measurement layer and records the product metadata and quality checks. The visible difference is exploratory: the acquisition modes are different, the supplied QA summaries have an unresolved identification-group check, and the test footprint has not yet been verified against a surveyed river channel. The result is a prompt for further investigation, not a flood map, water-level reading or forecast.”
+“KUNTAU TERRAPULSE is an Earth-observation product by Quentausas Corp, in collaboration with KUNTAU Science Academy for NASA Space Apps Challenge 2026, Dancing with the SARs. The demonstration uses two provisional NISAR L-band GCOV observations from 8 and 20 October 2026 for a small test area near Kura, Kano State. The application displays the georeferenced radar previews, compares the shared HH measurement layer and records the product metadata and quality checks. The visible difference is exploratory: the acquisition modes are different, the supplied QA summaries have an unresolved identification-group check, and the test footprint has not yet been verified against a surveyed river channel. The result is a prompt for further investigation, not a flood map, water-level reading or forecast.”
 
 ## Important science limits
 

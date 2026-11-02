@@ -1,5 +1,5 @@
 {
-  "project": "Quenta TeraPost",
+  "project": "KUNTAU TERRAPULSE",
   "analysis_status": "EXPLORATORY \u2014 scientific comparability review required",
   "before_date": "2026-10-08",
   "after_date": "2026-10-20",
@@ -56,5 +56,5 @@
   "comparability_warning": "The 8 October product is SHSH single-polarization and the 20 October product is DHDH dual-polarization. The shared Frequency-A HHHH channel is used, but product QA and acquisition comparability must be reviewed before drawing environmental conclusions.",
   "generated_utc": "2026-10-31T01:01:01.923338+00:00",
   "team": "Quentausas Corp",
-  "product_version": "0.9.0"
+  "product_version": "1.0.0"
 }

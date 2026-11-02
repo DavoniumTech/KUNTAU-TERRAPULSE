@@ -1,4 +1,4 @@
-# Kura evidence package — Quenta TeraPost v0.9.0
+# Kura evidence package — KUNTAU TERRAPULSE v1.0.0
 
 This folder contains lightweight, app-facing evidence derived from two local NISAR GCOV HHHH GeoTIFF extractions.
 
