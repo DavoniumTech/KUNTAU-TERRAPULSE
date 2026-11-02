@@ -1,7 +1,3 @@
-KUNTAU TERRAPULSE v0.8.2 — ONE-COMMAND WINDOWS CMD PUBLISH
+This release supersedes the older v0.8.2 instructions.
 
-Open CMD and paste this single line. It finds the ZIP in Downloads, extracts it to Desktop, and launches the safe publisher. The publisher asks before staging and pushing.
-
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$z=Get-ChildItem -LiteralPath \"$env:USERPROFILE\Downloads\" -Filter 'KUNTAU_TERRAPULSE_V0.8.2_MOBILE_STUDIO.zip' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if (!$z) { throw 'ZIP not found in Downloads' }; Expand-Archive -LiteralPath $z.FullName -DestinationPath \"$env:USERPROFILE\Desktop\" -Force" && call "%USERPROFILE%\Desktop\KUNTAU_TERRAPULSE_V0.8.2_MOBILE_STUDIO\PUBLISH_TO_GITHUB_MAIN.bat"
-
-If the ZIP is not in Downloads, move it there first. If your Git clone is not at Desktop\KUNTAU-TERRAPULSE, the script asks for its correct path.
+For Quenta TeraPost v0.9.0, use CMD_EXTRACT_AND_PUBLISH.txt in this release folder. It contains the exact one-command Windows CMD extraction and publish command.

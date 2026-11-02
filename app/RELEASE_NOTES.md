@@ -1,4 +1,4 @@
-# KUNTAU TERRAPULSE — v0.8.2 Interactive Earth Intelligence Studio
+# Quenta TeraPost — v0.9.0 Interactive Earth Intelligence Studio
 
 ## Interface and experience
 - Interactive Three.js 3D Earth with Earth texture, rotation by drag, scroll and button zoom, Focus Kura, reset and spin/pause controls.
@@ -21,7 +21,7 @@ Static PWA for Cloudflare Pages. Repository root directory: `app`; build command
 
 ## v0.8.1 — evidence archive and source retrieval
 
-- Adds in-app download links for both complete available KTP SAR evidence archives.
+- Adds in-app download links for both complete available TeraPost SAR evidence archives.
 - Adds exact source-product IDs, dates, reported HDF5 sizes and ASF URLs.
 - Adds a Windows helper for authenticated ASF HDF5 downloads; credentials are prompted at runtime and not stored.
 - Clearly distinguishes DISPLAY_ONLY TIFFs and the exploratory change Float32 derivative from the original before/after Float32 input rasters.

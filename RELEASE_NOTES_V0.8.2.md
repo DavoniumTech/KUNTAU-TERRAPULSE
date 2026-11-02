@@ -1,4 +1,4 @@
-# KUNTAU TERRAPULSE v0.8.2
+# Quenta TeraPost v0.8.2
 
 ## Mobile studio and interaction
 - Mobile layout rebuilt with larger text, comfortable spacing, image-led story cards, larger touch controls, and four primary destinations plus a More bottom sheet.
@@ -9,10 +9,10 @@
 - Preserved Dark and Light primary modes and the twelve accent themes in Settings.
 
 ## KUNTAU badge
-- The app icon, favicon, header and onboarding use the KUNTAU Science Academy crest isolated from the finalized TerraPulse emblem. The public app name remains KUNTAU TERRAPULSE.
+- The app icon, favicon, header and onboarding use the KUNTAU Science Academy crest isolated from the finalized TerraPulse emblem. The public app name remains Quenta TeraPost.
 
 ## PWA launch and speed
-- Manifest uses the app-relative root (`./`) for `start_url` and `scope`, and `TERRAPULSE` as the short Android label.
+- Manifest uses the app-relative root (`./`) for `start_url` and `scope`, and `TeraPost` as the short Android label.
 - Added PNG app icons and Apple touch icon.
 - Service worker cache bumped to `ktp-shell-v10-mobile-studio`; large ZIP downloads are no longer in the first-install precache.
 - The 3D globe uses lower particle counts, geometry and pixel ratio on phones, and prefers low-power mode.

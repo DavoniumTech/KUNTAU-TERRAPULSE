@@ -1,6 +1,6 @@
-# KTP user guide — farmers, communities, students and science teams
+# TeraPost user guide — farmers, communities, students and science teams
 
-KUNTAU TERRAPULSE helps people look at two satellite radar observations and ask better questions about a place. It does not replace local knowledge, river gauges, weather information or field inspection.
+Quenta TeraPost helps people look at two satellite radar observations and ask better questions about a place. It does not replace local knowledge, river gauges, weather information or field inspection.
 
 ## For farmers and community members
 

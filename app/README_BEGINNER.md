@@ -1,6 +1,6 @@
-# KUNTAU TERRAPULSE v0.8.2 — beginner guide
+# Quenta TeraPost v0.9.0 — beginner guide
 
-KUNTAU TERRAPULSE is a mobile-first Earth Intelligence Studio built by the KUNTAU Science and Engineering Team at KUNTAU Science Academy for NASA Space Apps 2026, challenge **Dancing with the SARs**.
+Quenta TeraPost is a mobile-first Earth Intelligence Studio built by the Quentausas Corp at KUNTAU Science Academy for NASA Space Apps 2026, challenge **Dancing with the SARs**.
 
 ## What is in the studio?
 
@@ -19,7 +19,7 @@ Install the PWA only from the live HTTPS Cloudflare Pages/custom-domain website.
 ## Open the local preview on Windows
 
 1. Extract the release ZIP on the computer.
-2. Open `app` and double-click `START_TERRAPULSE.bat`, or run it from CMD.
+2. Open `app` and double-click `START_TeraPost.bat`, or run it from CMD.
 3. Keep the black CMD window open. The app opens in the computer's browser at `http://127.0.0.1:8080`.
 4. Press Ctrl+C in CMD to stop the local server.
 
@@ -34,7 +34,7 @@ A lower or higher radar response is not automatically water, flood, wet soil, cr
 ## Load original GeoTIFF files (desktop workflow)
 
 1. Use the original Float32 GeoTIFFs, not any `*_DISPLAY_ONLY.tif` display copy.
-2. Select the two files on the Compare page. The browser reads the files locally; they are not uploaded to a TERRAPULSE server.
+2. Select the two files on the Compare page. The browser reads the files locally; they are not uploaded to a TeraPost server.
 3. If the original files are not available, the packaged previews can still be viewed and explored, but they cannot be used to recalculate the original pixel comparison.
 4. Do not commit source `.tif`, `.tiff`, `.h5`, `.hdf5` files or Earthdata credentials to public GitHub.
 

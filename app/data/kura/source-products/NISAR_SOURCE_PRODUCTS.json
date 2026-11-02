@@ -1,6 +1,6 @@
 {
-  "project": "KUNTAU TERRAPULSE",
-  "release": "0.8.2",
+  "project": "Quenta TeraPost",
+  "release": "0.9.0",
   "studyArea": "Kura test AOI, Kano State, Nigeria",
   "dataSource": "NASA-ISRO NISAR L2 PR GCOV Provisional via ASF DAAC",
   "sourceAvailability": "NOT_INCLUDED_IN_THIS_ZIP",
@@ -39,5 +39,6 @@
     }
   ],
   "important": "The TIFFs inside KTP_DELIVERABLES_BUNDLE.zip are explicitly labelled DISPLAY_ONLY or EXPLORATORY_CHANGE. They are not the two original Float32 input rasters.",
-  "applicationRelease": "0.8.2"
+  "applicationRelease": "0.8.2",
+  "team": "Quentausas Corp"
 }

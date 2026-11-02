@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "KUNTAU TERRAPULSE \u2014 Earth Intelligence Studio",
-  "short_name": "TERRAPULSE",
-  "description": "A mobile-first Earth observation studio by the KUNTAU Science and Engineering Team for exploring NISAR radar evidence and river-corridor change responsibly.",
+  "name": "Quenta TeraPost \u2014 Earth Intelligence Studio",
+  "short_name": "TeraPost",
+  "description": "An evidence-led Earth intelligence product by Quentausas Corp, in collaboration with KUNTAU Science Academy.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -11,23 +11,24 @@
     "minimal-ui"
   ],
   "orientation": "any",
-  "background_color": "#05080e",
-  "theme_color": "#05080e",
+  "background_color": "#02040a",
+  "theme_color": "#02040a",
   "categories": [
     "education",
     "science",
+    "productivity",
     "utilities"
   ],
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "assets/icons/icon-192.png?v=082",
+      "src": "assets/icons/icon-192.png?v=090",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/icons/icon-512.png?v=082",
+      "src": "assets/icons/icon-512.png?v=090",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -35,12 +36,12 @@
   ],
   "shortcuts": [
     {
-      "name": "Explore map",
+      "name": "Explore Kura map",
       "short_name": "Map",
       "url": "./?view=explore",
       "icons": [
         {
-          "src": "assets/icons/icon-192.png?v=082",
+          "src": "assets/icons/icon-192.png?v=090",
           "sizes": "192x192"
         }
       ]
@@ -51,7 +52,18 @@
       "url": "./?view=compare",
       "icons": [
         {
-          "src": "assets/icons/icon-192.png?v=082",
+          "src": "assets/icons/icon-192.png?v=090",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Read insights",
+      "short_name": "Insights",
+      "url": "./?view=insights",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png?v=090",
           "sizes": "192x192"
         }
       ]

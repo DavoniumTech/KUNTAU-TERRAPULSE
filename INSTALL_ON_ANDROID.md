@@ -1,20 +1,9 @@
-# Install KUNTAU TERRAPULSE on Android
+# Install Quenta TeraPost on Android
 
-## Why the old icon could not connect
+1. Wait until the updated `main` branch has completed its Cloudflare Pages deployment.
+2. On Android, remove the previous TeraPost home-screen shortcut/app.
+3. Open the deployed HTTPS Cloudflare website in Chrome (not `127.0.0.1`, `localhost`, or the Windows local-preview address).
+4. Open Chrome's menu and select **Install app** or **Add to Home screen**.
+5. Launch the new app icon showing the KUNTAU Science Academy crest.
 
-The Windows `START_TERRAPULSE.bat` launcher runs a local preview at `http://127.0.0.1:8080`. That address refers to the computer itself. When the app is installed on a phone, `127.0.0.1` refers to the phone, not the computer. A phone home-screen app cannot use the Windows local-preview address.
-
-## Correct phone installation
-
-1. Deploy this release to Cloudflare Pages: production branch `main`, root directory `app`, build command `exit 0`, output directory `.`.
-2. Wait until deployment succeeds and the public HTTPS Cloudflare Pages or custom-domain address shows the updated TERRAPULSE home page in Chrome.
-3. On the phone, long-press the old TERRAPULSE icon and remove/uninstall the old home-screen app.
-4. Open the live HTTPS site in Chrome on the phone. Do not use a `file://` URL, `127.0.0.1`, or `localhost`.
-5. Open Chrome's three-dot menu and choose **Install app** or **Add to Home screen**. Confirm.
-6. Launch the new KUNTAU TERRAPULSE crest icon. It should open in a standalone app window.
-
-The updated manifest uses the app-relative root (`./`) for both `start_url` and `scope`; the service-worker cache has also been refreshed. Removing the old icon and reinstalling from the current HTTPS deployment ensures Android saves the corrected launch address.
-
-## Is the app source code visible to users?
-
-No. TERRAPULSE is a Progressive Web App (PWA), not an APK from Google Play. HTML, CSS and JavaScript are the files the browser uses to render the interface. When launched from the installed icon, people see the finished workspace, not source-code text.
+The PWA opens in standalone app display mode. It is still a web-installed PWA, not a signed native APK; it uses the browser's installed-app runtime. After installing, launch it once online so the current service worker can cache the application shell. The map basemap and external source links still require connectivity.

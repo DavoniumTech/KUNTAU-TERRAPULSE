@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "release": "0.6.0",
-  "project": "KUNTAU TERRAPULSE (KTP)",
+  "project": "Quenta TeraPost",
   "status": "EXPLORATORY \u2014 product QA and cross-mode comparability review remain open",
   "studyArea": {
     "name": "Kura test AOI, Kano State, Nigeria",
@@ -127,5 +127,7 @@
     "The difference layer is exploratory and is not a validated water/flood/crop classification.",
     "The source measurement GeoTIFFs remain local to the research workstation and are not included in this app package."
   ],
-  "source": "ASF DAAC catalogue records and supplied local GDAL-processed GeoTIFF outputs; no source HDF5 products included."
+  "source": "ASF DAAC catalogue records and supplied local GDAL-processed GeoTIFF outputs; no source HDF5 products included.",
+  "team": "Quentausas Corp",
+  "productVersion": "0.9.0"
 }

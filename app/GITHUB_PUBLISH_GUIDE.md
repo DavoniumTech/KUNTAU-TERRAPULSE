@@ -1,17 +1,17 @@
-# Publish KUNTAU TERRAPULSE v0.8.2 to GitHub `main` (Windows CMD)
+# Publish Quenta TeraPost v0.9.0 to GitHub `main` (Windows CMD)
 
 The release root contains `PUBLISH_TO_GITHUB_MAIN.bat`. Use that script instead of hand-writing a Robocopy line; it normalizes the source folder path so a trailing-backslash quoting error cannot occur.
 
 ## One-command extraction and publish
 
-1. Place `KUNTAU_TERRAPULSE_V0.8.2_MOBILE_STUDIO.zip` in your Windows Downloads folder.
+1. Place `KUNTAU_TeraPost_V0.9.0_MOBILE_STUDIO.zip` in your Windows Downloads folder.
 2. Open CMD.
 3. Copy the complete one-line command from the package-root file `CMD_EXTRACT_AND_PUBLISH.txt`.
 4. The command extracts the release to the Desktop and launches `PUBLISH_TO_GITHUB_MAIN.bat`.
 5. Press Enter to use the default Desktop clone path, or enter the full path to the existing clone (without quotation marks).
 6. Review the staged file list. Type `Y` only when it is correct.
 
-The script checks that the `origin` remote is `https://github.com/DavoniumTech/KUNTAU-TERRAPULSE.git`, refuses to overwrite a dirty local Git clone, fetches/pulls `main`, preserves `.git`, excludes raw GeoTIFF/HDF5 files and credentials, checks the staged files, then asks before committing and pushing.
+The script checks that the `origin` remote is `https://github.com/DavoniumTech/KUNTAU-TeraPost.git`, refuses to overwrite a dirty local Git clone, fetches/pulls `main`, preserves `.git`, excludes raw GeoTIFF/HDF5 files and credentials, checks the staged files, then asks before committing and pushing.
 
 ## Cloudflare Pages
 

@@ -1,9 +1,9 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title KUNTAU TERRAPULSE v0.8.2
+title QUENTA TERAPOST v0.9.0
 echo.
-echo Starting KUNTAU TERRAPULSE...
+echo Starting QUENTA TERAPOST...
 where python >nul 2>nul
 if %errorlevel%==0 goto :usepython
 where py >nul 2>nul
